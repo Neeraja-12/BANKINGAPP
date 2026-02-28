@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h2>Withdraw Money</h2>
+<<<<<<< HEAD
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<form method="POST">
+    <!-- ESSENTIAL: Add CSRF token -->
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    
+    <div>
+        <label>Amount (₹):</label>
+        <input type="number" name="amount" placeholder="Enter amount" required min="0.01" step="0.01">
+    </div>
+    
+    <div>
+        <label>Description:</label>
+        <input type="text" name="description" placeholder="Withdrawal purpose">
+    </div>
+    
+    <button type="submit">Withdraw</button>
+</form>
+
+<p><strong>Current Balance:</strong> {{ format_currency(current_user.balance) }}</p>
+<p><a href="{{ url_for('dashboard') }}">Back to Dashboard</a></p>
+{% endblock %}
+=======
+<form method="POST">
+    <input type="number" name="amount" placeholder="Amount" required min="1">
+    <button type="submit">Withdraw</button>
+</form>
+<p><a href="{{ url_for('dashboard') }}">Back to Dashboard</a></p>
+{% endblock %}
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0

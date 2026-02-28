@@ -1,0 +1,1035 @@
+<<<<<<< HEAD
+{% extends "layout.html" %}
+
+{% block head_extra_css %}
+<style>
+    :root {
+        --gradient-primary: linear-gradient(135deg, #1a4f8b 0%, #0d3c6d 100%);
+        --gradient-secondary: linear-gradient(135deg, #ff6b00 0%, #e55a00 100%);
+        --gradient-success: linear-gradient(135deg, #4caf50 0%, #3d8c40 100%);
+        --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.08);
+        --shadow-medium: 0 8px 24px rgba(0, 0, 0, 0.12);
+        --shadow-strong: 0 12px 36px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Premium Hero Section */
+    .hero-section {
+        background: var(--gradient-primary);
+        color: white;
+        padding: 100px 0;
+        border-radius: 0 0 30px 30px;
+        margin-bottom: 40px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,192C1248,192,1344,128,1392,96L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+        background-size: cover;
+    }
+    
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.4rem;
+        margin-bottom: 30px;
+        opacity: 0.9;
+    }
+    
+    /* Premium Rounded Images */
+    .rounded-img {
+        border-radius: 16px;
+        box-shadow: var(--shadow-soft);
+        transition: all 0.4s ease;
+        overflow: hidden;
+    }
+    
+    .rounded-img:hover {
+        transform: scale(1.03);
+        box-shadow: var(--shadow-strong);
+    }
+    
+    .rounded-img-lg {
+        border-radius: 20px;
+    }
+    
+    .rounded-img-circle {
+        border-radius: 50%;
+    }
+    
+    /* Premium Quick Actions */
+    .quick-actions {
+        display: flex;
+        overflow-x: auto;
+        padding: 20px 0;
+        margin-bottom: 30px;
+        gap: 20px;
+        scrollbar-width: none;
+    }
+    
+    .quick-actions::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .quick-action-btn {
+        flex: 0 0 auto;
+        width: 110px;
+        text-align: center;
+        text-decoration: none;
+        color: var(--dark-text);
+        transition: all 0.3s ease;
+    }
+    
+    .quick-action-btn:hover {
+        transform: translateY(-5px);
+    }
+    
+    .quick-action-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: var(--gradient-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 12px;
+        font-size: 2rem;
+        color: white;
+        box-shadow: var(--shadow-medium);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .quick-action-icon::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255,255,255,0.1);
+        transform: translateX(-100%) rotate(45deg);
+        transition: all 0.5s ease;
+    }
+    
+    .quick-action-btn:hover .quick-action-icon::before {
+        transform: translateX(100%) rotate(45deg);
+    }
+    
+    .quick-action-btn:hover .quick-action-icon {
+        box-shadow: var(--shadow-strong);
+    }
+    
+    .quick-action-label {
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: #1a4f8b;
+    }
+    
+    /* Premium Account Card */
+    .account-card {
+        background: var(--gradient-primary);
+        color: white;
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 25px;
+        border: none;
+        box-shadow: var(--shadow-strong);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .account-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 150px;
+        height: 150px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 50%;
+        transform: translate(40%, -40%);
+    }
+    
+    .account-card::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100px;
+        height: 100px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 50%;
+        transform: translate(-30%, 30%);
+    }
+    
+    .account-balance {
+        font-size: 2.8rem;
+        font-weight: 800;
+        margin: 20px 0;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        position: relative;
+        z-index: 1;
+    }
+    
+    /* Premium Features Section */
+    .features-section {
+        padding: 80px 0;
+    }
+    
+    .feature-card {
+        text-align: center;
+        padding: 40px 30px;
+        border-radius: 20px;
+        background: white;
+        box-shadow: var(--shadow-soft);
+        transition: all 0.4s ease;
+        height: 100%;
+        border-top: 5px solid transparent;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-strong);
+        border-top-color: #1a4f8b;
+    }
+    
+    .feature-icon {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        background: var(--gradient-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 25px;
+        font-size: 2.5rem;
+        color: white;
+        box-shadow: var(--shadow-medium);
+    }
+    
+    /* Premium Stats Section */
+    .stats-section {
+        padding: 80px 0;
+        background: #f8f9fa;
+        border-radius: 30px;
+    }
+    
+    .stat-item {
+        text-align: center;
+        padding: 30px 20px;
+    }
+    
+    .stat-number {
+        font-size: 3rem;
+        font-weight: 800;
+        color: #1a4f8b;
+        margin-bottom: 10px;
+    }
+    
+    .stat-label {
+        font-size: 1.2rem;
+        color: #212529;
+        font-weight: 600;
+    }
+    
+    /* Premium Transaction Items */
+    .transaction-item {
+        border-left: 5px solid transparent;
+        padding: 18px;
+        margin-bottom: 12px;
+        border-radius: 12px;
+        background-color: white;
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow-soft);
+        display: flex;
+        align-items: center;
+    }
+    
+    .transaction-item:hover {
+        border-left-color: #1a4f8b;
+        background-color: #f8f9fa;
+        box-shadow: var(--shadow-medium);
+        transform: translateX(5px);
+    }
+    
+    .transaction-income {
+        border-left-color: #4caf50;
+    }
+    
+    .transaction-expense {
+        border-left-color: #e53935;
+    }
+    
+    .transaction-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        font-size: 1.3rem;
+        color: #1a4f8b;
+    }
+    
+    /* Additional Premium Elements */
+    .sbi-badge {
+        background: var(--gradient-secondary);
+        color: white;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        box-shadow: var(--shadow-soft);
+    }
+    
+    .sbi-section-title {
+        color: #1a4f8b;
+        font-weight: 800;
+        margin-bottom: 30px;
+        padding-bottom: 15px;
+        border-bottom: 3px solid #2c6cb0;
+        position: relative;
+        display: inline-block;
+    }
+    
+    .sbi-section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background: #ff6b00;
+    }
+    
+    /* Floating Animation */
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+    
+    .floating {
+        animation: float 5s ease-in-out infinite;
+    }
+    
+    /* Premium Testimonials */
+    .testimonial-card {
+        padding: 30px;
+        border-radius: 20px;
+        background: white;
+        box-shadow: var(--shadow-soft);
+        margin: 15px;
+        transition: all 0.3s ease;
+    }
+    
+    .testimonial-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-medium);
+    }
+    
+    .testimonial-avatar {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 20px;
+        border: 3px solid #1a4f8b;
+        box-shadow: var(--shadow-soft);
+    }
+    
+    /* Enhanced Cards */
+    .card {
+        border-radius: 16px;
+        box-shadow: var(--shadow-soft);
+        border: none;
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+        border-top: 5px solid #1a4f8b;
+        overflow: hidden;
+        position: relative;
+        background: white;
+    }
+    
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: var(--gradient-primary);
+    }
+    
+    .card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-strong);
+    }
+    
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2.5rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+        }
+        
+        .account-balance {
+            font-size: 2.2rem;
+        }
+        
+        .quick-actions {
+            justify-content: flex-start;
+        }
+        
+        .feature-card {
+            padding: 30px 20px;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="hero-title">Premium Banking Experience</h1>
+                <p class="hero-subtitle">Secure, fast, and reliable banking services at your fingertips</p>
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-light btn-lg px-4 py-3 mt-3">
+                        <i class="bi bi-speedometer2 me-2"></i>Go to Dashboard
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('register') }}" class="btn btn-light btn-lg px-4 py-3 mt-3">
+                        <i class="bi bi-rocket-takeoff me-2"></i>Get Started
+                    </a>
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg px-4 py-3 mt-3 ms-2">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                    </a>
+                {% endif %}
+            </div>
+            <div class="col-lg-6 text-center">
+                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                     alt="Modern Banking" class="img-fluid rounded-img floating">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Actions -->
+<div class="container">
+    <div class="quick-actions">
+        <a href="#" class="quick-action-btn">
+            <div class="quick-action-icon">
+                <i class="bi bi-send"></i>
+            </div>
+            <div class="quick-action-label">Transfer</div>
+        </a>
+        <a href="#" class="quick-action-btn">
+            <div class="quick-action-icon">
+                <i class="bi bi-wallet2"></i>
+            </div>
+            <div class="quick-action-label">Pay Bills</div>
+        </a>
+        <a href="#" class="quick-action-btn">
+            <div class="quick-action-icon">
+                <i class="bi bi-phone"></i>
+            </div>
+            <div class="quick-action-label">Mobile Top-up</div>
+        </a>
+        <a href="#" class="quick-action-btn">
+            <div class="quick-action-icon">
+                <i class="bi bi-graph-up"></i>
+            </div>
+            <div class="quick-action-label">Invest</div>
+        </a>
+        <a href="#" class="quick-action-btn">
+            <div class="quick-action-icon">
+                <i class="bi bi-shield-check"></i>
+            </div>
+            <div class="quick-action-label">Security</div>
+        </a>
+        <a href="#" class="quick-action-btn">
+            <div class="quick-action-icon">
+                <i class="bi bi-cash-coin"></i>
+            </div>
+            <div class="quick-action-label">Loans</div>
+        </a>
+    </div>
+
+    <!-- Account Overview -->
+    {% if current_user.is_authenticated %}
+    <div class="row mb-5">
+        <div class="col-md-8">
+            <div class="account-card">
+                <h3 class="mb-3">Primary Savings Account</h3>
+                <div class="account-balance">₹ 1,45,670.50</div>
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <small>Account No: XXXX XXXX 4587</small>
+                    </div>
+                    <div>
+                        <span class="sbi-badge">Active</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body text-center d-flex flex-column justify-content-center">
+                    <div class="feature-icon mb-3 mx-auto">
+                        <i class="bi bi-graph-up-arrow"></i>
+                    </div>
+                    <h5>Monthly Spending</h5>
+                    <h3 class="text-success my-3">₹ 24,500</h3>
+                    <p class="text-muted">12% less than last month</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <h2 class="sbi-section-title text-center mb-5">Our Premium Services</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-shield-lock"></i>
+                    </div>
+                    <h4>Advanced Security</h4>
+                    <p>Bank-level encryption and multi-factor authentication to keep your money safe.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-lightning-charge"></i>
+                    </div>
+                    <h4>Instant Transfers</h4>
+                    <p>Send money to anyone, anywhere in seconds with our lightning-fast transfer system.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="bi bi-graph-up"></i>
+                    </div>
+                    <h4>Smart Investments</h4>
+                    <p>Grow your wealth with our AI-powered investment recommendations and tools.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent Transactions -->
+    {% if current_user.is_authenticated %}
+    <div class="row mt-5">
+        <div class="col-12">
+            <h2 class="sbi-section-title">Recent Transactions</h2>
+            <div class="card">
+                <div class="card-body">
+                    <div class="transaction-item transaction-income">
+                        <div class="transaction-icon">
+                            <i class="bi bi-arrow-down-left text-success"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5 class="mb-1">Salary Credit</h5>
+                            <p class="mb-0 text-muted">From Company XYZ</p>
+                        </div>
+                        <div class="text-end">
+                            <h5 class="text-success">+₹ 65,000</h5>
+                            <p class="mb-0 text-muted">2 days ago</p>
+                        </div>
+                    </div>
+                    
+                    <div class="transaction-item transaction-expense">
+                        <div class="transaction-icon">
+                            <i class="bi bi-arrow-up-right text-danger"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5 class="mb-1">Electricity Bill</h5>
+                            <p class="mb-0 text-muted">BSES Yamuna</p>
+                        </div>
+                        <div class="text-end">
+                            <h5 class="text-danger">-₹ 2,450</h5>
+                            <p class="mb-0 text-muted">5 days ago</p>
+                        </div>
+                    </div>
+                    
+                    <div class="transaction-item">
+                        <div class="transaction-icon">
+                            <i class="bi bi-arrow-up-right text-warning"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5 class="mb-1">Online Shopping</h5>
+                            <p class="mb-0 text-muted">Amazon India</p>
+                        </div>
+                        <div class="text-end">
+                            <h5 class="text-warning">-₹ 5,299</h5>
+                            <p class="mb-0 text-muted">1 week ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Stats Section -->
+    <section class="stats-section mt-5">
+        <div class="row text-center">
+            <div class="col-md-3 col-6 stat-item">
+                <div class="stat-number">2.5M+</div>
+                <div class="stat-label">Happy Customers</div>
+            </div>
+            <div class="col-md-3 col-6 stat-item">
+                <div class="stat-number">₹ 850Cr+</div>
+                <div class="stat-label">Assets Managed</div>
+            </div>
+            <div class="col-md-3 col-6 stat-item">
+                <div class="stat-number">99.7%</div>
+                <div class="stat-label">Uptime</div>
+            </div>
+            <div class="col-md-3 col-6 stat-item">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Customer Support</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="features-section">
+        <h2 class="sbi-section-title text-center mb-5">What Our Customers Say</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
+                             alt="Customer" class="testimonial-avatar">
+                        <div>
+                            <h5 class="mb-0">Sarah Johnson</h5>
+                            <small class="text-muted">Business Owner</small>
+                        </div>
+                    </div>
+                    <p class="mb-0">"MyBank has transformed how I manage my business finances. The instant transfers and detailed analytics are incredible!"</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
+                             alt="Customer" class="testimonial-avatar">
+                        <div>
+                            <h5 class="mb-0">Michael Chen</h5>
+                            <small class="text-muted">Software Engineer</small>
+                        </div>
+                    </div>
+                    <p class="mb-0">"The security features give me peace of mind, and the mobile app is so intuitive. Best banking experience ever!"</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
+                             alt="Customer" class="testimonial-avatar">
+                        <div>
+                            <h5 class="mb-0">Priya Sharma</h5>
+                            <small class="text-muted">Marketing Manager</small>
+                        </div>
+                    </div>
+                    <p class="mb-0">"Love the investment tools! My portfolio has grown 25% since I started using MyBank's smart recommendations."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block footer_extra_js %}
+<script>
+    // Enhanced animations and interactions
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add hover effects to cards
+        const cards = document.querySelectorAll('.card, .feature-card, .testimonial-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe elements for animation
+        const elementsToAnimate = document.querySelectorAll('.feature-card, .stat-item, .testimonial-card');
+        elementsToAnimate.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    });
+</script>
+{% endblock %}
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyBank App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    {% block head_extra_css %}{% endblock %}
+
+    <style>
+        :root {
+            --primary: #1a4f8b;
+            --primary-dark: #0d3c6d;
+            --secondary: #4caf50;
+            --accent: #ff6b00;
+            --light-bg: #f8f9fa;
+            --dark-text: #212529;
+            --light-text: #f8f9fa;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            color: var(--dark-text);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .app-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .navbar {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            height: 60px;
+        }
+        
+        .navbar-brand {
+            font-weight: 800;
+            color: var(--primary) !important;
+            font-size: 1.5rem;
+        }
+        
+        .nav-link {
+            font-weight: 600;
+            color: var(--dark-text) !important;
+            margin: 0 5px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(26, 79, 139, 0.1);
+            color: var(--primary) !important;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding-top: 80px;
+            padding-bottom: 40px;
+        }
+        
+        .card {
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        .footer {
+            padding: 20px;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: var(--light-text);
+            margin-top: auto;
+        }
+        
+        .alert {
+            border-radius: 10px;
+            border: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            border-radius: 8px;
+            font-weight: 600;
+            padding: 10px 20px;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary);
+            border-color: var(--primary);
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .navbar-nav {
+                background-color: white;
+                padding: 10px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
+            
+            .main-content {
+                padding-top: 70px;
+            }
+        }
+        
+        /* Dashboard specific styles */
+        .quick-actions {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px 0;
+            margin-bottom: 20px;
+        }
+        
+        .quick-action-btn {
+            flex: 0 0 auto;
+            width: 80px;
+            text-align: center;
+            margin-right: 15px;
+            text-decoration: none;
+            color: var(--dark-text);
+        }
+        
+        .quick-action-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--light-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            font-size: 1.5rem;
+            color: var(--primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .quick-action-btn:hover .quick-action-icon {
+            background-color: var(--primary);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .account-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .account-balance {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        
+        .transaction-item {
+            border-left: 3px solid transparent;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            background-color: var(--light-bg);
+            transition: all 0.3s ease;
+        }
+        
+        .transaction-item:hover {
+            border-left-color: var(--primary);
+            background-color: white;
+        }
+        
+        .transaction-income {
+            border-left-color: var(--secondary);
+        }
+        
+        .transaction-expense {
+            border-left-color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="{{ url_for('home') }}">
+                    <i class="bi bi-bank me-2"></i>MyBank
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        {% if current_user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('dashboard') }}">
+                                    <i class="bi bi-speedometer2 me-1"></i>Dashboard
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('apply_loan') }}">
+                                    <i class="bi bi-cash-coin me-1"></i>Loans
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('apply_credit_card') }}">
+                                    <i class="bi bi-credit-card me-1"></i>Credit Cards
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('transactions_history') }}">
+                                    <i class="bi bi-clock-history me-1"></i>Transactions
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                                    <i class="bi bi-person-circle me-1"></i>Account
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="{{ url_for('profile_view') }}">Profile</a></li>
+                                    <li><a class="dropdown-item" href="{{ url_for('settings') }}">Settings</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('login') }}">
+                                    <i class="bi bi-box-arrow-in-right me-1"></i>Login
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('register') }}">
+                                    <i class="bi bi-person-plus me-1"></i>Register
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <div class="container">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                <i class="bi {% if category == 'success' %}bi-check-circle-fill{% elif category == 'danger' %}bi-exclamation-triangle-fill{% else %}bi-info-circle-fill{% endif %} me-2"></i>
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 text-md-start">
+                        &copy; 2025 MyBank. All rights reserved.
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <a href="#" class="text-light me-3"><i class="bi bi-shield-check me-1"></i> Security</a>
+                        <a href="#" class="text-light me-3"><i class="bi bi-question-circle me-1"></i> Help</a>
+                        <a href="#" class="text-light"><i class="bi bi-telephone me-1"></i> Contact</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    {% block footer_extra_js %}{% endblock %}
+    <script>
+        // Auto-dismiss alerts after 5 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                const alerts = document.querySelectorAll('.alert');
+                alerts.forEach(alert => {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                });
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0

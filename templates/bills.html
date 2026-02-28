@@ -1,0 +1,106 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Bill Management</h2>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBillModal">
+            <i class="fas fa-plus me-2"></i>Add Bill
+        </button>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Bill Name</th>
+                                    <th>Amount</th>
+                                    <th>Due Date</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for bill in bills %}
+                                <tr>
+                                    <td>{{ bill.name }}</td>
+                                    <td>₹{{ "%.2f"|format(bill.amount) }}</td>
+                                    <td>{{ bill.due_date.strftime('%d %b %Y') }}</td>
+                                    <td>{{ bill.category }}</td>
+                                    <td>
+                                        {% if bill.is_paid %}
+                                        <span class="badge bg-success">Paid</span>
+                                        {% else %}
+                                        <span class="badge bg-warning">Pending</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if not bill.is_paid %}
+                                        <form method="POST" action="{{ url_for('pay_bill', bill_id=bill.id) }}" class="d-inline">
+                                            <button type="submit" class="btn btn-success btn-sm">Pay Now</button>
+                                        </form>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Bill Modal -->
+<div class="modal fade" id="addBillModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Bill</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ url_for('add_bill') }}">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Bill Name</label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Amount</label>
+                        <div class="input-group">
+                            <span class="input-group-text">₹</span>
+                            <input type="number" class="form-control" name="amount" min="1" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Due Date</label>
+                        <input type="date" class="form-control" name="due_date" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Category</label>
+                        <select class="form-select" name="category" required>
+                            <option value="">Select Category</option>
+                            <option value="Utilities">Utilities</option>
+                            <option value="Internet">Internet</option>
+                            <option value="Mobile">Mobile</option>
+                            <option value="Insurance">Insurance</option>
+                            <option value="Loan">Loan</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add Bill</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

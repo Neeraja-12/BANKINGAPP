@@ -1,0 +1,3006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
+    <title>ICICI Bank - Premium Banking Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --icici-blue: #004a8e;
+            --icici-orange: #ff6600;
+            --icici-light-blue: #0066b3;
+            --success-green: #28a745;
+            --light-green: #20c997;
+            --danger-red: #dc3545;
+            --warning-orange: #fd7e14;
+            --purple: #6f42c1;
+            --pink: #e83e8c;
+            --dark-gray: #212529;
+            --sidebar-width: 280px;
+            --sidebar-collapsed-width: 80px;
+            --transition-speed: 0.3s;
+            --gradient-primary: linear-gradient(135deg, var(--icici-blue) 0%, var(--icici-light-blue) 100%);
+            --gradient-success: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-warning: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --gradient-danger: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            --gradient-purple: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+            --gradient-gold: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+        }
+        
+        body {
+            font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            transition: all var(--transition-speed);
+            min-height: 100vh;
+        }
+        
+        #wrapper {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+        }
+        
+        /* Enhanced Sidebar Styles */
+        #sidebar-wrapper {
+            min-height: 100vh;
+            width: var(--sidebar-width);
+            background: var(--gradient-primary);
+            position: fixed;
+            left: 0;
+            top: 0;
+            transition: all var(--transition-speed);
+            z-index: 1000;
+            box-shadow: 5px 0 25px rgba(0,0,0,0.15);
+            overflow-y: auto;
+            overflow-x: hidden;
+=======
+    <title>Premium Banking Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary-blue: #007bff;
+            --light-blue: #00bfff;
+            --success-green: #28a745;
+            --light-green: #20c997;
+            --danger-red: #dc3545;
+            --dark-gray: #212529;
+            --sidebar-width: 250px;
+            --sidebar-collapsed-width: 80px;
+            --transition-speed: 0.3s;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: #f8f9fa;
+            overflow-x: hidden;
+            transition: margin-left var(--transition-speed);
+        }
+        #wrapper {
+            display: flex;
+            width: 100%;
+        }
+        /* Sidebar Styles */
+        #sidebar-wrapper {
+            min-height: 100vh;
+            width: var(--sidebar-width);
+            background-color: var(--dark-gray);
+            position: fixed;
+            left: 0;
+            top: 0;
+            transition: width var(--transition-speed), transform var(--transition-speed);
+            z-index: 1000;
+            box-shadow: 2px 0 15px rgba(0,0,0,0.1);
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        }
+        
+        .sidebar-heading {
+            color: white;
+<<<<<<< HEAD
+            padding: 1.8rem 1rem;
+            font-weight: 700;
+            white-space: nowrap;
+            transition: all var(--transition-speed);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.1);
+            font-size: 1.5rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .sidebar-heading img {
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 8px;
+        }
+        
+        .list-group {
+            padding: 1.5rem 0;
+=======
+            padding: 1rem;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: all var(--transition-speed);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        }
+        
+        .list-group-item {
+            background: transparent;
+<<<<<<< HEAD
+            color: rgba(255,255,255,0.85);
+            border: none;
+            border-left: 4px solid transparent;
+=======
+            color: rgba(255,255,255,0.8);
+            border: none;
+            border-left: 3px solid transparent;
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+            transition: all var(--transition-speed);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+<<<<<<< HEAD
+            padding: 14px 24px;
+            margin: 4px 15px;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .list-group-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.1);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+        
+        .list-group-item:hover::before,
+        .list-group-item.active::before {
+            left: 0;
+=======
+            padding: 12px 20px;
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        }
+        
+        .list-group-item i {
+            width: 24px;
+            text-align: center;
+<<<<<<< HEAD
+            margin-right: 15px;
+            transition: margin var(--transition-speed);
+            font-size: 1.2rem;
+=======
+            margin-right: 12px;
+            transition: margin var(--transition-speed);
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        }
+        
+        .list-group-item:hover, 
+        .list-group-item.active {
+<<<<<<< HEAD
+            background: rgba(255,255,255,0.15);
+            border-left: 4px solid rgba(255,255,255,0.7);
+            color: white;
+            text-decoration: none;
+            transform: translateX(5px);
+        }
+        
+        /* Main Content */
+        #page-content-wrapper {
+            margin-left: var(--sidebar-width);
+            transition: all var(--transition-speed);
+            min-height: 100vh;
+            width: calc(100% - var(--sidebar-width));
+            background-color: transparent;
+        }
+        
+        /* When sidebar is collapsed */
+        body.sidebar-collapsed #sidebar-wrapper {
+            width: var(--sidebar-collapsed-width);
+=======
+            background: rgba(255,255,255,0.1);
+            border-left: 3px solid var(--light-blue);
+            color: white;
+        }
+        
+        /* When sidebar is collapsed */
+        body.sidebar-collapsed {
+            margin-left: var(--sidebar-collapsed-width);
+        }
+        
+        body.sidebar-collapsed #sidebar-wrapper {
+            width: var(--sidebar-collapsed-width);
+            overflow: hidden;
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        }
+        
+        body.sidebar-collapsed .sidebar-heading span {
+            display: none;
+        }
+        
+        body.sidebar-collapsed .list-group-item span {
+            display: none;
+        }
+        
+        body.sidebar-collapsed .list-group-item i {
+            margin-right: 0;
+        }
+        
+<<<<<<< HEAD
+=======
+        /* Main Content */
+        #page-content-wrapper {
+            margin-left: var(--sidebar-width);
+            transition: margin-left var(--transition-speed);
+            min-height: 100vh;
+            width: calc(100% - var(--sidebar-width));
+        }
+        
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        body.sidebar-collapsed #page-content-wrapper {
+            margin-left: var(--sidebar-collapsed-width);
+            width: calc(100% - var(--sidebar-collapsed-width));
+        }
+        
+<<<<<<< HEAD
+        /* Enhanced Navbar */
+        .navbar {
+            background: var(--gradient-primary);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            padding: 1rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Mobile Overlay */
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            #sidebar-wrapper {
+                transform: translateX(-100%);
+                width: 280px !important;
+            }
+            
+            body.sidebar-mobile-open #sidebar-wrapper {
+                transform: translateX(0);
+            }
+            
+            #page-content-wrapper {
+                margin-left: 0 !important;
+                width: 100% !important;
+            }
+            
+            .mobile-overlay {
+                display: none;
+            }
+            
+            body.sidebar-mobile-open .mobile-overlay {
+                display: block;
+            }
+        }
+        
+        /* Enhanced Card Styles */
+        .card {
+            border-radius: 16px;
+            border: none;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            overflow: hidden;
+            background: white;
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .card-header {
+            background: white;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 1.25rem 1.5rem;
+            font-weight: 600;
+        }
+        
+        .balance-card {
+            background: var(--gradient-primary);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .balance-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: rotate(30deg);
+        }
+        
+        .deposit-card {
+            background: var(--gradient-success);
+            color: white;
+        }
+        
+        .withdraw-card {
+            background: var(--gradient-danger);
+=======
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(90deg, var(--primary-blue), var(--light-blue));
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 0.75rem 1rem;
+        }
+        
+        /* Card Styles */
+        .card {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+        
+        .balance-card {
+            background: linear-gradient(135deg, var(--success-green), var(--light-green));
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+            color: white;
+        }
+        
+        /* Flash messages */
+        .alert {
+            position: fixed;
+<<<<<<< HEAD
+            top: 90px;
+            right: 25px;
+            z-index: 1100;
+            min-width: 320px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: none;
+            padding: 1rem 1.5rem;
+        }
+        
+        /* Dashboard Styles */
+        .welcome-banner {
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .welcome-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: rotate(30deg);
+        }
+        
+        .welcome-banner h2 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .navbar-welcome-message {
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            z-index: 999;
+            background: linear-gradient(135deg, var(--icici-blue), var(--icici-light-blue));
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 1rem;
+            margin: 0;
+            opacity: 0.95;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+=======
+            top: 80px;
+            right: 20px;
+            z-index: 1100;
+            min-width: 300px;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            #sidebar-wrapper {
+                transform: translateX(-100%);
+                width: 280px;
+            }
+            
+            body.sidebar-collapsed #sidebar-wrapper {
+                transform: translateX(0);
+            }
+            
+            #page-content-wrapper {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .mobile-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+            }
+            
+            body.sidebar-mobile-open .mobile-overlay {
+                display: block;
+            }
+            
+            body.sidebar-mobile-open #sidebar-wrapper {
+                transform: translateX(0);
+            }
+        }
+
+        #conversionResult {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--success-green);
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* New Dashboard Styles */
+        .welcome-banner {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--light-blue) 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+<<<<<<< HEAD
+            gap: 25px;
+            margin-bottom: 30px;
+=======
+            gap: 20px;
+            margin-bottom: 25px;
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        }
+        
+        .stat-card {
+            background: white;
+<<<<<<< HEAD
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+        }
+        
+        .stat-card.deposits::before {
+            background: var(--gradient-success);
+        }
+        
+        .stat-card.withdrawals::before {
+            background: var(--gradient-danger);
+        }
+        
+        .stat-card.savings::before {
+            background: var(--gradient-warning);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 1.8rem;
+            color: white;
+        }
+        
+        .stat-card.deposits .stat-icon {
+            background: var(--gradient-success);
+        }
+        
+        .stat-card.withdrawals .stat-icon {
+            background: var(--gradient-danger);
+        }
+        
+        .stat-card.savings .stat-icon {
+            background: var(--gradient-warning);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+=======
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+<<<<<<< HEAD
+            font-size: 0.95rem;
+=======
+            font-size: 0.9rem;
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        }
+        
+        .quick-actions {
+            display: flex;
+            overflow-x: auto;
+<<<<<<< HEAD
+            padding: 15px 0;
+            margin-bottom: 30px;
+            gap: 20px;
+            scrollbar-width: none;
+        }
+        
+        .quick-actions::-webkit-scrollbar {
+            display: none;
+=======
+            padding: 10px 0;
+            margin-bottom: 25px;
+            gap: 15px;
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        }
+        
+        .quick-action-btn {
+            flex: 0 0 auto;
+<<<<<<< HEAD
+            width: 110px;
+            text-align: center;
+            text-decoration: none;
+            color: #212529;
+            transition: all 0.3s ease;
+        }
+        
+        .quick-action-btn:hover {
+            transform: translateY(-5px);
+            color: var(--icici-blue);
+        }
+        
+        .quick-action-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 1.8rem;
+            color: var(--icici-blue);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quick-action-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .quick-action-btn:hover .quick-action-icon {
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .quick-action-btn:hover .quick-action-icon::before {
+            opacity: 1;
+        }
+        
+        .quick-action-btn:hover .quick-action-icon i {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .recent-transactions {
+            margin-bottom: 30px;
+=======
+            width: 100px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--dark-text);
+        }
+        
+        .quick-action-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--light-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            font-size: 1.5rem;
+            color: var(--primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .quick-action-btn:hover .quick-action-icon {
+            background-color: var(--primary);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .recent-transactions {
+            margin-bottom: 25px;
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        }
+        
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+<<<<<<< HEAD
+            padding: 18px;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            margin: 5px 0;
+=======
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        }
+        
+        .transaction-item:hover {
+            background-color: #f8f9fa;
+<<<<<<< HEAD
+            transform: translateX(5px);
+=======
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        }
+        
+        .transaction-info {
+            flex: 1;
+        }
+        
+        .transaction-amount {
+            font-weight: 600;
+<<<<<<< HEAD
+            font-size: 1.1rem;
+        }
+        
+        .transaction-income {
+            color: var(--success-green);
+        }
+        
+        .transaction-expense {
+            color: var(--danger-red);
+=======
+        }
+        
+        .transaction-income {
+            color: var(--secondary);
+        }
+        
+        .transaction-expense {
+            color: #dc3545;
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        }
+        
+        .chart-container {
+            background: white;
+<<<<<<< HEAD
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+        
+        .chart-bar {
+            height: 20px;
+            background: var(--gradient-primary);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            transition: width 1s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chart-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: translateX(-100%);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
+=======
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        .spending-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .category-item {
+            display: flex;
+            align-items: center;
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+        }
+        
+        .category-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 1.2rem;
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        }
+        
+        .upcoming-bills {
+            background: white;
+<<<<<<< HEAD
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+=======
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        }
+        
+        .bill-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+<<<<<<< HEAD
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+        
+        .bill-item:hover {
+            background-color: #f8f9fa;
+            padding-left: 10px;
+            padding-right: 10px;
+            margin: 0 -10px;
+            border-radius: 8px;
+=======
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        }
+        
+        .bill-due {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .bill-amount {
+            font-weight: 600;
+        }
+        
+<<<<<<< HEAD
+=======
+        /* Custom chart styling */
+        .chart-bar {
+            height: 20px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            transition: width 1s ease-in-out;
+        }
+        
+        /* Currency Converter Styles */
+        .converter-container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        .converter-result {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--success-green);
+            min-height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+<<<<<<< HEAD
+            padding: 15px;
+            background: linear-gradient(135deg, #f8fff9 0%, #e8f5e9 100%);
+            border-radius: 12px;
+            border: 1px solid #e8f5e9;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        .exchange-rate-badge {
+            background: var(--gradient-purple);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-left: 10px;
+=======
+            padding: 10px;
+            background-color: #f8fff9;
+            border-radius: 8px;
+            border: 1px solid #e8f5e9;
+        }
+        
+        .exchange-rate-badge {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 8px;
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        }
+        
+        .rate-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+<<<<<<< HEAD
+            padding: 12px 18px;
+=======
+            padding: 10px 15px;
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+            border-bottom: 1px solid #f1f1f1;
+            transition: background-color 0.2s;
+        }
+        
+        .rate-item:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .rate-item:last-child {
+            border-bottom: none;
+        }
+        
+<<<<<<< HEAD
+        /* Floating Action Button */
+        .floating-action-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 100;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .floating-action-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        /* Pulse animation for notifications */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 74, 142, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(0, 74, 142, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 74, 142, 0);
+            }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Enhanced form styles */
+        .form-control, .form-select {
+            border-radius: 10px;
+            padding: 12px 15px;
+            border: 1px solid #e1e5eb;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--icici-blue);
+            box-shadow: 0 0 0 0.2rem rgba(0, 74, 142, 0.15);
+        }
+        
+        .btn {
+            border-radius: 10px;
+            padding: 12px 24px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            border: none;
+        }
+        
+        .btn-success {
+            background: var(--gradient-success);
+            border: none;
+        }
+        
+        .btn-danger {
+            background: var(--gradient-danger);
+            border: none;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Progress bars */
+        .progress {
+            height: 10px;
+            border-radius: 10px;
+            background-color: #e9ecef;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+        }
+        
+        /* Notification badge */
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger-red);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        
+        /* Animated background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.5;
+        }
+        
+        .bg-bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 15s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+            25% {
+                transform: translateY(-20px) translateX(10px);
+            }
+            50% {
+                transform: translateY(-10px) translateX(20px);
+            }
+            75% {
+                transform: translateY(-30px) translateX(-10px);
+            }
+        }
+        
+        /* ICICI Bank specific styles */
+        .icici-logo {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .icici-product-card {
+            border-left: 4px solid var(--icici-orange);
+        }
+        
+        .icici-offer-card {
+            background: linear-gradient(135deg, #ff6600 0%, #ff9933 100%);
+            color: white;
+        }
+        
+        .icici-offer-card h5 {
+            color: white;
+        }
+        
+        .icici-offer-card .btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+        
+        .icici-offer-card .btn:hover {
+            background: white;
+            color: var(--icici-orange);
+        }
+        
+        /* New Enhanced Styles */
+        .card-glow {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-glow::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: rotate(30deg);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .card-glow:hover::after {
+            opacity: 1;
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: sparkle 3s infinite;
+        }
+        
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+        
+        .balance-sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: balance-sparkle 4s infinite;
+        }
+        
+        @keyframes balance-sparkle {
+            0%, 100% { opacity: 0; transform: scale(0) translateY(0); }
+            25% { opacity: 1; transform: scale(1) translateY(-10px); }
+            50% { opacity: 0.5; transform: scale(0.8) translateY(-20px); }
+            75% { opacity: 0; transform: scale(0) translateY(-30px); }
+        }
+        
+        .transaction-animation {
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .balance-change {
+            animation: balanceChange 1s ease-out;
+        }
+        
+        @keyframes balanceChange {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .floating-card {
+            animation: floatCard 6s ease-in-out infinite;
+        }
+        
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--icici-blue), var(--icici-light-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .premium-badge {
+            background: var(--gradient-gold);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        
+        .dark-mode-toggle {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 100;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .dark-mode-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        body.dark-mode {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #f8f9fa;
+        }
+        
+        body.dark-mode .card {
+            background: #2d3748;
+            color: #f8f9fa;
+        }
+        
+        body.dark-mode .card-header {
+            background: #2d3748;
+            color: #f8f9fa;
+        }
+        
+        body.dark-mode .transaction-item:hover {
+            background-color: #4a5568;
+        }
+        
+        body.dark-mode .bill-item:hover {
+            background-color: #4a5568;
+        }
+        
+        body.dark-mode .rate-item:hover {
+            background-color: #4a5568;
+        }
+        
+        body.dark-mode .form-control, 
+        body.dark-mode .form-select {
+            background: #4a5568;
+            border-color: #4a5568;
+            color: #f8f9fa;
+        }
+        
+        body.dark-mode .form-control:focus, 
+        body.dark-mode .form-select:focus {
+            background: #4a5568;
+            border-color: var(--icici-blue);
+            color: #f8f9fa;
+        }
+        
+        /* Transaction History Styles */
+        .transaction-history {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .transaction-history::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .transaction-history::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .transaction-history::-webkit-scrollbar-thumb {
+            background: var(--icici-blue);
+            border-radius: 10px;
+        }
+        
+        .transaction-history::-webkit-scrollbar-thumb:hover {
+            background: var(--icici-light-blue);
+        }
+        
+        .transaction-type-badge {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 10px;
+            margin-left: 8px;
+        }
+        
+        .transaction-type-deposit {
+            background: rgba(40, 167, 69, 0.2);
+            color: var(--success-green);
+        }
+        
+        .transaction-type-withdrawal {
+            background: rgba(220, 53, 69, 0.2);
+            color: var(--danger-red);
+        }
+        
+        /* Confirmation Modal */
+        .confirmation-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .confirmation-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .confirmation-content {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+        
+        .confirmation-modal.active .confirmation-content {
+            transform: translateY(0);
+        }
+        
+        .confirmation-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .confirmation-deposit .confirmation-icon {
+            color: var(--success-green);
+        }
+        
+        .confirmation-withdraw .confirmation-icon {
+            color: var(--danger-red);
+        }
+        
+        .confirmation-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .confirmation-buttons .btn {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="bg-bubble" style="width: 150px; height: 150px; top: 10%; left: 5%; animation-delay: 0s;"></div>
+        <div class="bg-bubble" style="width: 100px; height: 100px; top: 60%; left: 80%; animation-delay: 2s;"></div>
+        <div class="bg-bubble" style="width: 120px; height: 120px; top: 30%; left: 60%; animation-delay: 4s;"></div>
+        <div class="bg-bubble" style="width: 80px; height: 80px; top: 70%; left: 20%; animation-delay: 6s;"></div>
+        <div class="bg-bubble" style="width: 130px; height: 130px; top: 20%; left: 40%; animation-delay: 8s;"></div>
+    </div>
+    
+    <!-- Confirmation Modal -->
+    <div class="confirmation-modal" id="confirmationModal">
+        <div class="confirmation-content" id="confirmationContent">
+            <div class="text-center">
+                <div class="confirmation-icon" id="confirmationIcon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h4 id="confirmationTitle">Confirm Transaction</h4>
+                <p id="confirmationMessage">Are you sure you want to proceed with this transaction?</p>
+                <div class="confirmation-buttons">
+                    <button class="btn btn-secondary" id="cancelTransaction">Cancel</button>
+                    <button class="btn btn-primary" id="confirmTransaction">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <div class="sidebar-heading text-white text-center py-4 fs-4 fw-bold border-bottom">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Icici_bank_logo.svg/2560px-Icici_bank_logo.svg.png" alt="ICICI Bank Logo" class="icici-logo">
+                <span>ICICI Bank</span>
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="#" class="list-group-item list-group-item-action active" data-page="dashboard">
+                    <i class="fas fa-home me-2"></i> <span>Dashboard</span>
+                </a>
+                <a href="{{ url_for('apply_credit_card') }}" class="list-group-item list-group-item-action" data-page="credit-cards">
+                    <i class="fas fa-credit-card me-2"></i> <span>Credit Cards</span>
+                    <span class="notification-badge">3</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" data-page="transactions">
+                    <i class="fas fa-exchange-alt me-2"></i> <span>Transactions</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" data-page="loans">
+                    <i class="fas fa-university me-2"></i> <span>Loans</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" data-page="budgets">
+                    <i class="fas fa-chart-pie me-2"></i> <span>Budgets</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" data-page="bills">
+                    <i class="fas fa-file-invoice-dollar me-2"></i> <span>Bills</span>
+                    <span class="notification-badge">2</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" data-page="analytics">
+                    <i class="fas fa-chart-line me-2"></i> <span>Analytics</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" data-page="profile">
+                    <i class="fas fa-user me-2"></i> <span>Profile</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" data-page="settings">
+                    <i class="fas fa-cog me-2"></i> <span>Settings</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" data-page="logout">
+=======
+        /* Dark mode adjustments for converter */
+        body.bg-\[\#1a202c\] .converter-container,
+        body.bg-\[\#1a202c\] .card {
+            background: #2d3748;
+            color: #e2e8f0;
+        }
+        
+        body.bg-\[\#1a202c\] .form-control,
+        body.bg-\[\#1a202c\] .form-select {
+            background-color: #4a5568;
+            border-color: #4a5568;
+            color: #e2e8f0;
+        }
+        
+        body.bg-\[\#1a202c\] .form-label {
+            color: #e2e8f0;
+        }
+        
+        body.bg-\[\#1a202c\] .rate-item {
+            border-bottom-color: #4a5568;
+        }
+        
+        body.bg-\[\#1a202c\] .rate-item:hover {
+            background-color: #4a5568;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4 sm:p-8 flex items-center justify-center min-h-screen">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <div class="sidebar-heading text-white text-center py-4 fs-4 fw-bold border-bottom">My Bank</div>
+            <div class="list-group list-group-flush">
+                <a href="{{ url_for('dashboard') }}" class="list-group-item list-group-item-action bg-dark text-white active">
+                    <i class="fas fa-home me-2"></i> <span>Dashboard</span>
+                </a>
+                <a href="{{ url_for('apply_credit_card') }}" class="list-group-item list-group-item-action bg-dark text-white">
+                    <i class="fas fa-credit-card me-2"></i> <span>Credit Cards</span>
+                </a>
+                <a href="{{ url_for('transactions_history') }}" class="list-group-item list-group-item-action bg-dark text-white">
+                    <i class="fas fa-exchange-alt me-2"></i> <span>Transactions</span>
+                </a>
+                <a href="{{ url_for('apply_loan') }}" class="list-group-item list-group-item-action bg-dark text-white">
+                    <i class="fas fa-university me-2"></i> <span>Loans</span>
+                </a>
+                <a href="{{ url_for('profile_view') }}" class="list-group-item list-group-item-action bg-dark text-white">
+                    <i class="fas fa-user me-2"></i> <span>Profile</span>
+                </a>
+                <a href="{{ url_for('settings') }}" class="list-group-item list-group-item-action bg-dark text-white">
+                    <i class="fas fa-cog me-2"></i> <span>Settings</span>
+                </a>
+                <a href="{{ url_for('logout') }}" class="list-group-item list-group-item-action bg-dark text-white">
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+                    <i class="fas fa-sign-out-alt me-2"></i> <span>Logout</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Mobile overlay for closing sidebar on click outside -->
+        <div class="mobile-overlay" id="overlay"></div>
+        
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <div class="container-fluid">
+<<<<<<< HEAD
+                    <button id="menu-toggle" class="btn btn-link text-white border-0">
+                        <i class="fas fa-bars fa-lg"></i>
+                    </button>
+                    <div class="ms-auto d-flex align-items-center">
+                        <span class="text-white me-3">Welcome, John Doe <span class="premium-badge">PREMIUM</span></span>
+                        <div class="dropdown">
+                            <a href="#" class="text-white dropdown-toggle text-decoration-none position-relative" id="userDropdown" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle fa-lg"></i>
+                                <span class="notification-badge pulse">2</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="#" data-page="profile"><i class="fas fa-user me-2"></i> Profile</a></li>
+                                <li><a class="dropdown-item" href="#" data-page="settings"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" data-page="logout"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+=======
+                    <button id="menu-toggle" class="btn btn-link text-white">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="ms-auto d-flex align-items-center">
+                        <span class="text-white me-3">Welcome, John Doe</span>
+                        <div class="dropdown">
+                            <a href="#" class="text-white dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle fa-lg"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{{ url_for('profile_view') }}"><i class="fas fa-user me-2"></i> Profile</a></li>
+                                <li><a class="dropdown-item" href="{{url_for('settings')}}"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+<<<<<<< HEAD
+            <!-- Welcome message positioned below nav bar -->
+            <div class="navbar-welcome-message" id="welcomeMessage">
+                Here's your financial overview for today
+            </div>
+
+            <div class="container-fluid px-4 py-4">
+                <!-- Dashboard Section -->
+                <div class="page-section active" id="dashboard-section">
+                    <div class="welcome-banner">
+                        <h2>Welcome back, John Doe!</h2>
+                        <p class="mb-0">Your financial health is looking great this month!</p>
+                    </div>
+                    
+                    <div class="row">
+                        <!-- Balance Card -->
+                        <div class="col-md-4 mb-4">
+                            <div class="card balance-card text-center p-4 card-glow">
+                                <div class="card-body position-relative">
+                                    <!-- Sparkle effects -->
+                                    <div class="balance-sparkle" style="top: 20%; left: 15%; animation-delay: 0s;"></div>
+                                    <div class="balance-sparkle" style="top: 60%; left: 80%; animation-delay: 1s;"></div>
+                                    <div class="balance-sparkle" style="top: 30%; left: 50%; animation-delay: 2s;"></div>
+                                    
+                                    <h5 class="card-title">Available Balance</h5>
+                                    <h2 class="card-text fw-bold my-3" id="availableBalance">₹45,678.90</h2>
+                                    <p class="small mb-0">Last updated: <span id="balanceUpdateTime">Today</span></p>
+                                    <div class="mt-3">
+                                        <div class="progress">
+                                            <div class="progress-bar bg-warning" style="width: 65%"></div>
+                                        </div>
+                                        <small class="text-white">Monthly budget: 65% used</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Total Deposits Card -->
+                        <div class="col-md-4 mb-4">
+                            <div class="card stat-card deposits h-100 text-center p-4 floating-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-arrow-down"></i>
+                                </div>
+                                <h5 class="card-title">Total Deposits</h5>
+                                <h4 class="stat-value text-success" id="totalDeposits">₹12,345.67</h4>
+                                <p class="stat-label">This month: <span id="monthlyDeposits">+₹5,432.10</span></p>
+                            </div>
+                        </div>
+                        
+                        <!-- Total Withdrawals Card -->
+                        <div class="col-md-4 mb-4">
+                            <div class="card stat-card withdrawals h-100 text-center p-4 floating-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-arrow-up"></i>
+                                </div>
+                                <h5 class="card-title">Total Withdrawals</h5>
+                                <h4 class="stat-value text-danger" id="totalWithdrawals">₹8,901.23</h4>
+                                <p class="stat-label">This month: <span id="monthlyWithdrawals">-₹3,210.98</span></p>
+=======
+            <div class="container-fluid px-4 py-4">
+                <!-- Welcome Banner -->
+                <div class="welcome-banner">
+                    <h2>Welcome back, John Doe!</h2>
+                    <p class="mb-0">Here's your financial overview for today</p>
+                </div>
+                
+                <div class="row">
+                    <!-- Balance Card -->
+                    <div class="col-md-4 mb-4">
+                        <div class="card balance-card text-center p-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Available Balance</h5>
+                                <h2 class="card-text fw-bold my-3" id="availableBalance">₹85,432.10</h2>
+                                <p class="small mb-0">Last updated: <span id="balanceUpdateTime">Today</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Total Deposits Card -->
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 text-center p-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Deposits</h5>
+                                <h4 class="card-text text-success fw-bold my-3" id="totalDeposits">₹125,780.50</h4>
+                                <p class="small mb-0">This month: <span id="monthlyDeposits">+₹25,500.00</span></p>
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+                            </div>
+                        </div>
+                    </div>
+                    
+<<<<<<< HEAD
+                    <!-- ICICI Bank Offers -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card icici-offer-card">
+                                <div class="card-body d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h5 class="mb-1"><i class="fas fa-gift me-2"></i> ICICI Bank Special Offer</h5>
+                                        <p class="mb-0">Get 5% cashback on all online transactions this month</p>
+                                    </div>
+                                    <div>
+                                        <button class="btn">View Details</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <!-- Recent Transactions -->
+                            <div class="card recent-transactions mb-4">
+                                <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">Recent Transactions</h5>
+                                    <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
+                                </div>
+                                <div class="card-body p-0 transaction-history" id="transactionHistory">
+                                    <!-- Transactions will be dynamically added here -->
+                                </div>
+                            </div>
+                            
+                            <!-- Monthly Spending Chart -->
+                            <div class="card chart-container mb-4">
+                                <h5 class="mb-4">Monthly Spending</h5>
+                                <div class="mb-4">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span>Food & Dining</span>
+                                        <span>₹6,245</span>
+                                    </div>
+                                    <div class="chart-bar" style="width: 65%"></div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span>Shopping</span>
+                                        <span>₹4,870</span>
+                                    </div>
+                                    <div class="chart-bar" style="width: 50%"></div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span>Transportation</span>
+                                        <span>₹3,125</span>
+                                    </div>
+                                    <div class="chart-bar" style="width: 32%"></div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span>Utilities</span>
+                                        <span>₹2,845</span>
+                                    </div>
+                                    <div class="chart-bar" style="width: 29%"></div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span>Entertainment</span>
+                                        <span>₹1,975</span>
+                                    </div>
+                                    <div class="chart-bar" style="width: 20%"></div>
+=======
+                    <!-- Total Withdrawals Card -->
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 text-center p-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Withdrawals</h5>
+                                <h4 class="card-text text-danger fw-bold my-3" id="totalWithdrawals">₹40,348.40</h4>
+                                <p class="small mb-0">This month: <span id="monthlyWithdrawals">-₹12,340.20</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <h4 class="mb-3">Quick Actions</h4>
+                <div class="quick-actions mb-4">
+                    <a href="#" class="quick-action-btn">
+                        <div class="quick-action-icon">
+                            <i class="fas fa-arrow-up"></i>
+                        </div>
+                        <div>Send Money</div>
+                    </a>
+                    
+                    <a href="#" class="quick-action-btn">
+                        <div class="quick-action-icon">
+                            <i class="fas fa-arrow-down"></i>
+                        </div>
+                        <div>Request</div>
+                    </a>
+                    
+                    <a href="#" class="quick-action-btn">
+                        <div class="quick-action-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div>Pay Bills</div>
+                    </a>
+                    
+                    <a href="#" class="quick-action-btn">
+                        <div class="quick-action-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div>Top Up</div>
+                    </a>
+                    
+                    <a href="#" class="quick-action-btn">
+                        <div class="quick-action-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div>Invest</div>
+                    </a>
+                    
+                    <a href="#" class="quick-action-btn">
+                        <div class="quick-action-icon">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div>Cards</div>
+                    </a>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-8">
+                        <!-- Recent Transactions -->
+                        <div class="card recent-transactions mb-4">
+                            <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Recent Transactions</h5>
+                                <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="transaction-item">
+                                    <div class="transaction-info">
+                                        <div class="fw-bold">Amazon India</div>
+                                        <div class="text-muted small">15 Oct 2023 • Shopping</div>
+                                    </div>
+                                    <div class="transaction-amount transaction-expense">-₹1,499.00</div>
+                                </div>
+                                
+                                <div class="transaction-item">
+                                    <div class="transaction-info">
+                                        <div class="fw-bold">Salary Deposit</div>
+                                        <div class="text-muted small">12 Oct 2023 • Income</div>
+                                    </div>
+                                    <div class="transaction-amount transaction-income">+₹45,000.00</div>
+                                </div>
+                                
+                                <div class="transaction-item">
+                                    <div class="transaction-info">
+                                        <div class="fw-bold">Uber Ride</div>
+                                        <div class="text-muted small">10 Oct 2023 • Transportation</div>
+                                    </div>
+                                    <div class="transaction-amount transaction-expense">-₹345.50</div>
+                                </div>
+                                
+                                <div class="transaction-item">
+                                    <div class="transaction-info">
+                                        <div class="fw-bold">Electricity Bill</div>
+                                        <div class="text-muted small">8 Oct 2023 • Utilities</div>
+                                    </div>
+                                    <div class="transaction-amount transaction-expense">-₹1,234.00</div>
+                                </div>
+                                
+                                <div class="transaction-item">
+                                    <div class="transaction-info">
+                                        <div class="fw-bold">Starbucks</div>
+                                        <div class="text-muted small">5 Oct 2023 • Food & Drink</div>
+                                    </div>
+                                    <div class="transaction-amount transaction-expense">-₹385.00</div>
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+                                </div>
+                            </div>
+                        </div>
+                        
+<<<<<<< HEAD
+                        <div class="col-lg-4">
+                            <!-- Upcoming Bills -->
+                            <div class="card upcoming-bills mb-4">
+                                <h5 class="mb-4">Upcoming Bills</h5>
+                                
+                                <div class="bill-item">
+                                    <div>
+                                        <div class="fw-bold">Electricity Bill</div>
+                                        <div class="bill-due">Due in 3 days</div>
+                                    </div>
+                                    <div class="bill-amount">₹1,234.00</div>
+                                </div>
+                                
+                                <div class="bill-item">
+                                    <div>
+                                        <div class="fw-bold">Internet Bill</div>
+                                        <div class="bill-due">Due in 5 days</div>
+                                    </div>
+                                    <div class="bill-amount">₹899.00</div>
+                                </div>
+                                
+                                <div class="bill-item">
+                                    <div>
+                                        <div class="fw-bold">Mobile Recharge</div>
+                                        <div class="bill-due">Due in 8 days</div>
+                                    </div>
+                                    <div class="bill-amount">₹299.00</div>
+                                </div>
+                                
+                                <div class="bill-item">
+                                    <div>
+                                        <div class="fw-bold">Insurance Premium</div>
+                                        <div class="bill-due">Due in 12 days</div>
+                                    </div>
+                                    <div class="bill-amount">₹3,456.00</div>
+                                </div>
+                                
+                                <div class="text-center mt-3">
+                                    <a href="#" class="btn btn-outline-primary btn-sm">Schedule All Payments</a>
+                                </div>
+                            </div>
+                            
+                            <!-- ICICI Bank Products -->
+                            <div class="card icici-product-card mb-4">
+                                <div class="card-header bg-white border-0">
+                                    <h5 class="mb-0 text-primary">
+                                        <i class="fas fa-star me-2"></i> ICICI Bank Products
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="bg-primary text-white rounded p-2 me-3">
+                                            <i class="fas fa-credit-card"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">Coral Credit Card</h6>
+                                            <small class="text-muted">Earn rewards on every spend</small>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="bg-success text-white rounded p-2 me-3">
+                                            <i class="fas fa-home"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">Home Loan</h6>
+                                            <small class="text-muted">Low interest rates</small>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-warning text-white rounded p-2 me-3">
+                                            <i class="fas fa-car"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">Car Loan</h6>
+                                            <small class="text-muted">Flexible repayment options</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Deposit Form Card -->
+                            <div class="card deposit-card mb-4">
+                                <div class="card-header bg-transparent border-0 text-white">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-arrow-circle-down me-2"></i> Deposit Funds
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <form class="transaction-form" id="depositForm">
+                                        <div class="mb-3">
+                                            <label class="form-label text-white">Amount</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text bg-white">₹</span>
+                                                <input type="number" class="form-control" id="depositAmount" name="amount" placeholder="Enter amount" min="1" step="0.01" required>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label text-white">From Account</label>
+                                            <select class="form-select" id="depositSource" name="source" required>
+                                                <option value="">Select source</option>
+                                                <option value="Bank Transfer">Bank Transfer</option>
+                                                <option value="UPI Payment">UPI Payment</option>
+                                                <option value="Cash Deposit">Cash Deposit</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label text-white">Description</label>
+                                            <input type="text" class="form-control" id="depositDescription" name="description" placeholder="Enter description">
+                                        </div>
+                                        <button type="submit" class="btn btn-light w-100 py-2 text-success fw-bold">
+                                            <i class="fas fa-plus-circle me-2"></i> Deposit Now
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                            <!-- Withdraw Form Card -->
+                            <div class="card withdraw-card mb-4">
+                                <div class="card-header bg-transparent border-0 text-white">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-arrow-circle-up me-2"></i> Withdraw Funds
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <form class="transaction-form" id="withdrawForm">
+                                        <div class="mb-3">
+                                            <label class="form-label text-white">Amount</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text bg-white">₹</span>
+                                                <input type="number" class="form-control" id="withdrawAmount" name="amount" placeholder="Enter amount" min="1" step="0.01" required>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label text-white">To Account</label>
+                                            <select class="form-select" id="withdrawDestination" name="destination" required>
+                                                <option value="">Select destination</option>
+                                                <option value="Bank Transfer">Bank Transfer</option>
+                                                <option value="UPI Payment">UPI Payment</option>
+                                                <option value="Cash Withdrawal">Cash Withdrawal</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label text-white">Description</label>
+                                            <input type="text" class="form-control" id="withdrawDescription" name="description" placeholder="Enter description">
+                                        </div>
+                                        <button type="submit" class="btn btn-light w-100 py-2 text-danger fw-bold">
+                                            <i class="fas fa-minus-circle me-2"></i> Withdraw Now
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <!-- Currency Converter Card -->
+                        <div class="col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-header bg-white border-0">
+                                    <h5 class="mb-0 text-primary">
+                                        <i class="fas fa-exchange-alt me-2"></i> Currency Converter
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label for="baseAmount" class="form-label">Amount in INR (₹)</label>
+                                        <input type="number" class="form-control" id="baseAmount" value="100" min="1" step="any">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="targetCurrency" class="form-label">Convert To</label>
+                                        <select class="form-select" id="targetCurrency">
+                                            <option value="0.012">USD ($)</option>
+                                            <option value="0.011">EUR (€)</option>
+                                            <option value="0.0095">GBP (£)</option>
+                                            <option value="1.79">JPY (¥)</option>
+                                            <option value="0.016">CAD (C$)</option>
+                                            <option value="0.018">AUD (A$)</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 text-center">
+                                        <button class="btn btn-primary w-100" id="convertButton">
+                                            <i class="fas fa-exchange-alt me-2"></i> Convert Now
+                                        </button>
+                                    </div>
+                                    <div class="converter-result text-center mt-3" id="conversionOutput">
+                                        Result will appear here
+                                    </div>
+                                    <div class="mt-3 text-center text-muted small">
+                                        Exchange rates updated: <span id="currentDateTime"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Live Exchange Rates Card -->
+                        <div class="col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0 text-primary">
+                                        <i class="fas fa-globe me-2"></i> Live Exchange Rates
+                                    </h5>
+                                    <span class="badge bg-success pulse">Live</span>
+                                </div>
+                                <div class="card-body p-0">
+                                    <p class="px-4 pt-3 text-muted small mb-3">Rates shown are relative to 1 USD</p>
+                                    <div id="exchange-rates-list">
+                                        <div class="rate-item">
+                                            <div class="d-flex align-items-center">
+                                                <span class="fw-bold me-2">EUR</span>
+                                                <span class="text-muted small">Euro</span>
+                                            </div>
+                                            <span class="fw-bold">0.92</span>
+                                        </div>
+                                        <div class="rate-item">
+                                            <div class="d-flex align-items-center">
+                                                <span class="fw-bold me-2">GBP</span>
+                                                <span class="text-muted small">British Pound</span>
+                                            </div>
+                                            <span class="fw-bold">0.79</span>
+                                        </div>
+                                        <div class="rate-item">
+                                            <div class="d-flex align-items-center">
+                                                <span class="fw-bold me-2">JPY</span>
+                                                <span class="text-muted small">Japanese Yen</span>
+                                            </div>
+                                            <span class="fw-bold">156.89</span>
+                                        </div>
+                                        <div class="rate-item">
+                                            <div class="d-flex align-items-center">
+                                                <span class="fw-bold me-2">INR</span>
+                                                <span class="text-muted small">Indian Rupee</span>
+                                            </div>
+                                            <span class="fw-bold">83.33</span>
+                                        </div>
+                                        <div class="rate-item">
+                                            <div class="d-flex align-items-center">
+                                                <span class="fw-bold me-2">CAD</span>
+                                                <span class="text-muted small">Canadian Dollar</span>
+                                            </div>
+                                            <span class="fw-bold">1.36</span>
+                                        </div>
+                                        <div class="rate-item">
+                                            <div class="d-flex align-items-center">
+                                                <span class="fw-bold me-2">AUD</span>
+                                                <span class="text-muted small">Australian Dollar</span>
+                                            </div>
+                                            <span class="fw-bold">1.54</span>
+                                        </div>
+=======
+                        <!-- Monthly Spending Chart -->
+                        <div class="card chart-container mb-4">
+                            <h5 class="mb-4">Monthly Spending</h5>
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>Food & Dining</span>
+                                    <span>₹6,245</span>
+                                </div>
+                                <div class="chart-bar" style="width: 65%"></div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>Shopping</span>
+                                    <span>₹4,870</span>
+                                </div>
+                                <div class="chart-bar" style="width: 50%"></div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>Transportation</span>
+                                    <span>₹3,125</span>
+                                </div>
+                                <div class="chart-bar" style="width: 32%"></div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>Utilities</span>
+                                    <span>₹2,845</span>
+                                </div>
+                                <div class="chart-bar" style="width: 29%"></div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>Entertainment</span>
+                                    <span>₹1,975</span>
+                                </div>
+                                <div class="chart-bar" style="width: 20%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4">
+                        <!-- Upcoming Bills -->
+                        <div class="card upcoming-bills mb-4">
+                            <h5 class="mb-4">Upcoming Bills</h5>
+                            
+                            <div class="bill-item">
+                                <div>
+                                    <div class="fw-bold">Electricity Bill</div>
+                                    <div class="bill-due">Due in 3 days</div>
+                                </div>
+                                <div class="bill-amount">₹1,234.00</div>
+                            </div>
+                            
+                            <div class="bill-item">
+                                <div>
+                                    <div class="fw-bold">Internet Bill</div>
+                                    <div class="bill-due">Due in 5 days</div>
+                                </div>
+                                <div class="bill-amount">₹899.00</div>
+                            </div>
+                            
+                            <div class="bill-item">
+                                <div>
+                                    <div class="fw-bold">Mobile Recharge</div>
+                                    <div class="bill-due">Due in 8 days</div>
+                                </div>
+                                <div class="bill-amount">₹299.00</div>
+                            </div>
+                            
+                            <div class="bill-item">
+                                <div>
+                                    <div class="fw-bold">Insurance Premium</div>
+                                    <div class="bill-due">Due in 12 days</div>
+                                </div>
+                                <div class="bill-amount">₹3,456.00</div>
+                            </div>
+                            
+                            <div class="text-center mt-3">
+                                <a href="#" class="btn btn-outline-primary btn-sm">Schedule All Payments</a>
+                            </div>
+                        </div>
+                        
+                        <!-- Deposit Form Card -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-white border-0">
+                                <h5 class="mb-0 text-success">
+                                    <i class="fas fa-arrow-circle-down me-2"></i> Deposit Funds
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <form class="transaction-form" id="depositForm">
+                                    <div class="mb-3">
+                                        <label class="form-label">Amount</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">₹</span>
+                                            <input type="number" class="form-control" name="amount" placeholder="Enter amount" min="1" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">From Account</label>
+                                        <select class="form-select" name="source" required>
+                                            <option value="">Select source</option>
+                                            <option value="Bank Transfer">Bank Transfer</option>
+                                            <option value="UPI Payment">UPI Payment</option>
+                                            <option value="Cash Deposit">Cash Deposit</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-success w-100 py-2">
+                                        <i class="fas fa-plus-circle me-2"></i> Deposit Now
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <!-- Withdraw Form Card -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-white border-0">
+                                <h5 class="mb-0 text-danger">
+                                    <i class="fas fa-arrow-circle-up me-2"></i> Withdraw Funds
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <form class="transaction-form" id="withdrawForm">
+                                    <div class="mb-3">
+                                        <label class="form-label">Amount</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">₹</span>
+                                            <input type="number" class="form-control" name="amount" placeholder="Enter amount" min="1" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">To Account</label>
+                                        <select class="form-select" name="destination" required>
+                                            <option value="">Select destination</option>
+                                            <option value="Bank Transfer">Bank Transfer</option>
+                                            <option value="UPI Payment">UPI Payment</option>
+                                            <option value="Cash Withdrawal">Cash Withdrawal</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-danger w-100 py-2">
+                                        <i class="fas fa-minus-circle me-2"></i> Withdraw Now
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <!-- New Currency Converter Card -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-header bg-white border-0">
+                                <h5 class="mb-0 text-primary">
+                                    <i class="fas fa-exchange-alt me-2"></i> Currency Converter
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label for="baseAmount" class="form-label">Amount in INR (₹)</label>
+                                    <input type="number" class="form-control" id="baseAmount" value="100" min="1" step="any">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="targetCurrency" class="form-label">Convert To</label>
+                                    <select class="form-select" id="targetCurrency">
+                                        <option value="0.012">USD ($)</option>
+                                        <option value="0.011">EUR (€)</option>
+                                        <option value="0.0095">GBP (£)</option>
+                                        <option value="1.79">JPY (¥)</option>
+                                        <option value="0.016">CAD (C$)</option>
+                                        <option value="0.018">AUD (A$)</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3 text-center">
+                                    <button class="btn btn-primary w-100" id="convertButton">
+                                        <i class="fas fa-exchange-alt me-2"></i> Convert Now
+                                    </button>
+                                </div>
+                                <div class="converter-result text-center mt-3" id="conversionOutput">
+                                    Result will appear here
+                                </div>
+                                <div class="mt-3 text-center text-muted small">
+                                    Exchange rates updated: <span id="currentDateTime"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- New Live Exchange Rates Card -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0 text-primary">
+                                    <i class="fas fa-globe me-2"></i> Live Exchange Rates
+                                </h5>
+                                <span class="badge bg-success">Live</span>
+                            </div>
+                            <div class="card-body p-0">
+                                <p class="px-4 pt-3 text-muted small mb-3">Rates shown are relative to 1 USD</p>
+                                <div id="exchange-rates-list">
+                                    <div class="rate-item">
+                                        <div class="d-flex align-items-center">
+                                            <span class="fw-bold me-2">EUR</span>
+                                            <span class="text-muted small">Euro</span>
+                                        </div>
+                                        <span class="fw-bold">0.92</span>
+                                    </div>
+                                    <div class="rate-item">
+                                        <div class="d-flex align-items-center">
+                                            <span class="fw-bold me-2">GBP</span>
+                                            <span class="text-muted small">British Pound</span>
+                                        </div>
+                                        <span class="fw-bold">0.79</span>
+                                    </div>
+                                    <div class="rate-item">
+                                        <div class="d-flex align-items-center">
+                                            <span class="fw-bold me-2">JPY</span>
+                                            <span class="text-muted small">Japanese Yen</span>
+                                        </div>
+                                        <span class="fw-bold">156.89</span>
+                                    </div>
+                                    <div class="rate-item">
+                                        <div class="d-flex align-items-center">
+                                            <span class="fw-bold me-2">INR</span>
+                                            <span class="text-muted small">Indian Rupee</span>
+                                        </div>
+                                        <span class="fw-bold">83.33</span>
+                                    </div>
+                                    <div class="rate-item">
+                                        <div class="d-flex align-items-center">
+                                            <span class="fw-bold me-2">CAD</span>
+                                            <span class="text-muted small">Canadian Dollar</span>
+                                        </div>
+                                        <span class="fw-bold">1.36</span>
+                                    </div>
+                                    <div class="rate-item">
+                                        <div class="d-flex align-items-center">
+                                            <span class="fw-bold me-2">AUD</span>
+                                            <span class="text-muted small">Australian Dollar</span>
+                                        </div>
+                                        <span class="fw-bold">1.54</span>
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<<<<<<< HEAD
+    <!-- Floating Action Button -->
+    <div class="floating-action-btn" id="fab">
+        <i class="fas fa-plus"></i>
+    </div>
+    
+    <!-- Dark Mode Toggle -->
+    <div class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Initialize account data with sample values
+        let accountData = {
+            balance: 45678.90,
+            totalDeposits: 12345.67,
+            totalWithdrawals: 8901.23,
+            monthlyDeposits: 5432.10,
+            monthlyWithdrawals: 3210.98
+        };
+
+        // Transaction history
+        let transactionHistory = [
+            { type: 'expense', description: 'Grocery Store', amount: 1245.00, date: '15 Jun 2023', category: 'Shopping' },
+            { type: 'income', description: 'Salary Deposit', amount: 45000.00, date: '10 Jun 2023', category: 'Income' },
+            { type: 'expense', description: 'Restaurant Payment', amount: 2350.00, date: '08 Jun 2023', category: 'Dining' },
+            { type: 'expense', description: 'Online Shopping', amount: 3499.00, date: '05 Jun 2023', category: 'Shopping' },
+            { type: 'expense', description: 'Utility Bill Payment', amount: 1875.00, date: '01 Jun 2023', category: 'Bills' }
+        ];
+
+=======
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        // Initialize account data
+        let accountData = {
+            balance: 85432.10,
+            totalDeposits: 125780.50,
+            totalWithdrawals: 40348.40,
+            monthlyDeposits: 25500.00,
+            monthlyWithdrawals: 12340.20
+        };
+
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        // Format currency in Indian Rupees
+        function formatCurrency(amount) {
+            return '₹' + amount.toLocaleString('en-IN', { 
+                minimumFractionDigits: 2, 
+                maximumFractionDigits: 2 
+            });
+        }
+
+        // Update the dashboard with current account data
+        function updateDashboard() {
+            document.getElementById('availableBalance').textContent = formatCurrency(accountData.balance);
+            document.getElementById('totalDeposits').textContent = formatCurrency(accountData.totalDeposits);
+            document.getElementById('totalWithdrawals').textContent = formatCurrency(accountData.totalWithdrawals);
+            document.getElementById('monthlyDeposits').textContent = '+' + formatCurrency(accountData.monthlyDeposits);
+            document.getElementById('monthlyWithdrawals').textContent = '-' + formatCurrency(accountData.monthlyWithdrawals);
+            
+            // Update the timestamp
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
+            });
+            document.getElementById('balanceUpdateTime').textContent = 'Today, ' + timeString;
+        }
+
+<<<<<<< HEAD
+        // Render transaction history
+        function renderTransactionHistory() {
+            const transactionHistoryElement = document.getElementById('transactionHistory');
+            transactionHistoryElement.innerHTML = '';
+            
+            transactionHistory.forEach(transaction => {
+                const transactionItem = document.createElement('div');
+                transactionItem.className = 'transaction-item transaction-animation';
+                
+                const transactionTypeBadge = transaction.type === 'income' 
+                    ? '<span class="transaction-type-badge transaction-type-deposit">Deposit</span>'
+                    : '<span class="transaction-type-badge transaction-type-withdrawal">Withdrawal</span>';
+                
+                transactionItem.innerHTML = `
+                    <div class="transaction-info">
+                        <div class="fw-bold">${transaction.description} ${transactionTypeBadge}</div>
+                        <div class="text-muted small">${transaction.date} • ${transaction.category}</div>
+                    </div>
+                    <div class="transaction-amount ${transaction.type === 'income' ? 'transaction-income' : 'transaction-expense'}">
+                        ${transaction.type === 'income' ? '+' : '-'}${formatCurrency(transaction.amount)}
+                    </div>
+                `;
+                
+                transactionHistoryElement.appendChild(transactionItem);
+            });
+        }
+
+        // Show confirmation modal
+        function showConfirmationModal(type, amount, source, description) {
+            const modal = document.getElementById('confirmationModal');
+            const content = document.getElementById('confirmationContent');
+            const icon = document.getElementById('confirmationIcon');
+            const title = document.getElementById('confirmationTitle');
+            const message = document.getElementById('confirmationMessage');
+            
+            // Set modal content based on transaction type
+            if (type === 'deposit') {
+                content.className = 'confirmation-content confirmation-deposit';
+                icon.innerHTML = '<i class="fas fa-arrow-circle-down"></i>';
+                title.textContent = 'Confirm Deposit';
+                message.textContent = `Are you sure you want to deposit ${formatCurrency(amount)} from ${source}?`;
+            } else {
+                content.className = 'confirmation-content confirmation-withdraw';
+                icon.innerHTML = '<i class="fas fa-arrow-circle-up"></i>';
+                title.textContent = 'Confirm Withdrawal';
+                message.textContent = `Are you sure you want to withdraw ${formatCurrency(amount)} to ${source}?`;
+            }
+            
+            // Show modal
+            modal.classList.add('active');
+            
+            // Set up confirmation button
+            const confirmButton = document.getElementById('confirmTransaction');
+            confirmButton.onclick = function() {
+                if (type === 'deposit') {
+                    processDeposit(amount, source, description);
+                } else {
+                    processWithdrawal(amount, source, description);
+                }
+                modal.classList.remove('active');
+            };
+            
+            // Set up cancel button
+            const cancelButton = document.getElementById('cancelTransaction');
+            cancelButton.onclick = function() {
+                modal.classList.remove('active');
+            };
+        }
+
+        // Process deposit transaction
+        function processDeposit(amount, source, description) {
+            // Update account data
+            accountData.balance += amount;
+            accountData.totalDeposits += amount;
+            accountData.monthlyDeposits += amount;
+            
+            // Add to transaction history
+            const now = new Date();
+            const dateString = now.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+            
+            transactionHistory.unshift({
+                type: 'income',
+                description: description || 'Deposit',
+                amount: amount,
+                date: dateString,
+                category: 'Deposit'
+            });
+            
+            // Update UI
+            updateDashboard();
+            renderTransactionHistory();
+            
+            // Show success notification
+            showTransactionNotification('Deposit', amount, source);
+            
+            // Add animation to balance
+            document.getElementById('availableBalance').classList.add('balance-change');
+            setTimeout(() => {
+                document.getElementById('availableBalance').classList.remove('balance-change');
+            }, 1000);
+        }
+
+        // Process withdrawal transaction
+        function processWithdrawal(amount, source, description) {
+            // Check if sufficient funds
+            if (amount > accountData.balance) {
+                showTransactionNotification('Error', 0, 'Insufficient funds for withdrawal', true);
+                return;
+            }
+            
+            // Update account data
+            accountData.balance -= amount;
+            accountData.totalWithdrawals += amount;
+            accountData.monthlyWithdrawals += amount;
+            
+            // Add to transaction history
+            const now = new Date();
+            const dateString = now.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+            
+            transactionHistory.unshift({
+                type: 'expense',
+                description: description || 'Withdrawal',
+                amount: amount,
+                date: dateString,
+                category: 'Withdrawal'
+            });
+            
+            // Update UI
+            updateDashboard();
+            renderTransactionHistory();
+            
+            // Show success notification
+            showTransactionNotification('Withdrawal', amount, source);
+            
+            // Add animation to balance
+            document.getElementById('availableBalance').classList.add('balance-change');
+            setTimeout(() => {
+                document.getElementById('availableBalance').classList.remove('balance-change');
+            }, 1000);
+        }
+
+        // Sidebar functionality
+        function initializeSidebar() {
+            const menuToggle = document.getElementById('menu-toggle');
+            const overlay = document.getElementById('overlay');
+            const body = document.body;
+            const sidebar = document.getElementById('sidebar-wrapper');
+            const pageContent = document.getElementById('page-content-wrapper');
+            
+            if (!menuToggle || !sidebar || !pageContent) {
+                console.error('Sidebar elements not found');
+                return;
+            }
+
+=======
+        // Handle deposit form submission
+        document.getElementById('depositForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const amount = parseFloat(this.elements.amount.value);
+            const source = this.elements.source.value;
+            
+            if (amount && source) {
+                // Update account data
+                accountData.balance += amount;
+                accountData.totalDeposits += amount;
+                accountData.monthlyDeposits += amount;
+                
+                // Update the dashboard
+                updateDashboard();
+                
+                // Show success message
+                alert('Deposit of ' + formatCurrency(amount) + ' successful!');
+                
+                // Reset the form
+                this.reset();
+            }
+        });
+
+        // Handle withdrawal form submission
+        document.getElementById('withdrawForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const amount = parseFloat(this.elements.amount.value);
+            const destination = this.elements.destination.value;
+            
+            if (amount && destination) {
+                if (amount > accountData.balance) {
+                    alert('Insufficient funds!');
+                    return;
+                }
+                
+                // Update account data
+                accountData.balance -= amount;
+                accountData.totalWithdrawals += amount;
+                accountData.monthlyWithdrawals += amount;
+                
+                // Update the dashboard
+                updateDashboard();
+                
+                // Show success message
+                alert('Withdrawal of ' + formatCurrency(amount) + ' successful!');
+                
+                // Reset the form
+                this.reset();
+            }
+        });
+
+        // Sidebar toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize dashboard
+            updateDashboard();
+            
+            const menuToggle = document.getElementById('menu-toggle');
+            const overlay = document.getElementById('overlay');
+            const body = document.body;
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+            const isMobile = window.matchMedia('(max-width: 768px)').matches;
+            
+            // Initialize sidebar state
+            if (isMobile) {
+                body.classList.remove('sidebar-collapsed');
+                body.classList.remove('sidebar-mobile-open');
+<<<<<<< HEAD
+                sidebar.style.transform = 'translateX(-100%)';
+                if (overlay) overlay.style.display = 'none';
+            } else {
+                // Default to expanded on desktop
+                body.classList.remove('sidebar-collapsed');
+                sidebar.style.transform = 'translateX(0)';
+            }
+            
+            // Toggle sidebar on button click
+            menuToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                if (isMobile) {
+                    // Mobile behavior: show/hide sidebar with overlay
+                    const isOpen = body.classList.contains('sidebar-mobile-open');
+                    if (isOpen) {
+                        body.classList.remove('sidebar-mobile-open');
+                        sidebar.style.transform = 'translateX(-100%)';
+                        if (overlay) overlay.style.display = 'none';
+                    } else {
+                        body.classList.add('sidebar-mobile-open');
+                        sidebar.style.transform = 'translateX(0)';
+                        if (overlay) overlay.style.display = 'block';
+                    }
+=======
+            } else {
+                // Default to expanded on desktop
+                body.classList.remove('sidebar-collapsed');
+            }
+            
+            // Toggle sidebar on button click
+            menuToggle.addEventListener('click', function() {
+                if (isMobile) {
+                    // Mobile behavior: show/hide sidebar with overlay
+                    body.classList.toggle('sidebar-mobile-open');
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+                } else {
+                    // Desktop behavior: collapse/expand sidebar
+                    body.classList.toggle('sidebar-collapsed');
+                }
+            });
+            
+            // Close sidebar when clicking on overlay (mobile only)
+            if (overlay) {
+                overlay.addEventListener('click', function() {
+                    body.classList.remove('sidebar-mobile-open');
+<<<<<<< HEAD
+                    sidebar.style.transform = 'translateX(-100%)';
+                    overlay.style.display = 'none';
+=======
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+                });
+            }
+            
+            // Close sidebar when clicking on a link (mobile only)
+            const sidebarLinks = document.querySelectorAll('#sidebar-wrapper a');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (isMobile) {
+                        body.classList.remove('sidebar-mobile-open');
+<<<<<<< HEAD
+                        sidebar.style.transform = 'translateX(-100%)';
+                        if (overlay) overlay.style.display = 'none';
+=======
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+                    }
+                });
+            });
+            
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                const nowMobile = window.matchMedia('(max-width: 768px)').matches;
+                
+<<<<<<< HEAD
+                if (nowMobile) {
+                    // Switched to mobile view
+                    body.classList.remove('sidebar-collapsed');
+                    if (!body.classList.contains('sidebar-mobile-open')) {
+                        sidebar.style.transform = 'translateX(-100%)';
+                        if (overlay) overlay.style.display = 'none';
+                    }
+                } else {
+                    // Switched to desktop view
+                    body.classList.remove('sidebar-mobile-open');
+                    sidebar.style.transform = 'translateX(0)';
+                    if (overlay) overlay.style.display = 'none';
+                }
+            });
+        }
+
+        // Handle form submissions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize sidebar first
+            initializeSidebar();
+            
+            // Initialize dashboard
+            updateDashboard();
+            
+            // Initialize transaction history
+            renderTransactionHistory();
+            
+            // Handle deposit form
+            const depositForm = document.getElementById('depositForm');
+            if (depositForm) {
+                depositForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const amount = parseFloat(document.getElementById('depositAmount').value);
+                    const source = document.getElementById('depositSource').value;
+                    const description = document.getElementById('depositDescription').value || 'Deposit';
+                    
+                    if (!amount || amount <= 0 || !source) {
+                        showTransactionNotification('Error', 0, 'Please enter a valid amount and select a source.', true);
+                        return;
+                    }
+                    
+                    // Show confirmation modal
+                    showConfirmationModal('deposit', amount, source, description);
+                    
+                    // Reset form
+                    this.reset();
+                });
+            }
+
+            // Handle withdrawal form
+            const withdrawForm = document.getElementById('withdrawForm');
+            if (withdrawForm) {
+                withdrawForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const amount = parseFloat(document.getElementById('withdrawAmount').value);
+                    const destination = document.getElementById('withdrawDestination').value;
+                    const description = document.getElementById('withdrawDescription').value || 'Withdrawal';
+                    
+                    if (!amount || amount <= 0 || !destination) {
+                        showTransactionNotification('Error', 0, 'Please enter a valid amount and select a destination.', true);
+                        return;
+                    }
+                    
+                    // Show confirmation modal
+                    showConfirmationModal('withdraw', amount, destination, description);
+                    
+                    // Reset form
+                    this.reset();
+                });
+            }
+
+            // Animate chart bars on page load
+            const chartBars = document.querySelectorAll('.chart-bar');
+=======
+                if (nowMobile && !isMobile) {
+                    // Switched to mobile view
+                    body.classList.remove('sidebar-collapsed');
+                    body.classList.remove('sidebar-mobile-open');
+                } else if (!nowMobile && isMobile) {
+                    // Switched to desktop view
+                    body.classList.remove('sidebar-mobile-open');
+                }
+            });
+            
+            // Animate chart bars on page load
+            const chartBars = document.querySelectorAll('.chart-bar');
+            
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+            chartBars.forEach(bar => {
+                const originalWidth = bar.style.width;
+                bar.style.width = '0%';
+                
+                setTimeout(() => {
+                    bar.style.width = originalWidth;
+                }, 500);
+            });
+            
+<<<<<<< HEAD
+            // Set current date and time for currency converter
+=======
+            // Set current date and time
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+            const now = new Date();
+            const options = { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+<<<<<<< HEAD
+            const currentDateTimeElement = document.getElementById('currentDateTime');
+            if (currentDateTimeElement) {
+                currentDateTimeElement.textContent = now.toLocaleDateString('en-US', options);
+            }
+
+            // Initialize currency converter
+            initializeCurrencyConverter();
+            
+            // Initialize floating action button
+            initializeFAB();
+            
+            // Initialize dark mode toggle
+            initializeDarkMode();
+        });
+
+        // Currency Converter Logic
+        function initializeCurrencyConverter() {
+=======
+            document.getElementById('currentDateTime').textContent = now.toLocaleDateString('en-US', options);
+        });
+
+        // Currency Converter Logic - FIXED
+        document.addEventListener('DOMContentLoaded', function() {
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+            const baseAmountInput = document.getElementById('baseAmount');
+            const targetCurrencySelect = document.getElementById('targetCurrency');
+            const convertButton = document.getElementById('convertButton');
+            const conversionOutput = document.getElementById('conversionOutput');
+
+            if (!baseAmountInput || !targetCurrencySelect || !convertButton || !conversionOutput) {
+<<<<<<< HEAD
+                return; // Exit if elements don't exist on this page
+=======
+                console.error("Currency converter elements not found.");
+                return;
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+            }
+
+            function updateConversion() {
+                const baseAmount = parseFloat(baseAmountInput.value);
+                
+                if (isNaN(baseAmount) || baseAmount <= 0) {
+                    conversionOutput.textContent = 'Please enter a valid amount';
+                    conversionOutput.style.color = '#dc3545';
+                    return;
+                }
+
+                const targetRate = parseFloat(targetCurrencySelect.value);
+                const targetCurrencyCode = targetCurrencySelect.options[targetCurrencySelect.selectedIndex].text;
+                
+<<<<<<< HEAD
+                const convertedValue = baseAmount * targetRate;
+
+                conversionOutput.innerHTML = `
+                    ${baseAmount.toLocaleString('en-IN')} INR = <strong>${convertedValue.toFixed(2)} ${targetCurrencyCode}</strong>
+=======
+                // Direct conversion from INR to target currency
+                const convertedValue = baseAmount * targetRate;
+
+                conversionOutput.innerHTML = `
+                    ${baseAmount} INR = <strong>${convertedValue.toFixed(2)} ${targetCurrencyCode}</strong>
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+                    <div class="exchange-rate-badge mt-2">1 INR = ${targetRate} ${targetCurrencyCode.split(' ')[0]}</div>
+                `;
+                conversionOutput.style.color = '#28a745';
+            }
+
+            // Add event listeners
+            convertButton.addEventListener('click', updateConversion);
+            baseAmountInput.addEventListener('input', updateConversion);
+            targetCurrencySelect.addEventListener('change', updateConversion);
+            
+            // Initialize conversion on page load
+            updateConversion();
+<<<<<<< HEAD
+        }
+
+        // Floating Action Button
+        function initializeFAB() {
+            const fab = document.getElementById('fab');
+            if (fab) {
+                fab.addEventListener('click', function() {
+                    // Create a modal or show quick actions
+                    const quickActions = document.createElement('div');
+                    quickActions.className = 'card';
+                    quickActions.style.cssText = 'position: fixed; bottom: 100px; right: 30px; z-index: 1100; min-width: 200px; padding: 15px;';
+                    quickActions.innerHTML = `
+                        <h6>Quick Actions</h6>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary btn-sm">Transfer Money</button>
+                            <button class="btn btn-success btn-sm">Pay Bills</button>
+                            <button class="btn btn-info btn-sm">Invest Now</button>
+                        </div>
+                    `;
+                    document.body.appendChild(quickActions);
+                    
+                    // Remove after 5 seconds
+                    setTimeout(() => {
+                        if (quickActions.parentNode) {
+                            quickActions.remove();
+                        }
+                    }, 5000);
+                });
+            }
+        }
+
+        // Dark Mode Toggle
+        function initializeDarkMode() {
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            if (darkModeToggle) {
+                darkModeToggle.addEventListener('click', function() {
+                    document.body.classList.toggle('dark-mode');
+                    const icon = this.querySelector('i');
+                    if (document.body.classList.contains('dark-mode')) {
+                        icon.classList.remove('fa-moon');
+                        icon.classList.add('fa-sun');
+                    } else {
+                        icon.classList.remove('fa-sun');
+                        icon.classList.add('fa-moon');
+                    }
+                });
+            }
+        }
+
+        // Show transaction notification
+        function showTransactionNotification(type, amount, source, isError = false) {
+            const notification = document.createElement('div');
+            notification.className = isError ? 'alert alert-danger alert-dismissible fade show' : 'alert alert-success alert-dismissible fade show';
+            notification.style.cssText = 'position: fixed; top: 90px; right: 25px; z-index: 1100; min-width: 320px;';
+            
+            if (isError) {
+                notification.innerHTML = `
+                    <strong>Transaction Error:</strong> ${source}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+            } else {
+                notification.innerHTML = `
+                    <strong>Transaction Successful:</strong> ${type} of ${formatCurrency(amount)}
+                    <br><small>${source}</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+            }
+            
+            document.body.appendChild(notification);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+=======
+        });
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+    </script>
+</body>
+</html>

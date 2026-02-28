@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title mb-0">Send Money</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('deposit') }}">
+                        <div class="mb-3">
+                            <label for="recipient" class="form-label">Recipient Account Number</label>
+                            <input type="text" class="form-control" id="recipient" name="recipient" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Amount (₹)</label>
+                            <input type="number" class="form-control" id="amount" name="amount" step="0.01" min="0.01" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <input type="text" class="form-control" id="description" name="description" placeholder="Optional">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Money</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

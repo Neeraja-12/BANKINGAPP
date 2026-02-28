@@ -1,0 +1,131 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <h2 class="mb-4">Financial Analytics</h2>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Monthly Spending Trend</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="spendingChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Spending by Category</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="categoryChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Category Breakdown</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Amount Spent</th>
+                                    <th>Percentage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for category, amount in category_spending.items() %}
+                                <tr>
+                                    <td>{{ category }}</td>
+                                    <td>₹{{ "%.2f"|format(amount) }}</td>
+                                    <td>
+                                        <div class="progress" style="height: 20px;">
+                                            <div class="progress-bar" style="width: {{ (amount / (category_spending.values()|sum)) * 100 if category_spending.values()|sum > 0 else 0 }}%">
+                                                {{ "%.1f"|format((amount / (category_spending.values()|sum)) * 100 if category_spending.values()|sum > 0 else 0) }}%
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('/api/analytics/spending_trend')
+            .then(response => response.json())
+            .then(data => {
+                createSpendingChart(data.monthly_trend);
+                createCategoryChart(data.category_breakdown);
+            });
+
+        function createSpendingChart(data) {
+            const ctx = document.getElementById('spendingChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: 'Monthly Spending (₹)',
+                        data: data.values,
+                        borderColor: '#007bff',
+                        backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                        tension: 0.1,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+        }
+
+        function createCategoryChart(data) {
+            const ctx = document.getElementById('categoryChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        data: data.values,
+                        backgroundColor: [
+                            '#007bff', '#28a745', '#dc3545', '#ffc107', 
+                            '#6f42c1', '#20c997', '#fd7e14', '#e83e8c'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        }
+                    }
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

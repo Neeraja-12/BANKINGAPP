@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Banking App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #007bff;
+            --light-blue: #00bfff;
+            --success-green: #28a745;
+            --light-green: #20c997;
+            --danger-red: #dc3545;
+            --dark-gray: #212529;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        .profile-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .card {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+        
+        .profile-pic-container {
+            position: relative;
+            width: 192px;
+            height: 192px;
+            margin: 0 auto 1.5rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .profile-pic-container:hover {
+            transform: scale(1.05);
+        }
+        
+        .profile-pic {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid #e9ecef;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .profile-pic-overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0,0,0,0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .profile-pic-container:hover .profile-pic-overlay {
+            opacity: 1;
+        }
+        
+        .profile-pic-icon {
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f1f1f1;
+        }
+        
+        .info-item:last-child {
+            border-bottom: none;
+        }
+        
+        .info-icon {
+            width: 24px;
+            text-align: center;
+            margin-right: 12px;
+            color: var(--primary-blue);
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .btn-edit {
+            background: linear-gradient(135deg, var(--primary-blue), var(--light-blue));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-edit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,123,255,0.3);
+        }
+        
+        .btn-save {
+            background: linear-gradient(135deg, var(--success-green), var(--light-green));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(40,167,69,0.3);
+        }
+        
+        .btn-cancel {
+            background: linear-gradient(135deg, #6c757d, #adb5bd);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+        
+        .btn-cancel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(108,117,125,0.3);
+        }
+        
+        .edit-field {
+            display: none;
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-top: 0.25rem;
+        }
+        
+        .view-field {
+            cursor: pointer;
+        }
+        
+        .view-field:hover {
+            color: var(--primary-blue);
+        }
+        
+        .dark-mode {
+            background-color: #1a202c;
+            color: #e2e8f0;
+        }
+        
+        .dark-mode .card {
+            background-color: #2d3748;
+            color: #e2e8f0;
+        }
+        
+        .dark-mode .profile-pic {
+            border-color: #4a5568;
+        }
+        
+        .dark-mode .info-item {
+            border-bottom-color: #4a5568;
+        }
+        
+        .dark-mode .stat-label {
+            color: #a0aec0;
+        }
+        
+<<<<<<< HEAD
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            background-color: var(--success-green);
+        }
+        
+        .notification.error {
+            background-color: var(--danger-red);
+        }
+        
+        .notification.info {
+            background-color: var(--primary-blue);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-blue);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0,123,255,0.25);
+        }
+        
+        .password-strength {
+            height: 5px;
+            margin-top: 5px;
+            border-radius: 5px;
+            background-color: #e9ecef;
+            overflow: hidden;
+        }
+        
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+        
+        .password-requirements {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        
+        .requirement {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.25rem;
+        }
+        
+        .requirement i {
+            margin-right: 5px;
+            font-size: 0.75rem;
+        }
+        
+        .requirement.valid {
+            color: var(--success-green);
+        }
+        
+        .requirement.invalid {
+            color: #6c757d;
+        }
+        
+        .delete-confirm {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid var(--danger-red);
+        }
+        
+=======
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        @media (max-width: 768px) {
+            .profile-container {
+                padding: 1rem;
+            }
+            
+            .profile-pic-container {
+                width: 160px;
+                height: 160px;
+            }
+<<<<<<< HEAD
+            
+            .modal-content {
+                width: 95%;
+                padding: 1.5rem;
+            }
+=======
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="profile-container">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">User Profile</h1>
+            <p class="text-gray-600">Manage your personal information and account settings</p>
+        </div>
+        
+        <!-- Profile Content -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+            <div class="col-span-1 text-center">
+                <!-- Profile Picture Section -->
+<<<<<<< HEAD
+                <div class="profile-pic-container">
+                    <img id="profile-pic-preview" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=80" alt="Profile Picture" class="profile-pic">
+                    <div class="profile-pic-overlay">
+                        <i class="fas fa-camera profile-pic-icon"></i>
+=======
+                <div class="relative w-48 h-48 mx-auto mb-6 group cursor-pointer transition-transform duration-300 transform hover:scale-105">
+                    <img id="profile-pic-preview" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=80" alt="Profile Picture" class="w-full h-full object-cover rounded-full border-4 border-gray-300 shadow-xl transition-all duration-300">
+                    <div class="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zm-5.454 5.454l.707.707L6.636 17.5a1 1 0 01-.293.293l-1.95 1.95-.707-.707 1.95-1.95a1 1 0 01.293-.293l5.454-5.454z" />
+                        </svg>
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+                    </div>
+                </div>
+                
+                <h2 id="profile-name" class="text-2xl font-semibold text-gray-800">John Doe</h2>
+                <p class="text-gray-600 mb-4">Premium Banking Member</p>
+                
+                <div class="mt-6">
+                    <button class="btn-edit" onclick="document.getElementById('upload-avatar').click()">
+                        <i class="fas fa-camera me-2"></i> Change Avatar
+                    </button>
+                    <input type="file" id="upload-avatar" accept="image/*" class="hidden" onchange="previewImage(this)">
+                </div>
+                
+                <!-- Profile Actions -->
+                <div class="mt-6 space-y-3">
+<<<<<<< HEAD
+                    <button class="w-full py-2 px-4 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition-colors" onclick="downloadUserData()">
+                        <i class="fas fa-download me-2"></i> Download Data
+                    </button>
+                    <button class="w-full py-2 px-4 bg-red-100 text-red-600 rounded-lg font-medium hover:bg-red-200 transition-colors" onclick="toggleDeleteConfirmation()">
+                        <i class="fas fa-trash-alt me-2"></i> Delete Account
+                    </button>
+                    <div id="delete-confirm" class="delete-confirm">
+                        <p class="text-sm mb-3">Are you sure you want to delete your account? This action cannot be undone.</p>
+                        <div class="flex space-x-2">
+                            <button class="flex-1 py-1 px-3 bg-gray-300 text-gray-700 rounded text-sm" onclick="toggleDeleteConfirmation()">Cancel</button>
+                            <button class="flex-1 py-1 px-3 bg-red-500 text-white rounded text-sm" onclick="deleteAccount()">Delete</button>
+                        </div>
+                    </div>
+=======
+                    <button class="w-full py-2 px-4 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition-colors">
+                        <i class="fas fa-download me-2"></i> Download Data
+                    </button>
+                    <button class="w-full py-2 px-4 bg-red-100 text-red-600 rounded-lg font-medium hover:bg-red-200 transition-colors">
+                        <i class="fas fa-trash-alt me-2"></i> Delete Account
+                    </button>
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+                </div>
+            </div>
+            
+            <div class="md:col-span-2">
+                <!-- Personal Information Card -->
+                <div class="card p-6 mb-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-semibold text-gray-800">Personal Information</h3>
+                        <div id="edit-controls">
+                            <button id="edit-profile-btn" class="btn-edit" onclick="toggleEditMode()">
+                                <i class="fas fa-edit me-2"></i> Edit Profile
+                            </button>
+                            <div id="save-cancel-btns" class="hidden">
+                                <button class="btn-cancel" onclick="cancelEdit()">
+                                    <i class="fas fa-times me-2"></i> Cancel
+                                </button>
+                                <button class="btn-save" onclick="saveProfile()">
+                                    <i class="fas fa-save me-2"></i> Save Changes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-sm text-gray-500">Full Name</div>
+                                <div class="font-medium view-field" data-field="name">John William Doe</div>
+                                <input type="text" class="edit-field" data-field="name" value="John William Doe">
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-sm text-gray-500">Email Address</div>
+                                <div class="font-medium view-field" data-field="email">john.doe@example.com</div>
+                                <input type="email" class="edit-field" data-field="email" value="john.doe@example.com">
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-sm text-gray-500">Phone Number</div>
+                                <div class="font-medium view-field" data-field="phone">+1 (555) 123-4567</div>
+                                <input type="tel" class="edit-field" data-field="phone" value="+1 (555) 123-4567">
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-sm text-gray-500">Address</div>
+                                <div class="font-medium view-field" data-field="address">123 Main Street, New York, NY 10001</div>
+                                <textarea class="edit-field" data-field="address" rows="2">123 Main Street, New York, NY 10001</textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-calendar"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-sm text-gray-500">Date of Birth</div>
+                                <div class="font-medium view-field" data-field="dob">January 15, 1985</div>
+                                <input type="date" class="edit-field" data-field="dob" value="1985-01-15">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Account Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="card stat-card">
+                        <div class="info-icon mx-auto">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="stat-value text-green-600">$24,582</div>
+                        <div class="stat-label">Total Balance</div>
+                    </div>
+                    
+                    <div class="card stat-card">
+                        <div class="info-icon mx-auto">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div class="stat-value text-blue-600">3</div>
+                        <div class="stat-label">Active Cards</div>
+                    </div>
+                    
+                    <div class="card stat-card">
+                        <div class="info-icon mx-auto">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div class="stat-value text-purple-600">47</div>
+                        <div class="stat-label">Transactions</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Security Settings -->
+        <div class="mt-8">
+            <div class="card p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-6">Security Settings</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-medium mb-3">Password</h4>
+                        <p class="text-gray-600 text-sm mb-4">Last changed: 3 months ago</p>
+                        <button class="btn-edit" onclick="showPasswordModal()">
+                            <i class="fas fa-lock me-2"></i> Change Password
+                        </button>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-medium mb-3">Two-Factor Authentication</h4>
+                        <p class="text-gray-600 text-sm mb-4">Add an extra layer of security to your account</p>
+                        <button class="btn-edit" onclick="showTwoFactorModal()">
+                            <i class="fas fa-shield-alt me-2"></i> Enable 2FA
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Activity -->
+        <div class="mt-8">
+            <div class="card p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-6">Recent Activity</h3>
+                
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="py-3 px-4 text-left">Date</th>
+                                <th class="py-3 px-4 text-left">Activity</th>
+                                <th class="py-3 px-4 text-left">Location</th>
+                                <th class="py-3 px-4 text-left">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td class="py-3 px-4">Oct 18, 2023 14:32</td>
+                                <td class="py-3 px-4">Login</td>
+                                <td class="py-3 px-4">New York, USA</td>
+                                <td class="py-3 px-4"><span class="text-green-600">Success</span></td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="py-3 px-4">Oct 17, 2023 09:15</td>
+                                <td class="py-3 px-4">Password Change</td>
+                                <td class="py-3 px-4">New York, USA</td>
+                                <td class="py-3 px-4"><span class="text-green-600">Success</span></td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="py-3 px-4">Oct 15, 2023 19:43</td>
+                                <td class="py-3 px-4">Login</td>
+                                <td class="py-3 px-4">Boston, USA</td>
+                                <td class="py-3 px-4"><span class="text-green-600">Success</span></td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4">Oct 12, 2023 11:27</td>
+                                <td class="py-3 px-4">New Card Added</td>
+                                <td class="py-3 px-4">New York, USA</td>
+                                <td class="py-3 px-4"><span class="text-green-600">Success</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Change Modal -->
+<<<<<<< HEAD
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h3 class="text-xl font-semibold mb-4">Change Password</h3>
+            <form id="passwordForm">
+                <div class="form-group">
+                    <label class="form-label">Current Password</label>
+                    <input type="password" class="form-control" id="current-password" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">New Password</label>
+                    <input type="password" class="form-control" id="new-password" required onkeyup="checkPasswordStrength()">
+                    <div class="password-strength">
+                        <div class="password-strength-bar" id="password-strength-bar"></div>
+                    </div>
+                    <div class="password-requirements">
+                        <div class="requirement invalid" id="length-req">
+                            <i class="fas fa-circle"></i> At least 8 characters
+                        </div>
+                        <div class="requirement invalid" id="uppercase-req">
+                            <i class="fas fa-circle"></i> One uppercase letter
+                        </div>
+                        <div class="requirement invalid" id="lowercase-req">
+                            <i class="fas fa-circle"></i> One lowercase letter
+                        </div>
+                        <div class="requirement invalid" id="number-req">
+                            <i class="fas fa-circle"></i> One number
+                        </div>
+                        <div class="requirement invalid" id="special-req">
+                            <i class="fas fa-circle"></i> One special character
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Confirm New Password</label>
+                    <input type="password" class="form-control" id="confirm-password" required onkeyup="checkPasswordMatch()">
+                    <div class="text-sm mt-1" id="password-match-message"></div>
+=======
+    <div id="passwordModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md">
+            <h3 class="text-xl font-semibold mb-4">Change Password</h3>
+            <form id="passwordForm">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-1">Current Password</label>
+                    <input type="password" class="w-full p-2 border rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-1">New Password</label>
+                    <input type="password" class="w-full p-2 border rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-1">Confirm New Password</label>
+                    <input type="password" class="w-full p-2 border rounded" required>
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+                </div>
+                <div class="flex justify-end space-x-2">
+                    <button type="button" onclick="hidePasswordModal()" class="px-4 py-2 bg-gray-300 rounded">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Update Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Two-Factor Authentication Modal -->
+<<<<<<< HEAD
+    <div id="twoFactorModal" class="modal">
+        <div class="modal-content">
+=======
+    <div id="twoFactorModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md">
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+            <h3 class="text-xl font-semibold mb-4">Enable Two-Factor Authentication</h3>
+            <p class="mb-4">Scan the QR code with your authenticator app to enable 2FA.</p>
+            <div class="bg-gray-100 p-4 rounded-lg mb-4 text-center">
+                <div class="inline-block bg-white p-2">
+                    <!-- Placeholder for QR code -->
+                    <div class="w-32 h-32 bg-gray-200 flex items-center justify-center">
+                        <span class="text-gray-500">QR Code</span>
+                    </div>
+                </div>
+            </div>
+<<<<<<< HEAD
+            <div class="mb-4">
+                <label class="form-label">Verification Code</label>
+                <input type="text" class="form-control" id="verification-code" placeholder="Enter code from authenticator app">
+            </div>
+            <div class="flex justify-end space-x-2">
+                <button type="button" onclick="hideTwoFactorModal()" class="px-4 py-2 bg-gray-300 rounded">Cancel</button>
+                <button type="button" class="px-4 py-2 bg-blue-500 text-white rounded" onclick="enableTwoFactor()">Enable 2FA</button>
+=======
+            <div class="flex justify-end space-x-2">
+                <button type="button" onclick="hideTwoFactorModal()" class="px-4 py-2 bg-gray-300 rounded">Cancel</button>
+                <button type="button" class="px-4 py-2 bg-blue-500 text-white rounded">Enable 2FA</button>
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isEditMode = false;
+        let originalValues = {};
+        
+        // Function to preview image when uploading a new profile picture
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+<<<<<<< HEAD
+                const file = input.files[0];
+                const maxSize = 5 * 1024 * 1024; // 5MB
+                
+                if (file.size > maxSize) {
+                    showNotification('Image size must be less than 5MB', 'error');
+                    return;
+                }
+                
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+                if (!validTypes.includes(file.type)) {
+                    showNotification('Please select a valid image file (JPEG, PNG, GIF)', 'error');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profile-pic-preview').src = e.target.result;
+                    showNotification('Profile picture updated successfully!', 'success');
+                }
+                reader.readAsDataURL(file);
+=======
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profile-pic-preview').src = e.target.result;
+                    
+                    // Show success message
+                    showNotification('Profile picture updated successfully!', 'success');
+                }
+                reader.readAsDataURL(input.files[0]);
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+            }
+        }
+        
+        // Function to toggle edit mode
+        function toggleEditMode() {
+            isEditMode = !isEditMode;
+            
+            if (isEditMode) {
+                // Enter edit mode
+                document.getElementById('edit-profile-btn').classList.add('hidden');
+                document.getElementById('save-cancel-btns').classList.remove('hidden');
+                
+                // Show all edit fields and hide view fields
+                document.querySelectorAll('.view-field').forEach(field => {
+                    field.style.display = 'none';
+                    const fieldName = field.getAttribute('data-field');
+                    const editField = document.querySelector(`.edit-field[data-field="${fieldName}"]`);
+                    editField.style.display = 'block';
+                    
+                    // Store original values
+                    originalValues[fieldName] = editField.value;
+                });
+                
+                showNotification('You can now edit your profile information.', 'info');
+            } else {
+                // Exit edit mode
+                exitEditMode();
+            }
+        }
+        
+        // Function to exit edit mode
+        function exitEditMode() {
+            isEditMode = false;
+            document.getElementById('edit-profile-btn').classList.remove('hidden');
+            document.getElementById('save-cancel-btns').classList.add('hidden');
+            
+            // Hide all edit fields and show view fields
+            document.querySelectorAll('.edit-field').forEach(field => {
+                field.style.display = 'none';
+            });
+            
+            document.querySelectorAll('.view-field').forEach(field => {
+                field.style.display = 'block';
+            });
+        }
+        
+        // Function to cancel editing
+        function cancelEdit() {
+            // Restore original values
+            for (const fieldName in originalValues) {
+                const editField = document.querySelector(`.edit-field[data-field="${fieldName}"]`);
+                if (editField) {
+                    editField.value = originalValues[fieldName];
+                }
+            }
+            
+            exitEditMode();
+            showNotification('Changes discarded.', 'info');
+        }
+        
+        // Function to save profile changes
+        function saveProfile() {
+<<<<<<< HEAD
+            // Validate fields before saving
+            if (!validateProfileForm()) {
+                return;
+            }
+            
+=======
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+            // Update view fields with new values
+            document.querySelectorAll('.edit-field').forEach(editField => {
+                const fieldName = editField.getAttribute('data-field');
+                const viewField = document.querySelector(`.view-field[data-field="${fieldName}"]`);
+                
+                if (viewField) {
+                    if (fieldName === 'dob') {
+                        // Format date for display
+                        const date = new Date(editField.value);
+                        viewField.textContent = date.toLocaleDateString('en-US', { 
+                            month: 'long', 
+                            day: 'numeric', 
+                            year: 'numeric' 
+                        });
+                    } else {
+                        viewField.textContent = editField.value;
+                    }
+                }
+                
+                // Update profile name if name field was changed
+                if (fieldName === 'name') {
+                    document.getElementById('profile-name').textContent = editField.value;
+                }
+            });
+            
+            exitEditMode();
+            showNotification('Profile updated successfully!', 'success');
+        }
+        
+<<<<<<< HEAD
+        // Function to validate profile form
+        function validateProfileForm() {
+            const emailField = document.querySelector('.edit-field[data-field="email"]');
+            const phoneField = document.querySelector('.edit-field[data-field="phone"]');
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailField.value)) {
+                showNotification('Please enter a valid email address', 'error');
+                emailField.focus();
+                return false;
+            }
+            
+            // Phone validation (basic)
+            const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+            const cleanPhone = phoneField.value.replace(/[^\d+]/g, '');
+            if (!phoneRegex.test(cleanPhone)) {
+                showNotification('Please enter a valid phone number', 'error');
+                phoneField.focus();
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // Function to show password modal
+        function showPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'flex';
+            document.getElementById('current-password').focus();
+=======
+        // Function to show password modal
+        function showPasswordModal() {
+            document.getElementById('passwordModal').classList.remove('hidden');
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        }
+        
+        // Function to hide password modal
+        function hidePasswordModal() {
+<<<<<<< HEAD
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordForm').reset();
+            resetPasswordStrength();
+=======
+            document.getElementById('passwordModal').classList.add('hidden');
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        }
+        
+        // Function to show two-factor modal
+        function showTwoFactorModal() {
+<<<<<<< HEAD
+            document.getElementById('twoFactorModal').style.display = 'flex';
+            document.getElementById('verification-code').focus();
+=======
+            document.getElementById('twoFactorModal').classList.remove('hidden');
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        }
+        
+        // Function to hide two-factor modal
+        function hideTwoFactorModal() {
+<<<<<<< HEAD
+            document.getElementById('twoFactorModal').style.display = 'none';
+            document.getElementById('verification-code').value = '';
+        }
+        
+        // Function to check password strength
+        function checkPasswordStrength() {
+            const password = document.getElementById('new-password').value;
+            const strengthBar = document.getElementById('password-strength-bar');
+            
+            // Reset requirements
+            document.querySelectorAll('.requirement').forEach(req => {
+                req.classList.remove('valid');
+                req.classList.add('invalid');
+            });
+            
+            let strength = 0;
+            
+            // Check length
+            if (password.length >= 8) {
+                strength += 20;
+                document.getElementById('length-req').classList.remove('invalid');
+                document.getElementById('length-req').classList.add('valid');
+            }
+            
+            // Check uppercase
+            if (/[A-Z]/.test(password)) {
+                strength += 20;
+                document.getElementById('uppercase-req').classList.remove('invalid');
+                document.getElementById('uppercase-req').classList.add('valid');
+            }
+            
+            // Check lowercase
+            if (/[a-z]/.test(password)) {
+                strength += 20;
+                document.getElementById('lowercase-req').classList.remove('invalid');
+                document.getElementById('lowercase-req').classList.add('valid');
+            }
+            
+            // Check numbers
+            if (/[0-9]/.test(password)) {
+                strength += 20;
+                document.getElementById('number-req').classList.remove('invalid');
+                document.getElementById('number-req').classList.add('valid');
+            }
+            
+            // Check special characters
+            if (/[^A-Za-z0-9]/.test(password)) {
+                strength += 20;
+                document.getElementById('special-req').classList.remove('invalid');
+                document.getElementById('special-req').classList.add('valid');
+            }
+            
+            // Update strength bar
+            strengthBar.style.width = strength + '%';
+            
+            // Update color based on strength
+            if (strength < 40) {
+                strengthBar.style.backgroundColor = '#dc3545'; // Red
+            } else if (strength < 80) {
+                strengthBar.style.backgroundColor = '#ffc107'; // Yellow
+            } else {
+                strengthBar.style.backgroundColor = '#28a745'; // Green
+            }
+        }
+        
+        // Function to reset password strength indicator
+        function resetPasswordStrength() {
+            const strengthBar = document.getElementById('password-strength-bar');
+            strengthBar.style.width = '0';
+            
+            document.querySelectorAll('.requirement').forEach(req => {
+                req.classList.remove('valid');
+                req.classList.add('invalid');
+            });
+        }
+        
+        // Function to check if passwords match
+        function checkPasswordMatch() {
+            const password = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const message = document.getElementById('password-match-message');
+            
+            if (confirmPassword === '') {
+                message.textContent = '';
+                message.className = 'text-sm mt-1';
+            } else if (password === confirmPassword) {
+                message.textContent = 'Passwords match';
+                message.className = 'text-sm mt-1 text-green-600';
+            } else {
+                message.textContent = 'Passwords do not match';
+                message.className = 'text-sm mt-1 text-red-600';
+            }
+        }
+        
+        // Function to enable two-factor authentication
+        function enableTwoFactor() {
+            const code = document.getElementById('verification-code').value;
+            
+            if (!code) {
+                showNotification('Please enter the verification code', 'error');
+                return;
+            }
+            
+            // In a real app, you would verify the code with the server
+            // For demo purposes, we'll just show a success message
+            hideTwoFactorModal();
+            showNotification('Two-factor authentication enabled successfully!', 'success');
+        }
+        
+        // Function to toggle delete confirmation
+        function toggleDeleteConfirmation() {
+            const confirmDiv = document.getElementById('delete-confirm');
+            if (confirmDiv.style.display === 'block') {
+                confirmDiv.style.display = 'none';
+            } else {
+                confirmDiv.style.display = 'block';
+            }
+        }
+        
+        // Function to delete account
+        function deleteAccount() {
+            // In a real app, you would send a request to the server
+            // For demo purposes, we'll just show a confirmation
+            if (confirm('Are you absolutely sure you want to delete your account? This action cannot be undone.')) {
+                showNotification('Account deletion request submitted. You will receive a confirmation email.', 'info');
+                toggleDeleteConfirmation();
+            }
+        }
+        
+        // Function to download user data
+        function downloadUserData() {
+            // In a real app, you would request data from the server
+            // For demo purposes, we'll create a simple text file
+            const userData = {
+                name: "John William Doe",
+                email: "john.doe@example.com",
+                phone: "+1 (555) 123-4567",
+                address: "123 Main Street, New York, NY 10001",
+                dob: "January 15, 1985",
+                balance: "$24,582",
+                cards: 3,
+                transactions: 47
+            };
+            
+            const dataStr = JSON.stringify(userData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = 'user-data.json';
+            link.click();
+            
+            showNotification('User data downloaded successfully!', 'success');
+=======
+            document.getElementById('twoFactorModal').classList.add('hidden');
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        }
+        
+        // Function to show notification
+        function showNotification(message, type) {
+<<<<<<< HEAD
+            // Remove any existing notifications
+            const existingNotifications = document.querySelectorAll('.notification');
+            existingNotifications.forEach(notification => {
+                document.body.removeChild(notification);
+            });
+            
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'} mr-2"></i>
+=======
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg text-white font-medium z-50 transition-transform transform translate-x-full ${type === 'success' ? 'bg-green-500' : 'bg-blue-500'}`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'} mr-2"></i>
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            // Add to document
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+<<<<<<< HEAD
+                notification.classList.add('show');
+            }, 10);
+            
+            // Animate out and remove after 4 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 4000);
+=======
+                notification.classList.remove('translate-x-full');
+            }, 10);
+            
+            // Animate out and remove after 3 seconds
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        }
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add cache busting parameter to profile image
+            const profileImg = document.getElementById('profile-pic-preview');
+            profileImg.src = profileImg.src + '&t=' + new Date().getTime();
+            
+            // Handle form submissions
+            document.getElementById('passwordForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+<<<<<<< HEAD
+                
+                const currentPassword = document.getElementById('current-password').value;
+                const newPassword = document.getElementById('new-password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+                
+                // Validate password strength
+                if (newPassword.length < 8) {
+                    showNotification('Password must be at least 8 characters long', 'error');
+                    return;
+                }
+                
+                // Check if passwords match
+                if (newPassword !== confirmPassword) {
+                    showNotification('Passwords do not match', 'error');
+                    return;
+                }
+                
+                // In a real app, you would send the request to the server
+                // For demo purposes, we'll just show a success message
+=======
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+                hidePasswordModal();
+                showNotification('Password updated successfully!', 'success');
+            });
+            
+            // Make fields clickable to edit
+            document.querySelectorAll('.view-field').forEach(field => {
+                field.addEventListener('click', function() {
+                    if (!isEditMode) {
+                        toggleEditMode();
+                    }
+                    
+                    const fieldName = this.getAttribute('data-field');
+                    const editField = document.querySelector(`.edit-field[data-field="${fieldName}"]`);
+                    
+                    if (editField) {
+                        this.style.display = 'none';
+                        editField.style.display = 'block';
+                        editField.focus();
+                    }
+                });
+            });
+<<<<<<< HEAD
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', function(e) {
+                const passwordModal = document.getElementById('passwordModal');
+                const twoFactorModal = document.getElementById('twoFactorModal');
+                
+                if (e.target === passwordModal) {
+                    hidePasswordModal();
+                }
+                
+                if (e.target === twoFactorModal) {
+                    hideTwoFactorModal();
+                }
+            });
+=======
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        });
+    </script>
+</body>
+</html>

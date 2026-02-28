@@ -1,0 +1,210 @@
+{% extends "layout.html" %}
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+<div class="container my-5"> {# Increased vertical margin for better spacing #}
+    <h2 class="text-center text-primary mb-5 display-4 fw-bold">
+        <i class="bi bi-gear-fill me-3"></i>Account Settings
+    </h2> {# Centered, larger, bolder title with an icon #}
+
+    <div class="card shadow-lg border-0 rounded-4 animate-card"> {# Larger shadow, no border, more rounded, custom animation #}
+        <div class="card-body p-5"> {# Increased padding #}
+            <h5 class="card-title text-secondary mb-4 fs-4 fw-semibold">Update Your Information</h5> {# Slightly larger, darker, semi-bold card title #}
+
+            <form method="POST" action="{{ url_for('settings') }}" class="needs-validation" novalidate>
+                <div class="row g-4 mb-4"> {# Added gutter spacing between columns and more bottom margin #}
+                    <div class="col-md-6">
+                        <label for="name" class="form-label fw-bold">Full Name</label>
+                        <div class="input-group input-group-lg"> {# Larger input group #}
+                            <span class="input-group-text"><i class="bi bi-person-fill"></i></span> {# Icon inside input group #}
+                            <input type="text" id="name" name="name" class="form-control" value="{{ current_user.name }}" required>
+                            <div class="invalid-feedback">
+                                Please enter your full name.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="email" class="form-label fw-bold">Email</label>
+                        <div class="input-group input-group-lg"> {# Larger input group #}
+                            <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span> {# Icon inside input group #}
+                            <input type="email" id="email" name="email" class="form-control" value="{{ current_user.email }}" required>
+                            <div class="invalid-feedback">
+                                Please enter a valid email address.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-5"> {# Increased bottom margin #}
+                    <label for="password" class="form-label fw-bold">Password (leave blank to keep current)</label>
+                    <div class="input-group input-group-lg"> {# Larger input group #}
+                        <span class="input-group-text"><i class="bi bi-lock-fill"></i></span> {# Icon inside input group #}
+                        <input type="password" id="password" name="password" class="form-control" placeholder="••••••••">
+                        {# No 'required' for password as it's optional #}
+                        <div class="invalid-feedback">
+                            Please enter a password.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-grid"> {# Makes the button span full width #}
+                    <button type="submit" class="btn btn-primary btn-lg fw-bold py-3 animate-btn">
+                        Save Changes <i class="bi bi-check-circle-fill ms-2"></i> {# Icon for save changes #}
+                    </button>
+                </div>
+            </form>
+            <hr class="my-5"> {# Horizontal rule for separation #}
+
+            {# Optional: Add a "Delete Account" section #}
+            <div class="text-center">
+                <h5 class="text-danger mb-3">Danger Zone</h5>
+                <p class="text-muted mb-4">
+                    Permanently delete your account and all associated data. This action cannot be undone.
+                </p>
+                <button type="button" class="btn btn-outline-danger btn-lg" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+                    Delete Account
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="deleteAccountModalLabel">Confirm Account Deletion</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you absolutely sure you want to delete your account? This action cannot be undone.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <form method="POST" action="{{ url_for('delete_account') }}">
+            <button type="submit" class="btn btn-danger">Yes, Delete My Account</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+    /* Custom CSS (can be moved to a separate .css file if preferred) */
+    body {
+        background-color: #f0f2f5; /* Lighter background for a modern feel */
+        font-family: 'Inter', sans-serif; /* A clean, professional font */
+    }
+
+    .container.my-5 {
+        max-width: 800px; /* Constrain width for better readability */
+    }
+
+    .card {
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    .animate-card:hover {
+        transform: translateY(-8px); /* Lift card on hover */
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important; /* More pronounced shadow on hover */
+    }
+
+    .card-title.text-primary {
+        position: relative;
+        padding-bottom: 20px;
+    }
+
+    .card-title.text-primary::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
+        width: 100px; /* Wider underline */
+        height: 5px;
+        background-color: #0d6efd; /* Primary blue underline */
+        border-radius: 3px;
+    }
+
+    .form-label {
+        font-size: 0.95rem; /* Slightly smaller labels */
+        color: #495057; /* Darker grey for labels */
+    }
+
+    .input-group-text {
+        background-color: #e9ecef;
+        border: 1px solid #dee2e6;
+        border-right: none;
+        color: #495057;
+    }
+
+    .form-control:focus {
+        border-color: #86b7fe;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+
+    .btn-primary {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(13, 110, 253, 0.2);
+    }
+
+    .btn-primary:hover {
+        background-color: #0a58ca;
+        border-color: #0a58ca;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(13, 110, 253, 0.3);
+    }
+
+    /* Custom button animation (ripple effect) */
+    .animate-btn {
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .animate-btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.25);
+        border-radius: 50%;
+        transition: width 0.5s ease-out, height 0.5s ease-out, top 0.5s ease-out, left 0.5s ease-out;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+    }
+
+    .animate-btn:hover::before {
+        width: 250%;
+        height: 250%;
+        top: 0;
+        left: 0;
+    }
+</style>
+
+<script>
+// Bootstrap form validation script
+(function () {
+  'use strict'
+  var forms = document.querySelectorAll('.needs-validation')
+
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
+{% endblock %}

@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investments - Banking App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .investment-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            border-radius: 15px;
+        }
+        .investment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .profit {
+            color: #28a745;
+        }
+        .loss {
+            color: #dc3545;
+        }
+        .progress {
+            height: 8px;
+            border-radius: 10px;
+        }
+        .investment-type-badge {
+            font-size: 0.75rem;
+            padding: 0.35em 0.65em;
+        }
+        .chart-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            color: white;
+        }
+        .nav-pills .nav-link.active {
+            background-color: #667eea;
+            border: none;
+        }
+        .nav-pills .nav-link {
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('dashboard') }}">
+                <i class="fas fa-university me-2"></i>Banking App
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="{{ url_for('dashboard') }}">
+                    <i class="fas fa-home me-1"></i>Dashboard
+                </a>
+                <a class="nav-link" href="{{ url_for('profile_view') }}">
+                    <i class="fas fa-user me-1"></i>Profile
+                </a>
+                <a class="nav-link" href="{{ url_for('logout') }}">
+                    <i class="fas fa-sign-out-alt me-1"></i>Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h1><i class="fas fa-chart-line text-primary me-2"></i>Investments</h1>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newInvestmentModal">
+                        <i class="fas fa-plus me-2"></i>New Investment
+                    </button>
+                </div>
+                <p class="text-muted">Manage your investments and track performance</p>
+            </div>
+        </div>
+
+        <!-- Investment Summary -->
+        <div class="row mb-4">
+            <div class="col-md-3 mb-3">
+                <div class="card investment-card bg-primary text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="card-title">Total Invested</h6>
+                                <h3>₹{{ "%.2f"|format(total_invested) }}</h3>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-wallet fa-2x opacity-50"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card investment-card bg-success text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="card-title">Current Value</h6>
+                                <h3>₹{{ "%.2f"|format(current_value) }}</h3>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-chart-bar fa-2x opacity-50"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card investment-card {% if total_profit >= 0 %}bg-info{% else %}bg-warning{% endif %} text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="card-title">Total P&L</h6>
+                                <h3>₹{{ "%.2f"|format(total_profit) }}</h3>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-trending-up fa-2x opacity-50"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card investment-card bg-dark text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="card-title">Return %</h6>
+                                <h3>{{ "%.2f"|format(total_return_pct) }}%</h3>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-percentage fa-2x opacity-50"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Investment Tabs -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-pills card-header-pills">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#current" data-bs-toggle="tab">Current Investments</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#performance" data-bs-toggle="tab">Performance</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#opportunities" data-bs-toggle="tab">Opportunities</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <!-- Current Investments Tab -->
+                            <div class="tab-pane fade show active" id="current">
+                                {% if investments %}
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Investment</th>
+                                                <th>Type</th>
+                                                <th>Invested Amount</th>
+                                                <th>Current Value</th>
+                                                <th>P&L</th>
+                                                <th>Return %</th>
+                                                <th>Purchase Date</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for investment in investments %}
+                                            <tr>
+                                                <td>
+                                                    <strong>{{ investment.name }}</strong>
+                                                    <br>
+                                                    <small class="text-muted">{{ investment.symbol if investment.symbol else 'N/A' }}</small>
+                                                </td>
+                                                <td>
+                                                    <span class="badge investment-type-badge 
+                                                        {% if investment.type == 'Stocks' %}bg-primary
+                                                        {% elif investment.type == 'Mutual Funds' %}bg-success
+                                                        {% elif investment.type == 'Bonds' %}bg-warning
+                                                        {% elif investment.type == 'Cryptocurrency' %}bg-dark
+                                                        {% else %}bg-secondary{% endif %}">
+                                                        {{ investment.type }}
+                                                    </span>
+                                                </td>
+                                                <td>₹{{ "%.2f"|format(investment.amount_invested) }}</td>
+                                                <td>₹{{ "%.2f"|format(investment.current_value) }}</td>
+                                                <td class="{% if investment.get_profit_loss() >= 0 %}profit{% else %}loss{% endif %}">
+                                                    ₹{{ "%.2f"|format(investment.get_profit_loss()) }}
+                                                </td>
+                                                <td class="{% if investment.get_profit_loss_percentage() >= 0 %}profit{% else %}loss{% endif %}">
+                                                    {{ "%.2f"|format(investment.get_profit_loss_percentage()) }}%
+                                                </td>
+                                                <td>{{ investment.purchase_date.strftime('%d %b %Y') }}</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-primary" 
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#editInvestmentModal"
+                                                            data-id="{{ investment.id }}"
+                                                            data-name="{{ investment.name }}"
+                                                            data-type="{{ investment.type }}"
+                                                            data-amount="{{ investment.amount_invested }}"
+                                                            data-value="{{ investment.current_value }}"
+                                                            data-date="{{ investment.purchase_date.strftime('%Y-%m-%d') }}">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-danger" 
+                                                            onclick="confirmDelete({{ investment.id }})">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {% else %}
+                                <div class="text-center py-5">
+                                    <i class="fas fa-chart-line fa-4x text-muted mb-3"></i>
+                                    <h4>No Investments Yet</h4>
+                                    <p class="text-muted">Start building your investment portfolio by adding your first investment.</p>
+                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newInvestmentModal">
+                                        <i class="fas fa-plus me-2"></i>Add First Investment
+                                    </button>
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Performance Tab -->
+                            <div class="tab-pane fade" id="performance">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="chart-container p-4 mb-4">
+                                            <h5 class="text-white">Investment Growth</h5>
+                                            <canvas id="performanceChart" height="200"></canvas>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6 class="card-title mb-0">Allocation by Type</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <canvas id="allocationChart" height="250"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mt-4">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6 class="card-title mb-0">Best Performers</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                {% for investment in top_performers %}
+                                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                                    <div>
+                                                        <strong>{{ investment.name }}</strong>
+                                                        <br>
+                                                        <small class="text-muted">{{ investment.type }}</small>
+                                                    </div>
+                                                    <span class="badge bg-success">
+                                                        +{{ "%.1f"|format(investment.get_profit_loss_percentage()) }}%
+                                                    </span>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6 class="card-title mb-0">Needs Attention</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                {% for investment in poor_performers %}
+                                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                                    <div>
+                                                        <strong>{{ investment.name }}</strong>
+                                                        <br>
+                                                        <small class="text-muted">{{ investment.type }}</small>
+                                                    </div>
+                                                    <span class="badge bg-danger">
+                                                        {{ "%.1f"|format(investment.get_profit_loss_percentage()) }}%
+                                                    </span>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Opportunities Tab -->
+                            <div class="tab-pane fade" id="opportunities">
+                                <div class="row">
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card investment-card">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-chart-line fa-3x text-primary mb-3"></i>
+                                                <h5>Stock Market</h5>
+                                                <p class="text-muted">Invest in individual company stocks</p>
+                                                <div class="mb-3">
+                                                    <span class="badge bg-success">High Return</span>
+                                                    <span class="badge bg-warning">High Risk</span>
+                                                </div>
+                                                <button class="btn btn-outline-primary">Explore Stocks</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card investment-card">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-users fa-3x text-success mb-3"></i>
+                                                <h5>Mutual Funds</h5>
+                                                <p class="text-muted">Diversified portfolio managed by experts</p>
+                                                <div class="mb-3">
+                                                    <span class="badge bg-info">Medium Return</span>
+                                                    <span class="badge bg-success">Low Risk</span>
+                                                </div>
+                                                <button class="btn btn-outline-success">Explore Funds</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card investment-card">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-coins fa-3x text-warning mb-3"></i>
+                                                <h5>Cryptocurrency</h5>
+                                                <p class="text-muted">Digital currency investments</p>
+                                                <div class="mb-3">
+                                                    <span class="badge bg-danger">Very High Return</span>
+                                                    <span class="badge bg-danger">Very High Risk</span>
+                                                </div>
+                                                <button class="btn btn-outline-warning">Explore Crypto</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Investment Modal -->
+    <div class="modal fade" id="newInvestmentModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Investment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="POST" action="{{ url_for('add_investment') }}">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Investment Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="type" class="form-label">Investment Type</label>
+                            <select class="form-select" id="type" name="type" required>
+                                <option value="">Select type</option>
+                                <option value="Stocks">Stocks</option>
+                                <option value="Mutual Funds">Mutual Funds</option>
+                                <option value="Bonds">Bonds</option>
+                                <option value="Cryptocurrency">Cryptocurrency</option>
+                                <option value="Real Estate">Real Estate</option>
+                                <option value="Gold">Gold</option>
+                                <option value="FD">Fixed Deposit</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="amount_invested" class="form-label">Invested Amount (₹)</label>
+                            <input type="number" class="form-control" id="amount_invested" name="amount_invested" step="0.01" min="0" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="current_value" class="form-label">Current Value (₹)</label>
+                            <input type="number" class="form-control" id="current_value" name="current_value" step="0.01" min="0" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="purchase_date" class="form-label">Purchase Date</label>
+                            <input type="date" class="form-control" id="purchase_date" name="purchase_date" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="quantity" class="form-label">Quantity (Optional)</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity" step="0.001" min="0">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add Investment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Investment Modal -->
+    <div class="modal fade" id="editInvestmentModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Investment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="POST" action="{{ url_for('update_investment') }}">
+                    <div class="modal-body">
+                        <input type="hidden" id="edit_id" name="id">
+                        <div class="mb-3">
+                            <label for="edit_name" class="form-label">Investment Name</label>
+                            <input type="text" class="form-control" id="edit_name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_type" class="form-label">Investment Type</label>
+                            <select class="form-select" id="edit_type" name="type" required>
+                                <option value="">Select type</option>
+                                <option value="Stocks">Stocks</option>
+                                <option value="Mutual Funds">Mutual Funds</option>
+                                <option value="Bonds">Bonds</option>
+                                <option value="Cryptocurrency">Cryptocurrency</option>
+                                <option value="Real Estate">Real Estate</option>
+                                <option value="Gold">Gold</option>
+                                <option value="FD">Fixed Deposit</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_amount_invested" class="form-label">Invested Amount (₹)</label>
+                            <input type="number" class="form-control" id="edit_amount_invested" name="amount_invested" step="0.01" min="0" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_current_value" class="form-label">Current Value (₹)</label>
+                            <input type="number" class="form-control" id="edit_current_value" name="current_value" step="0.01" min="0" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_purchase_date" class="form-label">Purchase Date</label>
+                            <input type="date" class="form-control" id="edit_purchase_date" name="purchase_date" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Update Investment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Edit Investment Modal
+        const editInvestmentModal = document.getElementById('editInvestmentModal');
+        if (editInvestmentModal) {
+            editInvestmentModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                document.getElementById('edit_id').value = button.getAttribute('data-id');
+                document.getElementById('edit_name').value = button.getAttribute('data-name');
+                document.getElementById('edit_type').value = button.getAttribute('data-type');
+                document.getElementById('edit_amount_invested').value = button.getAttribute('data-amount');
+                document.getElementById('edit_current_value').value = button.getAttribute('data-value');
+                document.getElementById('edit_purchase_date').value = button.getAttribute('data-date');
+            });
+        }
+
+        // Confirm Delete
+        function confirmDelete(investmentId) {
+            if (confirm('Are you sure you want to delete this investment?')) {
+                window.location.href = `/delete_investment/${investmentId}`;
+            }
+        }
+
+        // Charts
+        document.addEventListener('DOMContentLoaded', function() {
+            // Performance Chart
+            const performanceCtx = document.getElementById('performanceChart')?.getContext('2d');
+            if (performanceCtx) {
+                new Chart(performanceCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'Portfolio Value',
+                            data: [10000, 12000, 11500, 13500, 14000, 15500],
+                            borderColor: 'rgba(255, 255, 255, 0.8)',
+                            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: 'white'
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: { color: 'white' },
+                                grid: { color: 'rgba(255, 255, 255, 0.2)' }
+                            },
+                            x: {
+                                ticks: { color: 'white' },
+                                grid: { color: 'rgba(255, 255, 255, 0.2)' }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Allocation Chart
+            const allocationCtx = document.getElementById('allocationChart')?.getContext('2d');
+            if (allocationCtx) {
+                new Chart(allocationCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Stocks', 'Mutual Funds', 'Bonds', 'Crypto'],
+                        datasets: [{
+                            data: [40, 30, 20, 10],
+                            backgroundColor: [
+                                '#667eea',
+                                '#764ba2',
+                                '#f093fb',
+                                '#4facfe'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

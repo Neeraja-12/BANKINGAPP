@@ -1,0 +1,95 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Budget Tracking</h2>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBudgetModal">
+            <i class="fas fa-plus me-2"></i>Add Budget
+        </button>
+    </div>
+
+    <div class="row">
+        {% for budget in budgets %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h5 class="card-title">{{ budget.category }}</h5>
+                        <span class="badge {% if budget.get_percentage_used() > 90 %}bg-danger{% elif budget.get_percentage_used() > 75 %}bg-warning{% else %}bg-success{% endif %}">
+                            {{ "%.1f"|format(budget.get_percentage_used()) }}%
+                        </span>
+                    </div>
+                    
+                    <div class="progress mb-3" style="height: 10px;">
+                        <div class="progress-bar {% if budget.get_percentage_used() > 90 %}bg-danger{% elif budget.get_percentage_used() > 75 %}bg-warning{% else %}bg-success{% endif %}" 
+                             style="width: {{ budget.get_percentage_used() }}%">
+                        </div>
+                    </div>
+                    
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <small class="text-muted">Budget</small>
+                            <div class="fw-bold">₹{{ "%.2f"|format(budget.amount) }}</div>
+                        </div>
+                        <div class="col-4">
+                            <small class="text-muted">Spent</small>
+                            <div class="fw-bold text-danger">₹{{ "%.2f"|format(budget.spent) }}</div>
+                        </div>
+                        <div class="col-4">
+                            <small class="text-muted">Left</small>
+                            <div class="fw-bold text-success">₹{{ "%.2f"|format(budget.get_remaining()) }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Add Budget Modal -->
+<div class="modal fade" id="addBudgetModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Budget</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ url_for('add_budget') }}">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Category</label>
+                        <select class="form-select" name="category" required>
+                            <option value="">Select Category</option>
+                            <option value="Food & Dining">Food & Dining</option>
+                            <option value="Shopping">Shopping</option>
+                            <option value="Transportation">Transportation</option>
+                            <option value="Utilities">Utilities</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Healthcare">Healthcare</option>
+                            <option value="Education">Education</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Budget Amount</label>
+                        <div class="input-group">
+                            <span class="input-group-text">₹</span>
+                            <input type="number" class="form-control" name="amount" min="1" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Month</label>
+                        <input type="month" class="form-control" name="month" value="{{ now().strftime('%Y-%m') }}" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add Budget</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

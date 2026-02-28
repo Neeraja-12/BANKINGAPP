@@ -1,0 +1,874 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<style>
+<<<<<<< HEAD
+  /* Global Styles & Variables for a Premium App Feel */
+  :root {
+    --primary-brand: #4a6cf7; /* Vibrant blue */
+    --secondary-accent: #6c5ce7; /* Purple accent */
+    --gradient-primary: linear-gradient(135deg, #4a6cf7 0%, #6c5ce7 100%);
+    --gradient-secondary: linear-gradient(135deg, #00c9ff 0%, #92fe9d 100%);
+    --gradient-card: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
+    --background-dark: #f0f4ff; /* Soft blue background */
+    --card-bg: #ffffff;
+    --text-primary: #1a1d29;
+    --text-secondary: #6b7280;
+    --border-light: #e1e8ff;
+    --shadow-light: 0 4px 20px rgba(74, 108, 247, 0.08);
+    --shadow-medium: 0 10px 40px rgba(74, 108, 247, 0.15);
+    --shadow-focus: 0 0 0 4px rgba(74, 108, 247, 0.2);
+    --transition-speed: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --border-radius-lg: 24px;
+    --border-radius-md: 14px;
+=======
+  /* Global Styles & Variables for a Modern App Feel */
+  :root {
+    --primary-brand: #4a90e2; /* A modern, inviting blue */
+    --secondary-accent: #50e3c2; /* A fresh teal for highlights */
+    --background-dark: #eef2f6; /* Soft, slightly textured background */
+    --card-bg: #ffffff; /* Crisp white for interactive elements */
+    --text-primary: #2d3748; /* Dark, readable text */
+    --text-secondary: #718096; /* Muted text for descriptions */
+    --border-light: #e2e8f0; /* Subtle border color */
+    --shadow-light: rgba(45, 55, 72, 0.1) 0px 4px 12px; /* Soft, common shadow */
+    --shadow-medium: rgba(45, 55, 72, 0.15) 0px 8px 24px; /* Deeper card shadow */
+    --shadow-focus: rgba(74, 144, 226, 0.25) 0px 0px 0px 4px; /* Focus ring shadow */
+    --transition-speed: 0.3s ease-out; /* Standard transition speed */
+    --border-radius-lg: 16px; /* Larger border-radius for modern look */
+    --border-radius-md: 10px; /* Medium border-radius for inputs */
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+  }
+
+  body {
+    background-color: var(--background-dark);
+<<<<<<< HEAD
+    font-family: 'Poppins', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .container {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  /* Animated Background Elements */
+  .bg-elements {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+  }
+
+  .bg-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    opacity: 0.03;
+    animation: float 20s infinite ease-in-out;
+  }
+
+  .circle-1 {
+    width: 300px;
+    height: 300px;
+    top: 10%;
+    left: 5%;
+    animation-delay: 0s;
+  }
+
+  .circle-2 {
+    width: 200px;
+    height: 200px;
+    top: 60%;
+    right: 10%;
+    animation-delay: 5s;
+  }
+
+  .circle-3 {
+    width: 150px;
+    height: 150px;
+    bottom: 10%;
+    left: 15%;
+    animation-delay: 10s;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(10deg); }
+=======
+    font-family: 'Poppins', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; /* Poppins for modern touch */
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+  }
+
+  .container {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+  }
+
+  /* Main Header Section */
+  .app-header {
+<<<<<<< HEAD
+    margin-bottom: 5rem;
+    position: relative;
+    z-index: 10;
+    text-align: center;
+  }
+
+  .main-title {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: 4rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+  }
+
+  .main-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: var(--gradient-primary);
+    border-radius: 2px;
+=======
+    margin-bottom: 4rem;
+    position: relative;
+    z-index: 10;
+  }
+
+  .main-title {
+    color: var(--primary-brand);
+    font-size: 3.5rem; /* Even larger heading */
+    font-weight: 700;
+    letter-spacing: -0.05em; /* Tighter letter spacing for impact */
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.08);
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+  }
+
+  .tagline {
+    color: var(--text-secondary);
+<<<<<<< HEAD
+    font-size: 1.5rem;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* Card Base Styles */
+  .app-card {
+    background: var(--gradient-card);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-medium);
+    padding: 3rem;
+    transition: all var(--transition-speed);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+=======
+    font-size: 1.4rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Card Base Styles - The core of the "real-time" feel */
+  .app-card {
+    background: var(--card-bg);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-medium);
+    padding: 2.5rem 3rem; /* Generous padding */
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    border: none;
+    position: relative;
+    overflow: hidden; /* For any internal overflow effects */
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+  }
+
+  .app-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+<<<<<<< HEAD
+    height: 6px;
+    background: var(--gradient-primary);
+=======
+    height: 6px; /* Accent bar at the top */
+    background: linear-gradient(90deg, var(--primary-brand), var(--secondary-accent));
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+    border-top-left-radius: var(--border-radius-lg);
+    border-top-right-radius: var(--border-radius-lg);
+  }
+
+  .app-card:hover {
+<<<<<<< HEAD
+    transform: translateY(-15px);
+    box-shadow: 0 20px 50px rgba(74, 108, 247, 0.25);
+=======
+    transform: translateY(-10px) scale(1.005); /* More noticeable lift and slight scale */
+    box-shadow: rgba(45, 55, 72, 0.2) 0px 12px 30px; /* Deeper shadow on hover */
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+  }
+
+  /* Card Header Styles */
+  .card-header-title {
+    color: var(--text-primary);
+<<<<<<< HEAD
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .card-header-title::before {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 40px;
+    background: var(--gradient-primary);
+    border-radius: 4px;
+=======
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 2px solid var(--border-light); /* Clear separator */
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+  }
+
+  /* Form Elements */
+  .form-label-app {
+<<<<<<< HEAD
+    color: var(--text-primary);
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    display: block;
+    font-size: 1.1rem;
+=======
+    color: var(--text-secondary);
+    font-weight: 500;
+    margin-bottom: 0.6rem;
+    display: block; /* Ensures label takes full width */
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+  }
+
+  .form-control-app, .form-select-app {
+    border-radius: var(--border-radius-md);
+<<<<<<< HEAD
+    padding: 1rem 1.5rem;
+    border: 2px solid var(--border-light);
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: var(--shadow-light);
+    transition: all var(--transition-speed);
+    font-size: 1.1rem;
+=======
+    padding: 0.85rem 1.2rem;
+    border: 1px solid var(--border-light);
+    background-color: var(--background-light); /* Slightly off-white input background */
+    box-shadow: inset 0 1px 3px rgba(0,0,0,.05);
+    transition: all var(--transition-speed);
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+  }
+
+  .form-control-app:focus, .form-select-app:focus {
+    border-color: var(--primary-brand);
+<<<<<<< HEAD
+    background-color: var(--card-bg);
+    box-shadow: var(--shadow-focus);
+    transform: translateY(-2px);
+  }
+
+  .input-group {
+    position: relative;
+  }
+
+  .input-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary-brand);
+    font-size: 1.2rem;
+=======
+    background-color: var(--card-bg); /* White background on focus */
+    box-shadow: var(--shadow-focus);
+    outline: none; /* Remove default outline */
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+  }
+
+  /* Buttons */
+  .btn-primary-app {
+<<<<<<< HEAD
+    background: var(--gradient-primary);
+    border: none;
+    padding: 1.2rem 3rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 10px 30px rgba(74, 108, 247, 0.4);
+    transition: all var(--transition-speed);
+    color: white;
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .btn-primary-app::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.7s ease;
+  }
+
+  .btn-primary-app:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(74, 108, 247, 0.5);
+  }
+
+  .btn-primary-app:hover::before {
+    left: 100%;
+  }
+
+  .btn-primary-app:active {
+    transform: translateY(0);
+    box-shadow: 0 5px 15px rgba(74, 108, 247, 0.4);
+=======
+    background: linear-gradient(90deg, var(--primary-brand), var(--secondary-accent)); /* Gradient button */
+    border: none;
+    padding: 1rem 2.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    border-radius: var(--border-radius-md);
+    box-shadow: rgba(74, 144, 226, 0.3) 0px 8px 20px;
+    transition: all var(--transition-speed);
+    color: white; /* Ensure text is white */
+  }
+
+  .btn-primary-app:hover {
+    transform: translateY(-4px); /* Stronger lift on hover */
+    box-shadow: rgba(74, 144, 226, 0.4) 0px 12px 25px;
+    opacity: 0.95; /* Slight opacity change on hover */
+  }
+
+  .btn-primary-app:active {
+    transform: translateY(0px); /* Push down on click */
+    box-shadow: rgba(74, 144, 226, 0.2) 0px 4px 10px;
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+  }
+
+  /* List Group for Details */
+  .list-group-app .list-group-item {
+    background-color: transparent;
+    border-color: var(--border-light);
+<<<<<<< HEAD
+    padding: 1.5rem 2rem;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+
+  .list-group-app .list-group-item:hover {
+    background-color: rgba(74, 108, 247, 0.03);
+    transform: translateX(5px);
+=======
+    padding: 1.2rem 1.5rem;
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+  }
+
+  .list-group-app .list-group-item:last-child {
+    border-bottom: none;
+  }
+
+  .detail-label {
+    color: var(--text-secondary);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+<<<<<<< HEAD
+    gap: 1rem;
+  }
+
+  .detail-value {
+    font-size: 1.5rem;
+=======
+    gap: 0.75rem; /* Space for potential leading icon */
+  }
+
+  .detail-value {
+    font-size: 1.4rem;
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .value-highlight {
+    color: var(--primary-brand);
+  }
+
+  .value-success {
+<<<<<<< HEAD
+    color: #00c9a7;
+  }
+
+  .value-warning {
+    color: #ff9f43;
+  }
+
+  /* Icons */
+  .detail-icon {
+    font-size: 1.8rem;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: rgba(74, 108, 247, 0.1);
+  }
+
+  .icon-card-num { background: rgba(74, 108, 247, 0.1); color: var(--primary-brand); }
+  .icon-card-type { background: rgba(108, 92, 231, 0.1); color: var(--secondary-accent); }
+  .icon-credit-limit { background: rgba(0, 201, 167, 0.1); color: #00c9a7; }
+  .icon-available-credit { background: rgba(0, 201, 167, 0.1); color: #00c9a7; }
+  .icon-payment-due { background: rgba(255, 159, 67, 0.1); color: #ff9f43; }
+
+  /* Credit Card Preview */
+  .credit-card-preview {
+    background: var(--gradient-primary);
+    border-radius: 20px;
+    padding: 2.5rem;
+    color: white;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 15px 35px rgba(74, 108, 247, 0.3);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.5s ease;
+  }
+
+  .credit-card-preview:hover {
+    transform: rotateY(10deg);
+  }
+
+  .credit-card-preview::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  }
+
+  .card-chip {
+    width: 50px;
+    height: 40px;
+    background: linear-gradient(135deg, #ffd166 0%, #ff9e64 100%);
+    border-radius: 8px;
+    margin-bottom: 2rem;
+  }
+
+  .card-number {
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+  }
+
+  .card-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .card-holder {
+    font-size: 1.1rem;
+    opacity: 0.8;
+  }
+
+  .card-expiry {
+    font-size: 1.1rem;
+    opacity: 0.8;
+  }
+
+  .card-logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+  }
+
+  /* Progress Bar for Credit Usage */
+  .credit-usage {
+    margin-top: 2rem;
+  }
+
+  .usage-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+
+  .usage-bar {
+    height: 10px;
+    background: #e1e8ff;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .usage-progress {
+    height: 100%;
+    background: var(--gradient-primary);
+    border-radius: 5px;
+    width: 22%;
+    transition: width 1s ease;
+  }
+=======
+    color: var(--secondary-accent);
+  }
+
+  .value-warning {
+    color: #f6ad55; /* A warm orange for warnings */
+  }
+
+  /* Icons (using Unicode for simplicity, Font Awesome is ideal) */
+  .detail-icon {
+    font-size: 1.5rem;
+    color: var(--secondary-accent);
+    line-height: 1; /* Align vertically */
+  }
+  .icon-card-num::before { content: "💳"; }
+  .icon-card-type::before { content: "🏷️"; }
+  .icon-credit-limit::before { content: "💸"; }
+  .icon-available-credit::before { content: "✅"; }
+  .icon-payment-due::before { content: "⏰"; }
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+
+  /* Flash Messages */
+  .alert {
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-light);
+<<<<<<< HEAD
+    border: none;
+    padding: 1.2rem 1.5rem;
+    font-weight: 500;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .main-title {
+      font-size: 2.8rem;
+    }
+    
+    .tagline {
+      font-size: 1.2rem;
+    }
+    
+    .app-card {
+      padding: 2rem;
+    }
+    
+    .card-header-title {
+      font-size: 1.8rem;
+    }
+    
+    .detail-value {
+      font-size: 1.3rem;
+    }
+    
+    .credit-card-preview {
+      padding: 2rem;
+    }
+    
+    .card-number {
+      font-size: 1.5rem;
+    }
+  }
+</style>
+
+<!-- Animated Background Elements -->
+<div class="bg-elements">
+  <div class="bg-circle circle-1"></div>
+  <div class="bg-circle circle-2"></div>
+  <div class="bg-circle circle-3"></div>
+</div>
+
+<div class="container mt-5">
+  <div class="mx-auto" style="max-width: 800px;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show mb-4" role="alert">
+            <i class="fas fa-info-circle me-2"></i>{{ message }}
+=======
+  }
+</style>
+
+<div class="container mt-5">
+  <div class="mx-auto" style="max-width: 700px;"> {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show mb-4" role="alert">
+            {{ message }}
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+<<<<<<< HEAD
+    <header class="app-header">
+      <h1 class="main-title">Credit Card Services</h1>
+      <p class="tagline">Experience premium financial management with our cutting-edge credit card solutions. Apply in minutes, enjoy for years.</p>
+    </header>
+
+    <!-- Credit Card Preview -->
+    <div class="credit-card-preview mb-5">
+      <div class="card-chip"></div>
+      <div class="card-number">•••• •••• •••• 1234</div>
+      <div class="card-details">
+        <div>
+          <div class="card-holder">JANE DOE</div>
+          <div class="card-expiry">08/25</div>
+        </div>
+        <div class="card-logo">PREMIUM</div>
+      </div>
+    </div>
+
+=======
+    <header class="app-header text-center">
+      <h1 class="main-title mb-3">Credit Card Services</h1>
+      <p class="tagline lead">Your seamless gateway to managing and applying for credit cards. Experience true financial convenience.</p>
+    </header>
+
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+    <div class="app-card mb-5">
+      <h2 class="card-header-title">Apply for a New Card</h2>
+      <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="mb-4">
+          {{ form.name.label(class="form-label-app") }}
+<<<<<<< HEAD
+          <div class="input-group">
+            {{ form.name(class="form-control form-control-app", placeholder="e.g., Jane Doe") }}
+            <div class="input-icon"><i class="fas fa-user"></i></div>
+          </div>
+        </div>
+        <div class="mb-4">
+          {{ form.email.label(class="form-label-app") }}
+          <div class="input-group">
+            {{ form.email(class="form-control form-control-app", placeholder="e.g., jane.doe@example.com") }}
+            <div class="input-icon"><i class="fas fa-envelope"></i></div>
+          </div>
+        </div>
+        <div class="mb-4">
+          {{ form.card_type.label(class="form-label-app") }}
+          <div class="input-group">
+            {{ form.card_type(class="form-select form-select-app") }}
+            <div class="input-icon"><i class="fas fa-credit-card"></i></div>
+          </div>
+        </div>
+        <div class="mb-4">
+          {{ form.pan_number.label(class="form-label-app") }}
+          <div class="input-group">
+            {{ form.pan_number(class="form-control form-control-app", placeholder="Your 10-digit PAN number") }}
+            <div class="input-icon"><i class="fas fa-id-card"></i></div>
+          </div>
+        </div>
+        <div class="mb-5">
+          {{ form.income.label(class="form-label-app") }}
+          <div class="input-group">
+            {{ form.income(class="form-control form-control-app", placeholder="Annual income in ₹ (e.g., 750000)") }}
+            <div class="input-icon"><i class="fas fa-rupee-sign"></i></div>
+          </div>
+        </div>
+        <div class="d-grid gap-3">
+          {{ form.submit(class="btn btn-primary-app btn-lg") }}
+=======
+          {{ form.name(class="form-control form-control-app", placeholder="e.g., Jane Doe") }}
+        </div>
+        <div class="mb-4">
+          {{ form.email.label(class="form-label-app") }}
+          {{ form.email(class="form-control form-control-app", placeholder="e.g., jane.doe@example.com") }}
+        </div>
+        <div class="mb-4">
+          {{ form.card_type.label(class="form-label-app") }}
+          {{ form.card_type(class="form-select form-select-app") }}
+        </div>
+        <div class="mb-4">
+          {{ form.pan_number.label(class="form-label-app") }}
+          {{ form.pan_number(class="form-control form-control-app", placeholder="Your 10-digit PAN number") }}
+        </div>
+        <div class="mb-5">
+          {{ form.income.label(class="form-label-app") }}
+          {{ form.income(class="form-control form-control-app", placeholder="Annual income in ₹ (e.g., 750000)") }}
+        </div>
+        <div class="d-grid gap-3"> {{ form.submit(class="btn btn-primary-app btn-lg") }}
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+        </div>
+      </form>
+    </div>
+
+    <div class="app-card mb-4">
+      <h2 class="card-header-title">Your Card Details</h2>
+      <ul class="list-group list-group-flush list-group-app">
+        <li class="list-group-item">
+<<<<<<< HEAD
+          <span class="detail-label">
+            <span class="detail-icon icon-card-num"><i class="fas fa-credit-card"></i></span>
+            Card Number:
+          </span>
+          <span class="detail-value">**** **** **** <span class="value-highlight">1234</span></span>
+        </li>
+        <li class="list-group-item">
+          <span class="detail-label">
+            <span class="detail-icon icon-card-type"><i class="fas fa-tag"></i></span>
+            Card Type:
+          </span>
+          <span class="detail-value value-success">Signature Platinum</span>
+        </li>
+        <li class="list-group-item">
+          <span class="detail-label">
+            <span class="detail-icon icon-credit-limit"><i class="fas fa-chart-line"></i></span>
+            Credit Limit:
+          </span>
+          <span class="detail-value value-highlight">₹1,50,000</span>
+        </li>
+        <li class="list-group-item">
+          <span class="detail-label">
+            <span class="detail-icon icon-available-credit"><i class="fas fa-check-circle"></i></span>
+            Available Credit:
+          </span>
+          <span class="detail-value value-success">₹1,17,000</span>
+        </li>
+        <li class="list-group-item">
+          <span class="detail-label">
+            <span class="detail-icon icon-payment-due"><i class="fas fa-clock"></i></span>
+            Next Payment Due:
+          </span>
+          <span class="detail-value value-warning">10th Aug 2025</span>
+        </li>
+      </ul>
+      
+      <!-- Credit Usage Bar -->
+      <div class="credit-usage">
+        <div class="usage-label">
+          <span>Credit Usage</span>
+          <span>22%</span>
+        </div>
+        <div class="usage-bar">
+          <div class="usage-progress"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Add some interactive animations
+  document.addEventListener('DOMContentLoaded', function() {
+    // Animate the progress bar
+    setTimeout(function() {
+      document.querySelector('.usage-progress').style.width = '22%';
+    }, 500);
+    
+    // Add hover effect to form inputs
+    const inputs = document.querySelectorAll('.form-control-app, .form-select-app');
+    inputs.forEach(input => {
+      input.addEventListener('focus', function() {
+        this.parentElement.classList.add('focused');
+      });
+      
+      input.addEventListener('blur', function() {
+        this.parentElement.classList.remove('focused');
+      });
+    });
+    
+    // Add subtle animation to cards on scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+    
+    const cards = document.querySelectorAll('.app-card');
+    cards.forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px)';
+      card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(card);
+    });
+  });
+</script>
+
+<!-- Include Font Awesome for icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+=======
+          <span class="detail-label"><span class="detail-icon icon-card-num"></span> Card Number:</span>
+          <span class="detail-value">**** **** **** <span class="value-highlight">1234</span></span>
+        </li>
+        <li class="list-group-item">
+          <span class="detail-label"><span class="detail-icon icon-card-type"></span> Card Type:</span>
+          <span class="detail-value value-success">Signature Platinum</span>
+        </li>
+        <li class="list-group-item">
+          <span class="detail-label"><span class="detail-icon icon-credit-limit"></span> Credit Limit:</span>
+          <span class="detail-value value-highlight">₹1,00,000</span>
+        </li>
+        <li class="list-group-item">
+          <span class="detail-label"><span class="detail-icon icon-available-credit"></span> Available Credit:</span>
+          <span class="detail-value value-success">₹78,000</span>
+        </li>
+        <li class="list-group-item">
+          <span class="detail-label"><span class="detail-icon icon-payment-due"></span> Next Payment Due:</span>
+          <span class="detail-value value-warning">10th Aug 2025</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+>>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+{% endblock %}
