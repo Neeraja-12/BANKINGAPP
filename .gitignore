@@ -7,3 +7,9 @@ db.sqlite3
 instance/
 logs/
 ssl/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
