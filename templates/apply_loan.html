@@ -1,0 +1,404 @@
+﻿{% extends "layout.html" %}
+
+{% block title %}Apply for Loan - MyBank{% endblock %}
+
+{% block head_extra_css %}
+<style>
+  .loan-hero {
+    background: linear-gradient(135deg, #1a4f8b 0%, #0d3c6d 60%, #082a4d 100%);
+    color: #fff;
+    border-radius: 18px;
+    padding: 32px 36px;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 12px 32px rgba(13, 60, 109, 0.25);
+  }
+  .loan-hero::after {
+    content: "";
+    position: absolute; top: -40%; right: -10%;
+    width: 380px; height: 380px;
+    background: radial-gradient(circle, rgba(255,107,0,0.22) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .loan-hero h2 { font-weight: 800; font-size: 1.9rem; margin-bottom: 6px; position: relative; z-index: 1; }
+  .loan-hero p { opacity: 0.85; margin-bottom: 0; position: relative; z-index: 1; }
+  .loan-hero .hero-icon {
+    position: absolute; right: 36px; top: 50%; transform: translateY(-50%);
+    font-size: 5rem; opacity: 0.12; z-index: 1;
+  }
+
+  .form-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    border: 1px solid rgba(0,0,0,0.04);
+  }
+
+  .form-label { font-weight: 600; color: #1f2937; margin-bottom: 8px; }
+
+  .input-group-text {
+    background: linear-gradient(135deg, #1a4f8b, #0d3c6d);
+    color: #fff;
+    border: none;
+    font-weight: 700;
+    padding: 0 18px;
+  }
+
+  .form-control, .form-select {
+    border-radius: 10px;
+    border: 1.5px solid #e2e8f0;
+    padding: 12px 16px;
+    transition: all 0.25s ease;
+  }
+  .form-control:focus, .form-select:focus {
+    border-color: #1a4f8b;
+    box-shadow: 0 0 0 0.2rem rgba(26, 79, 139, 0.12);
+  }
+
+  /* Loan type tiles */
+  .loan-type-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 12px;
+  }
+  .loan-type-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 18px 10px;
+    border-radius: 14px;
+    background: #fff;
+    border: 2px solid #e2e8f0;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: center;
+  }
+  .loan-type-option:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    border-color: rgba(26,79,139,0.3);
+  }
+  .loan-type-option.active {
+    border-color: #1a4f8b;
+    background: rgba(26,79,139,0.05);
+    box-shadow: 0 6px 18px rgba(26,79,139,0.15);
+  }
+  .loan-type-option i {
+    font-size: 1.7rem;
+    color: #1a4f8b;
+  }
+  .loan-type-option.active i { color: #ff6b00; }
+  .loan-type-option span {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #1f2937;
+    line-height: 1.3;
+  }
+
+  /* EMI Calculator */
+  .calculator-box {
+    background: linear-gradient(135deg, #f0f7ff 0%, #e8f0fb 100%);
+    border-radius: 14px;
+    padding: 20px;
+    border: 2px dashed rgba(26, 79, 139, 0.25);
+  }
+  .calculator-box h5 {
+    font-weight: 700;
+    color: #1a4f8b;
+    font-size: 1rem;
+    margin-bottom: 16px;
+  }
+  .calc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 14px;
+  }
+  .calc-grid > div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .calc-grid small {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6b7280;
+    font-weight: 600;
+  }
+  .calc-grid strong {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #1a4f8b;
+  }
+
+  /* Content card */
+  .content-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    border: 1px solid rgba(0,0,0,0.04);
+    padding: 24px;
+    height: 100%;
+  }
+  .content-card h5 {
+    font-weight: 700; font-size: 1.05rem; margin-bottom: 18px;
+    display: flex; align-items: center; gap: 10px; color: #1f2937;
+  }
+  .content-card h5 i { color: #1a4f8b; }
+
+  .app-item {
+    padding: 14px 0;
+    border-bottom: 1px solid #f1f3f5;
+  }
+  .app-item:last-child { border-bottom: none; }
+  .app-item strong { font-size: 0.95rem; color: #1f2937; }
+
+  .empty-state {
+    text-align: center;
+    padding: 28px 12px;
+    color: #9ca3af;
+    font-size: 0.9rem;
+  }
+  .empty-state i { font-size: 2rem; display: block; margin-bottom: 8px; opacity: 0.4; }
+
+  .rate-chip {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 50px;
+    background: rgba(76, 175, 80, 0.12);
+    color: #2e7d32;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #1a4f8b, #0d3c6d);
+    border: none;
+    border-radius: 12px;
+    padding: 16px;
+    font-weight: 700;
+    transition: all 0.25s ease;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(26,79,139,0.3);
+    background: linear-gradient(135deg, #1a4f8b, #0d3c6d);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <!-- Hero -->
+  <div class="loan-hero">
+    <i class="bi bi-wallet2 hero-icon"></i>
+    <h2>Loan Application</h2>
+    <p>Get the funds you need with competitive rates starting at 8.5% APR</p>
+  </div>
+
+  <div class="row g-4">
+    <!-- Form -->
+    <div class="col-lg-7">
+      <div class="form-card">
+        <form method="POST" action="{{ url_for('apply_loan') }}" novalidate>
+          {{ form.hidden_tag() }}
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+          <!-- Loan Type -->
+          <div class="mb-4">
+            <label class="form-label">{{ form.loan_type.label.text }}</label>
+            <div class="loan-type-grid">
+              {% for value, label in form.loan_type.choices %}
+                <label class="loan-type-option {% if form.loan_type.data == value %}active{% endif %}">
+                  <input type="radio" name="loan_type" value="{{ value }}"
+                         {% if form.loan_type.data == value %}checked{% endif %}
+                         class="d-none">
+                  {% if 'Home' in label %}<i class="bi bi-house-door"></i>
+                  {% elif 'Personal' in label %}<i class="bi bi-person"></i>
+                  {% elif 'Car' in label %}<i class="bi bi-car-front"></i>
+                  {% elif 'Education' in label %}<i class="bi bi-mortarboard"></i>
+                  {% elif 'Business' in label %}<i class="bi bi-briefcase"></i>
+                  {% else %}<i class="bi bi-cash-coin"></i>
+                  {% endif %}
+                  <span>{{ label }}</span>
+                </label>
+              {% endfor %}
+            </div>
+            {% for error in form.loan_type.errors %}
+              <div class="text-danger small mt-2">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <!-- Loan Amount -->
+          <div class="mb-4">
+            <label class="form-label" for="loan_amount">{{ form.loan_amount.label.text }}</label>
+            <div class="input-group input-group-lg">
+              <span class="input-group-text">₹</span>
+              {{ form.loan_amount(class="form-control", id="loan_amount",
+                                  placeholder="50000", min="1000", max="1000000", step="1000") }}
+            </div>
+            {% for error in form.loan_amount.errors %}
+              <div class="text-danger small mt-1">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <!-- Tenure -->
+          <div class="mb-4">
+            <label class="form-label" for="tenure">{{ form.tenure.label.text }}</label>
+            {{ form.tenure(class="form-select form-select-lg", id="tenure") }}
+            {% for error in form.tenure.errors %}
+              <div class="text-danger small mt-1">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <!-- Purpose -->
+          <div class="mb-4">
+            <label class="form-label" for="purpose">{{ form.purpose.label.text }}</label>
+            {{ form.purpose(class="form-control", id="purpose", rows="3",
+                            placeholder="Home renovation, education fees, vehicle purchase...") }}
+            {% for error in form.purpose.errors %}
+              <div class="text-danger small mt-1">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <!-- EMI Calculator -->
+          <div class="calculator-box">
+            <h5><i class="bi bi-calculator me-2"></i>Estimated EMI @ 8.5% APR</h5>
+            <div class="calc-grid">
+              <div>
+                <small>Monthly EMI</small>
+                <strong id="emi-value">₹0</strong>
+              </div>
+              <div>
+                <small>Total Interest</small>
+                <strong id="interest-value">₹0</strong>
+              </div>
+              <div>
+                <small>Total Payment</small>
+                <strong id="total-value">₹0</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <div class="d-grid mt-4">
+            {{ form.submit(class="btn btn-primary btn-lg fw-bold") }}
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-lg-5">
+      <div class="content-card mb-4">
+        <h5><i class="bi bi-list-check"></i> Your Applications</h5>
+        {% if applications %}
+          {% for app in applications %}
+            <div class="app-item">
+              <div class="d-flex justify-content-between align-items-start mb-1">
+                <strong>{{ app.loan_type }}</strong>
+                <span class="badge {% if app.status == 'Approved' %}bg-success{% elif app.status == 'Pending' %}bg-warning text-dark{% else %}bg-secondary{% endif %}">
+                  {{ app.status }}
+                </span>
+              </div>
+              <div class="small text-muted">
+                ₹{{ '{:,.0f}'.format(app.loan_amount) }} ·
+                {{ app.tenure }} months ·
+                {{ app.applied_date.strftime('%d %b %Y') if app.applied_date else '' }}
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="empty-state">
+            <i class="bi bi-inbox"></i>
+            No applications yet. Submit your first one →
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="content-card">
+        <h5><i class="bi bi-info-circle"></i> Our Rates</h5>
+        <div class="d-flex justify-content-between py-2 border-bottom">
+          <span>Personal Loan</span>
+          <span class="rate-chip">10.5% APR</span>
+        </div>
+        <div class="d-flex justify-content-between py-2 border-bottom">
+          <span>Home Loan</span>
+          <span class="rate-chip">8.5% APR</span>
+        </div>
+        <div class="d-flex justify-content-between py-2 border-bottom">
+          <span>Car Loan</span>
+          <span class="rate-chip">9.2% APR</span>
+        </div>
+        <div class="d-flex justify-content-between py-2 border-bottom">
+          <span>Education Loan</span>
+          <span class="rate-chip">7.8% APR</span>
+        </div>
+        <div class="d-flex justify-content-between py-2">
+          <span>Business Loan</span>
+          <span class="rate-chip">11.0% APR</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer_extra_js %}
+<script>
+  // Loan type tile highlight
+  document.querySelectorAll('.loan-type-option').forEach(function (tile) {
+    tile.addEventListener('click', function () {
+      document.querySelectorAll('.loan-type-option').forEach(function (t) {
+        t.classList.remove('active');
+      });
+      this.classList.add('active');
+    });
+  });
+
+  // EMI Calculator
+  function calculateEMI() {
+    var amountEl = document.getElementById('loan_amount');
+    var tenureEl = document.getElementById('tenure');
+    if (!amountEl || !tenureEl) return;
+
+    var amount = parseFloat(amountEl.value) || 0;
+    var term = parseFloat(tenureEl.value) || 0;
+    var rate = 8.5;
+
+    if (amount <= 0 || term <= 0) {
+      document.getElementById('emi-value').textContent = '₹0';
+      document.getElementById('interest-value').textContent = '₹0';
+      document.getElementById('total-value').textContent = '₹0';
+      return;
+    }
+
+    var monthlyRate = rate / 12 / 100;
+    var factor = Math.pow(1 + monthlyRate, term);
+    var emi = amount * monthlyRate * factor / (factor - 1);
+    var totalPayment = emi * term;
+    var totalInterest = totalPayment - amount;
+
+    var fmt = function (n) {
+      return '₹' + n.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+    };
+
+    document.getElementById('emi-value').textContent = fmt(emi);
+    document.getElementById('interest-value').textContent = fmt(totalInterest);
+    document.getElementById('total-value').textContent = fmt(totalPayment);
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var amountEl = document.getElementById('loan_amount');
+    var tenureEl = document.getElementById('tenure');
+    if (amountEl) amountEl.addEventListener('input', calculateEMI);
+    if (tenureEl) tenureEl.addEventListener('change', calculateEMI);
+    calculateEMI();
+  });
+</script>
+{% endblock %}
