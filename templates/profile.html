@@ -1,0 +1,410 @@
+﻿{% extends "layout.html" %}
+
+{% block title %}My Profile - MyBank{% endblock %}
+
+{% block head_extra_css %}
+<style>
+  .profile-hero {
+    background: linear-gradient(135deg, #1a4f8b 0%, #0d3c6d 60%, #082a4d 100%);
+    color: #fff;
+    border-radius: 18px;
+    padding: 40px 36px;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 12px 32px rgba(13, 60, 109, 0.25);
+    text-align: center;
+  }
+  .profile-hero::after {
+    content: "";
+    position: absolute; top: -40%; right: -10%;
+    width: 380px; height: 380px;
+    background: radial-gradient(circle, rgba(255,107,0,0.22) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .profile-avatar {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    border: 5px solid rgba(255,255,255,0.9);
+    object-fit: cover;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    position: relative;
+    z-index: 2;
+    background: #e2e8f0;
+  }
+  .profile-avatar-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 18px;
+  }
+  .profile-avatar-wrapper .edit-badge {
+    position: absolute;
+    bottom: 6px; right: 6px;
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b00, #e55a00);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    border: 3px solid #fff;
+    cursor: pointer;
+    z-index: 3;
+    transition: transform 0.2s ease;
+  }
+  .profile-avatar-wrapper .edit-badge:hover {
+    transform: scale(1.1);
+  }
+  .profile-hero h2 { font-weight: 800; font-size: 1.7rem; margin-bottom: 4px; position: relative; z-index: 2; }
+  .profile-hero p { opacity: 0.85; margin-bottom: 0; position: relative; z-index: 2; font-size: 0.95rem; }
+
+  .content-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    border: 1px solid rgba(0,0,0,0.04);
+    padding: 26px;
+    height: 100%;
+  }
+  .content-card h5 {
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #1f2937;
+  }
+  .content-card h5 i { color: #1a4f8b; }
+
+  .info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid #f1f3f5;
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-icon {
+    width: 42px; height: 42px;
+    border-radius: 12px;
+    background: rgba(26, 79, 139, 0.08);
+    color: #1a4f8b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .info-label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6b7280;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .info-value {
+    font-size: 0.98rem;
+    color: #1f2937;
+    font-weight: 600;
+    word-break: break-word;
+  }
+
+  .stat-tile {
+    text-align: center;
+    padding: 22px 16px;
+    border-radius: 14px;
+    background: #f8fafc;
+    border: 1px solid rgba(0,0,0,0.04);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    height: 100%;
+  }
+  .stat-tile:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+  }
+  .stat-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+  .stat-icon.blue   { background: linear-gradient(135deg, #42a5f5, #1565c0); }
+  .stat-icon.green  { background: linear-gradient(135deg, #66bb6a, #2e7d32); }
+  .stat-icon.orange { background: linear-gradient(135deg, #ffa726, #ef6c00); }
+  .stat-icon.purple { background: linear-gradient(135deg, #ab47bc, #6a1b9a); }
+  .stat-value {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #1f2937;
+    margin-bottom: 4px;
+  }
+  .stat-label {
+    font-size: 0.82rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 600;
+  }
+
+  .action-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 12px;
+    background: #fff;
+    border: 1.5px solid #e2e8f0;
+    color: #1f2937;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+  }
+  .action-btn:hover {
+    transform: translateX(4px);
+    border-color: #1a4f8b;
+    color: #1a4f8b;
+    box-shadow: 0 6px 18px rgba(26,79,139,0.1);
+  }
+  .action-btn i {
+    width: 34px; height: 34px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(26,79,139,0.08);
+    color: #1a4f8b;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+  .action-btn.danger { color: #c62828; border-color: #fecaca; }
+  .action-btn.danger i { background: rgba(198,40,40,0.08); color: #c62828; }
+  .action-btn.danger:hover { border-color: #c62828; color: #c62828; }
+
+  .upload-form {
+    margin-top: 14px;
+    padding-top: 18px;
+    border-top: 1px solid #f1f3f5;
+  }
+  .upload-form .form-control {
+    border-radius: 10px;
+    border: 1.5px solid #e2e8f0;
+    padding: 10px 14px;
+    font-size: 0.92rem;
+  }
+  .upload-form .form-control:focus {
+    border-color: #1a4f8b;
+    box-shadow: 0 0 0 0.2rem rgba(26,79,139,0.12);
+  }
+  .btn-upload {
+    background: linear-gradient(135deg, #1a4f8b, #0d3c6d);
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-weight: 700;
+    color: #fff;
+    width: 100%;
+    transition: all 0.25s ease;
+  }
+  .btn-upload:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(26,79,139,0.3);
+    color: #fff;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <!-- Profile Hero -->
+  <div class="profile-hero">
+    <div class="profile-avatar-wrapper">
+      {% if current_user.profile_pic and current_user.profile_pic != 'default.jpg' %}
+        <img src="{{ url_for('static', filename='images/profile_pics/' + current_user.profile_pic) }}"
+             alt="{{ current_user.username }}" class="profile-avatar">
+      {% else %}
+        <img src="{{ url_for('static', filename='favicon.ico.png') }}"
+             alt="{{ current_user.username }}" class="profile-avatar">
+      {% endif %}
+      <label for="quick-upload" class="edit-badge" title="Change picture">
+        <i class="bi bi-camera-fill"></i>
+      </label>
+    </div>
+    <h2>{{ current_user.username }}</h2>
+    <p><i class="bi bi-envelope me-1"></i>{{ current_user.email }}</p>
+    <p class="mt-2" style="font-size:0.85rem;">
+      <span class="badge bg-success">Active Account</span>
+    </p>
+  </div>
+
+  <div class="row g-4">
+
+    <!-- Left column -->
+    <div class="col-lg-4">
+
+      <!-- Profile picture upload -->
+      <div class="content-card mb-4">
+        <h5><i class="bi bi-person-badge"></i> Profile Picture</h5>
+        <form method="POST" action="{{ url_for('upload_profile_pic') }}" enctype="multipart/form-data">
+          {{ form.hidden_tag() }}
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <div class="mb-3">
+            <label class="info-label" for="photo">Choose a new photo</label>
+            {{ form.photo(class="form-control", id="photo", accept="image/*") }}
+            <div class="small text-muted mt-1">Max 16 MB · PNG, JPG, JPEG, GIF</div>
+            {% for error in form.photo.errors %}
+              <div class="text-danger small mt-1">{{ error }}</div>
+            {% endfor %}
+          </div>
+          {{ form.submit(class="btn-upload", value="Upload Photo") }}
+        </form>
+      </div>
+
+      <!-- Quick actions -->
+      <div class="content-card">
+        <h5><i class="bi bi-gear"></i> Quick Actions</h5>
+
+        <a href="{{ url_for('settings') }}" class="action-btn">
+          <i class="bi bi-pencil-square"></i> Edit Profile & Settings
+        </a>
+
+        <a href="{{ url_for('transactions_history') }}" class="action-btn">
+          <i class="bi bi-clock-history"></i> View Transactions
+        </a>
+
+        <a href="{{ url_for('dashboard') }}" class="action-btn">
+          <i class="bi bi-speedometer2"></i> Back to Dashboard
+        </a>
+
+        <form method="POST" action="{{ url_for('delete_account') }}"
+              onsubmit="return confirm('Delete your account permanently? This cannot be undone.');"
+              class="mt-2">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit" class="action-btn danger" style="border-width:1.5px;">
+            <i class="bi bi-trash"></i> Delete Account
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Right column -->
+    <div class="col-lg-8">
+
+      <!-- Personal info -->
+      <div class="content-card mb-4">
+        <h5><i class="bi bi-person-circle"></i> Personal Information</h5>
+
+        <div class="info-row">
+          <div class="info-icon"><i class="bi bi-person"></i></div>
+          <div>
+            <div class="info-label">Username</div>
+            <div class="info-value">{{ current_user.username }}</div>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-icon"><i class="bi bi-envelope"></i></div>
+          <div>
+            <div class="info-label">Email Address</div>
+            <div class="info-value">{{ current_user.email }}</div>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-icon"><i class="bi bi-hash"></i></div>
+          <div>
+            <div class="info-label">Account Number</div>
+            <div class="info-value">{{ current_user.account_number }}</div>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-icon"><i class="bi bi-calendar-check"></i></div>
+          <div>
+            <div class="info-label">Member Since</div>
+            <div class="info-value">
+              {{ current_user.created_at.strftime('%d %B %Y') if current_user.created_at else '—' }}
+            </div>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-icon"><i class="bi bi-clock"></i></div>
+          <div>
+            <div class="info-label">Last Login</div>
+            <div class="info-value">
+              {{ current_user.last_login.strftime('%d %b %Y, %H:%M') if current_user.last_login else 'This is your first login' }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Account summary -->
+      <div class="row g-3 mb-4">
+        <div class="col-md-4 col-6">
+          <div class="stat-tile">
+            <div class="stat-icon green"><i class="bi bi-wallet2"></i></div>
+            <div class="stat-value">{{ format_currency(current_user.balance) }}</div>
+            <div class="stat-label">Balance</div>
+          </div>
+        </div>
+        <div class="col-md-4 col-6">
+          <div class="stat-tile">
+            <div class="stat-icon blue"><i class="bi bi-receipt"></i></div>
+            <div class="stat-value">{{ current_user.transactions|length }}</div>
+            <div class="stat-label">Transactions</div>
+          </div>
+        </div>
+        <div class="col-md-4 col-12">
+          <div class="stat-tile">
+            <div class="stat-icon orange"><i class="bi bi-cash-coin"></i></div>
+            <div class="stat-value">{{ current_user.loan_applications|length }}</div>
+            <div class="stat-label">Loans Applied</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Security -->
+      <div class="content-card">
+        <h5><i class="bi bi-shield-lock"></i> Security</h5>
+
+        <div class="info-row">
+          <div class="info-icon"><i class="bi bi-key"></i></div>
+          <div class="flex-grow-1">
+            <div class="info-label">Password</div>
+            <div class="info-value">••••••••••</div>
+          </div>
+          <a href="{{ url_for('settings') }}" class="btn btn-sm btn-outline-primary">
+            Change
+          </a>
+        </div>
+
+        <div class="info-row">
+          <div class="info-icon"><i class="bi bi-envelope-check"></i></div>
+          <div class="flex-grow-1">
+            <div class="info-label">Email Verified</div>
+            <div class="info-value">
+              {% if current_user.email %}
+                <span class="text-success"><i class="bi bi-check-circle-fill me-1"></i>Verified</span>
+              {% else %}
+                <span class="text-danger">Not verified</span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
