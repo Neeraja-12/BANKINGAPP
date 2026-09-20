@@ -582,12 +582,13 @@ def dashboard():
             Transaction.type.in_(['Withdraw', 'Transfer Out', 'Bill Payment'])
         ).scalar() or 0.0
 
+        # FIX: use strftime instead of .like() on a DateTime column
         spending_by_category = db.session.query(
             Transaction.category,
             func.sum(Transaction.amount).label('total')
         ).filter(
             Transaction.user_id == current_user.id,
-            Transaction.date.like(f'{current_month}%'),
+            func.strftime('%Y-%m', Transaction.date) == current_month,
             Transaction.type.in_(['Withdraw', 'Transfer Out', 'Bill Payment'])
         ).group_by(Transaction.category).all()
 
@@ -612,7 +613,18 @@ def dashboard():
     except Exception as e:
         app.logger.error(f'Dashboard error for user {current_user.username}: {e}')
         flash('Error loading dashboard data', 'danger')
-        return render_template('dashboard.html', balance=current_user.balance)
+        # FIX: pass all template variables so the fallback render doesn't 500
+        return render_template(
+            'dashboard.html',
+            balance=current_user.balance,
+            exchange_rates={'INR': 83.0, 'EUR': 0.92, 'GBP': 0.81, 'JPY': 150.0, 'USD': 1.0},
+            transactions=[],
+            total_deposits=0.0,
+            total_withdrawals=0.0,
+            spending_by_category=[],
+            upcoming_bills=[],
+            current_month=datetime.now().strftime('%Y-%m')
+        )
 
 
 @app.route('/deposit', methods=['POST'])
