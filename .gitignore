@@ -10,3 +10,4 @@ ssl/.git*.zip
 ssl/
 *.zip
 BANKINGAPP/
+static/images/profile_pics/
