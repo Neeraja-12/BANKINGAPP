@@ -222,7 +222,7 @@
       <div class="stat-tile net-flow">
         <div class="stat-icon teal"><i class="bi bi-wallet2"></i></div>
         <div class="stat-label">Net Flow</div>
-        <div class="stat-value">{{ format_currency(net_flow) }}</div>
+        <div class="stat-value">{{ format_currency(net_flow|default(0)) }}</div>
       </div>
     </div>
     <div class="col-md-3 col-6">

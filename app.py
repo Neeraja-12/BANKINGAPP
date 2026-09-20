@@ -32,14 +32,10 @@ app = Flask(__name__)
 # Configuration
 # ------------------------------------------------------------------
 class Config:
-    # Stable SECRET_KEY — override via env var on Render
     SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret-key-change-me-in-production')
-
-    # SQLite default; set DATABASE_URL on Render for Postgres
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'sqlite:///bank_complete.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    # File upload settings
     UPLOAD_FOLDER = os.path.join(
         os.path.abspath(os.path.dirname(__file__)),
         'static', 'images', 'profile_pics'
@@ -47,7 +43,6 @@ class Config:
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
-    # Email configuration
     MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.gmail.com')
     MAIL_PORT = int(os.environ.get('MAIL_PORT', 587))
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'true').lower() == 'true'
@@ -56,25 +51,22 @@ class Config:
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER', 'noreply@flaskbank.com')
 
-    # Session / Security
     SESSION_COOKIE_SECURE = os.environ.get('SESSION_COOKIE_SECURE', 'false').lower() == 'true'
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = 'Lax'
     PERMANENT_SESSION_LIFETIME = timedelta(hours=1)
 
-    # CSRF
     WTF_CSRF_ENABLED = True
     WTF_CSRF_SECRET_KEY = os.environ.get('CSRF_SECRET_KEY', SECRET_KEY)
 
 
 app.config.from_object(Config)
 
-# Ensure upload folder exists
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 
 # ------------------------------------------------------------------
-# Logging — safe on Windows and Linux (no crash if file is locked)
+# Logging
 # ------------------------------------------------------------------
 def setup_logging(app):
     app.logger.setLevel(logging.INFO)
@@ -82,13 +74,11 @@ def setup_logging(app):
         '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
     )
 
-    # Console handler — always works
     console = logging.StreamHandler(sys.stdout)
     console.setFormatter(formatter)
     console.setLevel(logging.INFO)
     app.logger.addHandler(console)
 
-    # File handler — only if we can create the directory
     try:
         os.makedirs('logs', exist_ok=True)
         from logging.handlers import RotatingFileHandler
@@ -122,7 +112,6 @@ login_manager.session_protection = "strong"
 
 @login_manager.user_loader
 def load_user(user_id):
-    # FIX: use db.session.get() — Query.get() is legacy in SQLAlchemy 2.0
     return db.session.get(User, int(user_id))
 
 
@@ -377,10 +366,7 @@ def categorize_transaction(description):
 
 
 def send_email(subject, recipient, body):
-    """
-    Send an email. If MAIL_USERNAME / MAIL_PASSWORD are missing,
-    log the message to the console instead of failing.
-    """
+    """Send an email, or log it if mail isn't configured."""
     if not app.config.get('MAIL_USERNAME') or not app.config.get('MAIL_PASSWORD'):
         app.logger.warning(
             f"Mail not configured. Would have sent to {recipient}:\n"
@@ -391,6 +377,24 @@ def send_email(subject, recipient, body):
     msg.body = body
     mail.send(msg)
     return True
+
+
+def compute_balance_from_transactions(user_id):
+    """
+    Recompute the balance by summing all transactions.
+    Used to verify the User.balance column hasn't drifted.
+    """
+    inflow = db.session.query(func.coalesce(func.sum(Transaction.amount), 0.0)).filter(
+        Transaction.user_id == user_id,
+        Transaction.type.in_(['Deposit', 'Transfer In', 'Income', 'Loan Disbursement'])
+    ).scalar() or 0.0
+
+    outflow = db.session.query(func.coalesce(func.sum(Transaction.amount), 0.0)).filter(
+        Transaction.user_id == user_id,
+        Transaction.type.in_(['Withdraw', 'Transfer Out', 'Bill Payment'])
+    ).scalar() or 0.0
+
+    return inflow - outflow
 
 
 # ------------------------------------------------------------------
@@ -406,7 +410,7 @@ def utility_processor():
 
 
 # ------------------------------------------------------------------
-# Error Handlers — never recurse
+# Error Handlers
 # ------------------------------------------------------------------
 @app.errorhandler(404)
 def not_found_error(error):
@@ -457,7 +461,7 @@ def set_security_headers(response):
 
 
 # ------------------------------------------------------------------
-# SocketIO Handlers
+# SocketIO
 # ------------------------------------------------------------------
 @socketio.on('connect')
 def handle_connect():
@@ -629,9 +633,10 @@ def dashboard():
         now = datetime.now()
         exchange_rates = get_exchange_rates()
 
+        # Gross totals
         total_deposits = db.session.query(func.sum(Transaction.amount)).filter(
             Transaction.user_id == current_user.id,
-            Transaction.type.in_(['Deposit', 'Transfer In', 'Income'])
+            Transaction.type.in_(['Deposit', 'Transfer In', 'Income', 'Loan Disbursement'])
         ).scalar() or 0.0
 
         total_withdrawals = db.session.query(func.sum(Transaction.amount)).filter(
@@ -639,7 +644,10 @@ def dashboard():
             Transaction.type.in_(['Withdraw', 'Transfer Out', 'Bill Payment'])
         ).scalar() or 0.0
 
-        # Portable across SQLite & Postgres
+        # NET FLOW — this is what you asked for
+        # Every withdrawal reduces this number automatically.
+        net_flow = total_deposits - total_withdrawals
+
         spending_by_category = db.session.query(
             Transaction.category,
             func.sum(Transaction.amount).label('total')
@@ -657,6 +665,14 @@ def dashboard():
             Bill.due_date <= now.date() + timedelta(days=30)
         ).order_by(Bill.due_date).limit(5).all()
 
+        # Reconciliation: warn if User.balance has drifted from transactions
+        computed = compute_balance_from_transactions(current_user.id)
+        if abs(computed - current_user.balance) > 0.01:
+            app.logger.warning(
+                f'Balance drift for {current_user.username}: '
+                f'stored={current_user.balance:.2f}, computed={computed:.2f}'
+            )
+
         return render_template(
             'dashboard.html',
             balance=current_user.balance,
@@ -664,6 +680,7 @@ def dashboard():
             transactions=transactions,
             total_deposits=total_deposits,
             total_withdrawals=total_withdrawals,
+            net_flow=net_flow,
             spending_by_category=spending_by_category,
             upcoming_bills=upcoming_bills,
             current_month=current_month
@@ -675,7 +692,7 @@ def dashboard():
             'dashboard.html',
             balance=current_user.balance,
             exchange_rates={'INR': 83.0, 'EUR': 0.92, 'GBP': 0.81, 'JPY': 150.0, 'USD': 1.0},
-            transactions=[], total_deposits=0.0, total_withdrawals=0.0,
+            transactions=[], total_deposits=0.0, total_withdrawals=0.0, net_flow=0.0,
             spending_by_category=[], upcoming_bills=[],
             current_month=datetime.now().strftime('%Y-%m')
         )
@@ -702,6 +719,7 @@ def deposit():
                           room=f'user_{current_user.id}')
             flash(f'Successfully deposited ₹{amount:,.2f}', 'success')
     except ValueError:
+        db.session.rollback()
         flash('Invalid amount entered.', 'danger')
     except Exception as e:
         db.session.rollback()
@@ -742,6 +760,7 @@ def withdraw():
                           room=f'user_{current_user.id}')
             flash(f'Successfully withdrew ₹{amount:,.2f}', 'success')
     except ValueError:
+        db.session.rollback()
         flash('Invalid amount entered.', 'danger')
     except Exception as e:
         db.session.rollback()
@@ -790,6 +809,7 @@ def transfer():
                               room=f'user_{recipient.id}')
                 flash(f'Successfully transferred ₹{amount:,.2f} to account {recipient_account}', 'success')
     except ValueError:
+        db.session.rollback()
         flash('Invalid amount entered.', 'danger')
     except Exception as e:
         db.session.rollback()
@@ -808,7 +828,6 @@ def transactions_history():
     return render_template('transactions.html', transactions=transactions)
 
 
-# Alias so templates that use url_for('transactions') still work
 app.add_url_rule('/transactions-history', endpoint='transactions', view_func=transactions_history)
 
 
@@ -913,7 +932,6 @@ def profile():
     return render_template('profile.html', form=form)
 
 
-# Alias for templates that still call url_for('profile_view')
 app.add_url_rule('/profile-view', endpoint='profile_view', view_func=profile)
 
 
@@ -1018,6 +1036,7 @@ def bills():
             flash(f'Bill "{name}" added successfully.', 'success')
             return redirect(url_for('bills'))
         except Exception as e:
+            db.session.rollback()
             app.logger.exception('Bill creation error')
             flash('An error occurred while adding the bill.', 'danger')
     upcoming_bills = Bill.query.filter_by(user_id=current_user.id, is_paid=False).order_by(Bill.due_date).all()

@@ -1,868 +1,1094 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MYBANK - Financial Freedom Starts Here</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #3498db;
-            --secondary: #2c3e50;
-            --accent: #e74c3c;
-            --success: #2ecc71;
-            --light: #ecf0f1;
-            --gradient: linear-gradient(135deg, #3498db, #2c3e50);
-        }
-        
-        /* Hero Section */
-        .hero-section {
-            background: var(--gradient);
-            color: white;
-            padding: 120px 0 80px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .hero-section::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,192C1248,192,1344,128,1392,96L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
-            background-size: cover;
-            background-position: center bottom;
-        }
-        
-        .hero-content {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .hero-title {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-        }
-        
-        .hero-subtitle {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-        
-        .btn-hero {
-            background: white;
-            color: var(--secondary);
-            border-radius: 50px;
-            padding: 12px 35px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            border: 2px solid white;
-        }
-        
-        .btn-hero:hover {
-            background: transparent;
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-        
-        .hero-image {
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            transform: perspective(1000px) rotateY(-5deg);
-            transition: transform 0.5s ease;
-        }
-        
-        .hero-image:hover {
-            transform: perspective(1000px) rotateY(0deg);
-        }
-        
-        /* Features Section */
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .section-title::after {
-            content: "";
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 70px;
-            height: 4px;
-            background: var(--primary);
-            border-radius: 2px;
-        }
-        
-        .section-subtitle {
-            font-size: 1.2rem;
-            color: #7f8c8d;
-            margin-bottom: 3rem;
-        }
-        
-        .feature-card {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            height: 100%;
-            border: none;
-            text-align: center;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-10px);
-        }
-        
-        .feature-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 2rem;
-            color: white;
-        }
-        
-        .icon-1 {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-        }
-        
-        .icon-2 {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-        }
-        
-        .icon-3 {
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
-        }
-        
-        .icon-4 {
-            background: linear-gradient(135deg, #f39c12, #d35400);
-        }
-        
-        /* Image Gallery */
-        .image-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 3rem;
-        }
-        
-        .gallery-item {
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            position: relative;
-            height: 300px;
-            cursor: pointer;
-        }
-        
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        
-        .gallery-item:hover img {
-            transform: scale(1.1);
-        }
-        
-        .gallery-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.8));
-            color: white;
-            padding: 2rem;
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-        }
-        
-        .gallery-item:hover .gallery-overlay {
-            transform: translateY(0);
-        }
-        
-        /* Stats Section */
-        .stats-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 80px 0;
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .stats-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,192C1248,192,1344,128,1392,96L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
-            background-size: cover;
-        }
-        
-        .stat-item {
-            text-align: center;
-            padding: 2rem;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .stat-number {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(45deg, #fff, #f1c40f);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .stat-label {
-            font-size: 1.3rem;
-            color: rgba(255,255,255,0.9);
-            font-weight: 600;
-        }
-        
-        /* Testimonials */
-        .testimonial-section {
-            padding: 80px 0;
-            background: #f8f9fa;
-        }
-        
-        .testimonial-card {
-            background: white;
-            border-radius: 20px;
-            padding: 3rem 2rem;
-            margin: 1rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            position: relative;
-            transition: transform 0.3s ease;
-        }
-        
-        .testimonial-card:hover {
-            transform: translateY(-10px);
-        }
-        
-        .testimonial-card::before {
-            content: """;
-            font-size: 8rem;
-            color: var(--primary);
-            opacity: 0.1;
-            position: absolute;
-            top: -20px;
-            left: 20px;
-            font-family: Georgia, serif;
-        }
-        
-        .testimonial-text {
-            font-style: italic;
-            margin-bottom: 2rem;
-            position: relative;
-            z-index: 2;
-            font-size: 1.1rem;
-            line-height: 1.8;
-        }
-        
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-        }
-        
-        .author-avatar {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin-right: 1.5rem;
-            border: 3px solid var(--primary);
-            padding: 3px;
-        }
-        
-        .author-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-        }
-        
-        /* CTA Section */
-        .cta-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-            color: white;
-            padding: 100px 0;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .cta-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,192C1248,192,1344,128,1392,96L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
-            background-size: cover;
-        }
-        
-        .cta-title {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
-            font-weight: 800;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .cta-subtitle {
-            font-size: 1.3rem;
-            margin-bottom: 3rem;
-            opacity: 0.9;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .btn-cta {
-            background: linear-gradient(45deg, #f1c40f, #e74c3c);
-            color: white;
-            border-radius: 50px;
-            padding: 15px 45px;
-            font-weight: 700;
-            font-size: 1.2rem;
-            transition: all 0.4s ease;
-            border: none;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .btn-cta:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        }
-        
-        /* Investment Showcase */
-        .investment-showcase {
-            padding: 80px 0;
-            background: white;
-        }
-        
-        .investment-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 20px;
-            padding: 3rem;
-            color: white;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            transition: transform 0.4s ease;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .investment-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255,255,255,0.1);
-            transform: rotate(45deg);
-            transition: all 0.4s ease;
-        }
-        
-        .investment-card:hover::before {
-            top: 0;
-            right: 0;
-            transform: rotate(0deg);
-        }
-        
-        .investment-card:hover {
-            transform: translateY(-10px);
-        }
-        
-        .investment-icon {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
-            position: relative;
-            z-index: 2;
-        }
-        
-        /* Navigation */
-        .navbar {
-            padding: 1rem 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.8rem;
-            color: var(--secondary);
-        }
-        
-        .navbar-brand span {
-            color: var(--primary);
-        }
-        
-        .nav-link {
-            font-weight: 600;
-            margin: 0 0.5rem;
-            color: var(--secondary);
-        }
-        
-        .nav-link:hover {
-            color: var(--primary);
-        }
-        
-        /* Footer */
-        .footer {
-            background: var(--secondary);
-            color: white;
-            padding: 60px 0 30px;
-        }
-        
-        .footer h5 {
-            margin-bottom: 1.5rem;
-            font-weight: 700;
-        }
-        
-        .footer a {
-            color: rgba(255,255,255,0.7);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        .footer a:hover {
-            color: white;
-        }
-        
-        .footer-bottom {
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 30px;
-            margin-top: 50px;
-            text-align: center;
-            color: rgba(255,255,255,0.5);
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5rem;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-            
-            .cta-title {
-                font-size: 2.5rem;
-            }
-            
-            .stat-number {
-                font-size: 2.5rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyBank — Financial Freedom Starts Here</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico.png') }}" type="image/png">
+
+  <!-- Bootstrap + Icons + Fonts -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #1a4f8b;
+      --primary-dark: #0d3c6d;
+      --accent: #ff6b00;
+      --accent-dark: #e55a00;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --soft: #f1f5f9;
+      --gradient-brand: linear-gradient(135deg, #1a4f8b 0%, #0d3c6d 60%, #082a4d 100%);
+      --gradient-cta: linear-gradient(135deg, #ff6b00 0%, #e55a00 100%);
+      --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --shadow-hover: 0 20px 45px rgba(15, 23, 42, 0.15);
+      --radius: 18px;
+    }
+
+    * { -webkit-font-smoothing: antialiased; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--ink);
+      background: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ==================== NAVBAR ==================== */
+    .navbar {
+      padding: 1rem 0;
+      transition: background 0.35s ease, box-shadow 0.35s ease, backdrop-filter 0.35s ease;
+      background: transparent;
+    }
+    .navbar.scrolled {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: saturate(180%) blur(14px);
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+    }
+    .navbar-brand {
+      font-weight: 900;
+      font-size: 1.55rem;
+      letter-spacing: -0.02em;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .navbar-brand i { color: var(--accent); font-size: 1.7rem; }
+    .navbar-brand span { color: var(--accent); }
+    .navbar.scrolled .navbar-brand { color: var(--primary); }
+
+    .nav-link {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin: 0 0.4rem;
+      color: rgba(255, 255, 255, 0.92) !important;
+      position: relative;
+      transition: color 0.25s ease;
+    }
+    .navbar.scrolled .nav-link { color: var(--ink) !important; }
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      bottom: 4px; left: 50%;
+      width: 0; height: 2px;
+      background: var(--accent);
+      transition: width 0.25s ease, left 0.25s ease;
+    }
+    .nav-link:hover::after { width: 60%; left: 20%; }
+
+    .navbar .btn-signin {
+      color: #fff;
+      border: 1.5px solid rgba(255, 255, 255, 0.5);
+      border-radius: 10px;
+      padding: 8px 20px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.25s ease;
+    }
+    .navbar .btn-signin:hover {
+      background: #fff;
+      color: var(--primary);
+      border-color: #fff;
+    }
+    .navbar.scrolled .btn-signin {
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+    .navbar.scrolled .btn-signin:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .navbar .btn-signup {
+      background: var(--gradient-cta);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 9px 22px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      box-shadow: 0 6px 18px rgba(255, 107, 0, 0.35);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .navbar .btn-signup:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 26px rgba(255, 107, 0, 0.5);
+      color: #fff;
+    }
+
+    /* ==================== HERO ==================== */
+    .hero {
+      background: var(--gradient-brand);
+      color: #fff;
+      padding: 180px 0 120px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 15% 20%, rgba(255, 107, 0, 0.22) 0%, transparent 45%),
+                  radial-gradient(circle at 90% 80%, rgba(66, 165, 245, 0.18) 0%, transparent 45%);
+      z-index: 1;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      bottom: -1px; left: 0; right: 0;
+      height: 90px;
+      background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'><path fill='%23ffffff' d='M0,60 C240,100 480,20 720,50 C960,80 1200,20 1440,60 L1440,100 L0,100 Z'/></svg>") no-repeat center bottom;
+      background-size: cover;
+      z-index: 2;
+    }
+    .hero .container { position: relative; z-index: 3; }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(10px);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero-eyebrow i { color: var(--accent); }
+
+    .hero-title {
+      font-size: clamp(2.4rem, 5vw, 3.75rem);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+      margin-bottom: 22px;
+    }
+    .hero-title .highlight {
+      background: linear-gradient(120deg, #ff6b00 0%, #ffa726 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 1.15rem;
+      line-height: 1.7;
+      opacity: 0.88;
+      margin-bottom: 32px;
+      max-width: 540px;
+    }
+
+    .btn-hero-primary {
+      background: var(--gradient-cta);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 15px 34px;
+      font-weight: 700;
+      font-size: 1.02rem;
+      box-shadow: 0 12px 32px rgba(255, 107, 0, 0.4);
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .btn-hero-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 40px rgba(255, 107, 0, 0.55);
+      color: #fff;
+    }
+
+    .btn-hero-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
+      border-radius: 12px;
+      padding: 15px 30px;
+      font-weight: 600;
+      font-size: 1rem;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-hero-secondary:hover {
+      background: rgba(255, 255, 255, 0.18);
+      color: #fff;
+      border-color: #fff;
+      transform: translateY(-2px);
+    }
+
+    .hero-visual {
+      position: relative;
+      z-index: 3;
+    }
+    .hero-visual .card-float {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 22px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+      padding: 28px;
+      color: #fff;
+      transform: rotate(-2deg);
+      transition: transform 0.5s ease;
+    }
+    .hero-visual .card-float:hover { transform: rotate(0deg) translateY(-6px); }
+
+    .balance-mini-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.75;
+      margin-bottom: 6px;
+    }
+    .balance-mini-amount {
+      font-size: 2.3rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+    .balance-mini-sub {
+      font-size: 0.9rem;
+      opacity: 0.85;
+      color: #86efac;
+      margin-bottom: 22px;
+    }
+    .mini-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.06);
+      margin-bottom: 10px;
+    }
+    .mini-row:last-child { margin-bottom: 0; }
+    .mini-icon {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.05rem;
+      flex-shrink: 0;
+    }
+    .mini-icon.green  { background: linear-gradient(135deg, #66bb6a, #2e7d32); }
+    .mini-icon.orange { background: linear-gradient(135deg, #ffa726, #ef6c00); }
+    .mini-title { font-size: 0.92rem; font-weight: 600; }
+    .mini-sub { font-size: 0.78rem; opacity: 0.7; }
+    .mini-amount {
+      margin-left: auto;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    /* Floating accent badges */
+    .float-badge {
+      position: absolute;
+      background: #fff;
+      color: var(--ink);
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: floaty 4s ease-in-out infinite;
+    }
+    .float-badge i { color: var(--accent); font-size: 1.2rem; }
+    .float-badge.badge-a { top: -20px; right: 20px; }
+    .float-badge.badge-b { bottom: -20px; left: -20px; animation-delay: 1.5s; }
+
+    @keyframes floaty {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* ==================== LOGO STRIP ==================== */
+    .logo-strip {
+      padding: 40px 0;
+      background: #fff;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.05);
+    }
+    .logo-strip p {
+      text-align: center;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      font-weight: 600;
+      margin-bottom: 22px;
+    }
+    .logo-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 50px;
+      opacity: 0.55;
+    }
+    .logo-row .brand {
+      font-weight: 800;
+      font-size: 1.3rem;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: opacity 0.3s ease;
+    }
+    .logo-row .brand:hover { opacity: 1; }
+
+    /* ==================== SECTIONS ==================== */
+    .section { padding: 90px 0; }
+    .section-sm { padding: 70px 0; }
+
+    .section-head { text-align: center; margin-bottom: 60px; }
+    .section-eyebrow {
+      display: inline-block;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.9rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 14px;
+    }
+    .section-title .highlight {
+      background: linear-gradient(120deg, #1a4f8b, #42a5f5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .section-sub {
+      font-size: 1.08rem;
+      color: var(--muted);
+      max-width: 620px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ==================== FEATURE CARDS ==================== */
+    .feature-card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 34px 28px;
+      height: 100%;
+      border: 1px solid rgba(15, 23, 42, 0.06);
+      box-shadow: var(--shadow-soft);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--gradient-cta);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .feature-card:hover::before { transform: scaleX(1); }
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-hover);
+    }
+    .feature-icon {
+      width: 62px; height: 62px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: #fff;
+      margin-bottom: 22px;
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.15);
+    }
+    .feature-icon.blue   { background: linear-gradient(135deg, #42a5f5, #1565c0); }
+    .feature-icon.orange { background: linear-gradient(135deg, #ffa726, #ef6c00); }
+    .feature-icon.green  { background: linear-gradient(135deg, #66bb6a, #2e7d32); }
+    .feature-icon.purple { background: linear-gradient(135deg, #ab47bc, #6a1b9a); }
+
+    .feature-card h4 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--ink);
+    }
+    .feature-card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    /* ==================== STATS ==================== */
+    .stats {
+      background: var(--gradient-brand);
+      color: #fff;
+      padding: 80px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .stats::before {
+      content: "";
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 20% 30%, rgba(255, 107, 0, 0.18), transparent 50%),
+                  radial-gradient(circle at 80% 70%, rgba(66, 165, 245, 0.18), transparent 50%);
+    }
+    .stats .container { position: relative; z-index: 2; }
+    .stat-item { text-align: center; padding: 24px 12px; }
+    .stat-number {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      background: linear-gradient(120deg, #ffffff 0%, #ffa726 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+    }
+    .stat-label {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.78);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    /* ==================== INVESTMENT CARDS ==================== */
+    .investment-card {
+      border-radius: var(--radius);
+      padding: 38px 30px;
+      color: #fff;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.4s ease;
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.15);
+    }
+    .investment-card:hover { transform: translateY(-10px); }
+
+    .investment-card.card-blue   { background: linear-gradient(135deg, #1a4f8b 0%, #0d3c6d 100%); }
+    .investment-card.card-green  { background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%); }
+    .investment-card.card-orange { background: linear-gradient(135deg, #ff6b00 0%, #c2410c 100%); }
+
+    .investment-card::after {
+      content: "";
+      position: absolute;
+      top: -60%; right: -30%;
+      width: 300px; height: 300px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 50%;
+      transition: transform 0.5s ease;
+    }
+    .investment-card:hover::after { transform: scale(1.3); }
+
+    .investment-icon {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+      width: 64px; height: 64px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      position: relative;
+      z-index: 2;
+    }
+    .investment-card h4 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 2;
+      letter-spacing: -0.01em;
+    }
+    .investment-card p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      opacity: 0.88;
+      margin: 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ==================== TESTIMONIALS ==================== */
+    .testimonials { background: var(--soft); }
+    .testimonial-card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 34px 30px;
+      height: 100%;
+      box-shadow: var(--shadow-soft);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      position: relative;
+      border: 1px solid rgba(15, 23, 42, 0.04);
+    }
+    .testimonial-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-hover);
+    }
+    .quote-icon {
+      font-size: 2rem;
+      color: var(--accent);
+      opacity: 0.35;
+      margin-bottom: 14px;
+      line-height: 1;
+    }
+    .testimonial-text {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: #334155;
+      margin-bottom: 24px;
+      font-style: italic;
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(15, 23, 42, 0.06);
+    }
+    .author-avatar {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .author-avatar.a1 { background: linear-gradient(135deg, #42a5f5, #1565c0); }
+    .author-avatar.a2 { background: linear-gradient(135deg, #66bb6a, #2e7d32); }
+    .author-avatar.a3 { background: linear-gradient(135deg, #ab47bc, #6a1b9a); }
+
+    .author-name { font-weight: 700; font-size: 0.98rem; color: var(--ink); margin: 0; }
+    .author-role { font-size: 0.82rem; color: var(--muted); margin: 0; }
+
+    .star-rating { color: #f59e0b; font-size: 0.85rem; margin-bottom: 6px; }
+
+    /* ==================== CTA ==================== */
+    .cta-section {
+      background: linear-gradient(135deg, #0d3c6d 0%, #1a4f8b 50%, #ff6b00 130%);
+      color: #fff;
+      padding: 100px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: "";
+      position: absolute;
+      top: -50%; left: -20%;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(255, 107, 0, 0.3) 0%, transparent 70%);
+    }
+    .cta-section .container { position: relative; z-index: 2; }
+
+    .cta-title {
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      margin-bottom: 18px;
+      line-height: 1.15;
+    }
+    .cta-sub {
+      font-size: 1.15rem;
+      opacity: 0.88;
+      margin-bottom: 38px;
+      max-width: 620px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #fff;
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 1.05rem;
+      padding: 17px 40px;
+      border-radius: 14px;
+      text-decoration: none;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
+      transition: all 0.3s ease;
+    }
+    .btn-cta:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 25px 55px rgba(0, 0, 0, 0.35);
+      color: var(--primary);
+    }
+
+    /* ==================== FOOTER ==================== */
+    .footer {
+      background: #0f172a;
+      color: rgba(255, 255, 255, 0.65);
+      padding: 70px 0 30px;
+    }
+    .footer h5 {
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 22px;
+    }
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 900;
+      font-size: 1.5rem;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+    .footer-brand i { color: var(--accent); font-size: 1.6rem; }
+    .footer-brand span { color: var(--accent); }
+    .footer p { line-height: 1.7; font-size: 0.92rem; }
+    .footer ul { list-style: none; padding: 0; margin: 0; }
+    .footer ul li { margin-bottom: 10px; }
+    .footer ul a {
+      color: rgba(255, 255, 255, 0.65);
+      text-decoration: none;
+      font-size: 0.92rem;
+      transition: color 0.25s ease;
+    }
+    .footer ul a:hover { color: var(--accent); }
+
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      margin-right: 8px;
+      transition: all 0.25s ease;
+      text-decoration: none;
+    }
+    .social-links a:hover {
+      background: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      margin-top: 50px;
+      padding-top: 28px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 0.85rem;
+    }
+
+    /* ==================== RESPONSIVE ==================== */
+    @media (max-width: 991px) {
+      .hero { padding: 150px 0 100px; }
+      .hero-visual { margin-top: 60px; }
+      .float-badge.badge-a { top: 10px; right: 10px; }
+      .float-badge.badge-b { bottom: 10px; left: 10px; }
+    }
+    @media (max-width: 767px) {
+      .hero { padding: 130px 0 90px; }
+      .hero-title { font-size: 2.2rem; }
+      .section { padding: 70px 0; }
+      .logo-row { gap: 30px; }
+      .logo-row .brand { font-size: 1.05rem; }
+      .float-badge { display: none; }
+      .footer-bottom { justify-content: center; text-align: center; }
+    }
+  </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">MY<span>BANK</span></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#features">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#investments">Investments</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#testimonials">Testimonials</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contact</a>
-                    </li>
-                    <li class="nav-item ms-2">
-                        <a class="btn btn-outline-primary" href="{{ url_for('login') }}">Sign In</a>
-                    </li>
-                    <li class="nav-item ms-2">
-                        <a class="btn btn-primary" href="#">Get Started</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 hero-content">
-                    <h1 class="hero-title">Take Control of Your Financial Future</h1>
-                    <p class="hero-subtitle">WealthGuard helps you manage, grow, and protect your money with smart tools and personalized insights.</p>
-                    <div class="mt-4">
-                        <a href="#" class="btn btn-hero me-3">Get Started Free</a>
-                        <a href="#" class="btn btn-hero" style="background: transparent; border: 2px solid white;">Learn More</a>
-                    </div>
-                </div>
-                <div class="col-lg-6 text-center">
-                    <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
-                         alt="Financial Planning" class="img-fluid hero-image">
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- ==================== NAVBAR ==================== -->
+  <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand" href="{{ url_for('home') }}">
+        <i class="bi bi-bank2"></i>My<span>Bank</span>
+      </a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <i class="bi bi-list text-white fs-2"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+          <li class="nav-item"><a class="nav-link" href="#investments">Investments</a></li>
+          <li class="nav-item"><a class="nav-link" href="#testimonials">Testimonials</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+          <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
+            <a class="btn btn-signin" href="{{ url_for('login') }}">
+              <i class="bi bi-box-arrow-in-right me-1"></i>Sign In
+            </a>
+          </li>
+          <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+            <a class="btn btn-signup" href="{{ url_for('register') }}">
+              Get Started <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-    <!-- Features Section -->
-    <section class="py-5" id="features">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="section-title">Why Choose WealthGuard?</h2>
-                <p class="section-subtitle">Our platform offers everything you need for financial success</p>
-            </div>
-            
-            <div class="row g-4">
-                <div class="col-md-6 col-lg-3">
-                    <div class="feature-card">
-                        <div class="feature-icon icon-1">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <h4>AI-Powered Insights</h4>
-                        <p>Our advanced algorithms analyze your spending patterns and provide personalized financial recommendations.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="feature-card">
-                        <div class="feature-icon icon-2">
-                            <i class="fas fa-chart-pie"></i>
-                        </div>
-                        <h4>Smart Investments</h4>
-                        <p>Diversify your portfolio with AI-curated investment options that adapt to market changes.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="feature-card">
-                        <div class="feature-icon icon-3">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <h4>Bank-Level Security</h4>
-                        <p>Your financial data is protected with military-grade encryption and multi-factor authentication.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="feature-card">
-                        <div class="feature-icon icon-4">
-                            <i class="fas fa-piggy-bank"></i>
-                        </div>
-                        <h4>Automated Savings</h4>
-                        <p>Set it and forget it! Our smart tools automatically optimize your savings strategy.</p>
-                    </div>
-                </div>
-            </div>
+  <!-- ==================== HERO ==================== -->
+  <section class="hero">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6">
+          <div class="hero-eyebrow">
+            <i class="bi bi-shield-check"></i> Trusted by 750,000+ investors
+          </div>
+          <h1 class="hero-title">
+            Take Control of Your <span class="highlight">Financial Future</span>
+          </h1>
+          <p class="hero-subtitle">
+            MyBank helps you manage, grow, and protect your money with smart tools,
+            AI-powered insights, and personalized recommendations — all in one place.
+          </p>
+          <div class="d-flex flex-wrap gap-3">
+            <a href="{{ url_for('register') }}" class="btn-hero-primary">
+              Open Free Account <i class="bi bi-arrow-right"></i>
+            </a>
+            <a href="#features" class="btn-hero-secondary">
+              <i class="bi bi-play-circle"></i> Learn More
+            </a>
+          </div>
         </div>
-    </section>
 
-    <!-- Investment Showcase -->
-    <section class="investment-showcase" id="investments">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="section-title">Investment Opportunities</h2>
-                <p class="section-subtitle">Explore diverse investment options tailored to your goals</p>
+        <div class="col-lg-6">
+          <div class="hero-visual position-relative">
+            <div class="card-float">
+              <div class="balance-mini-label">Total Balance</div>
+              <div class="balance-mini-amount">₹12,48,650.00</div>
+              <div class="balance-mini-sub">
+                <i class="bi bi-graph-up-arrow me-1"></i> +8.4% this month
+              </div>
+
+              <div class="mini-row">
+                <div class="mini-icon green"><i class="bi bi-arrow-down"></i></div>
+                <div>
+                  <div class="mini-title">Salary Deposit</div>
+                  <div class="mini-sub">Today, 9:32 AM</div>
+                </div>
+                <div class="mini-amount" style="color:#86efac;">+₹85,000</div>
+              </div>
+
+              <div class="mini-row">
+                <div class="mini-icon orange"><i class="bi bi-arrow-up"></i></div>
+                <div>
+                  <div class="mini-title">Rent Payment</div>
+                  <div class="mini-sub">Yesterday, 6:15 PM</div>
+                </div>
+                <div class="mini-amount" style="color:#fca5a5;">−₹22,500</div>
+              </div>
             </div>
-            
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="investment-card">
-                        <div class="investment-icon">
-                            <i class="fas fa-gem"></i>
-                        </div>
-                        <h4>Premium Stocks</h4>
-                        <p>Access exclusive stock opportunities with high growth potential and expert analysis.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="investment-card">
-                        <div class="investment-icon">
-                            <i class="fas fa-home"></i>
-                        </div>
-                        <h4>Real Estate</h4>
-                        <p>Diversify with curated real estate investments without traditional barriers to entry.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="investment-card">
-                        <div class="investment-icon">
-                            <i class="fas fa-coins"></i>
-                        </div>
-                        <h4>Crypto Assets</h4>
-                        <p>Explore the future of finance with carefully selected cryptocurrency opportunities.</p>
-                    </div>
-                </div>
+
+            <div class="float-badge badge-a">
+              <i class="bi bi-shield-lock-fill"></i> Bank-Level Security
             </div>
+            <div class="float-badge badge-b">
+              <i class="bi bi-lightning-charge-fill"></i> Instant Transfers
+            </div>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- Image Gallery -->
-    <section class="py-5 bg-light">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="section-title">Success Stories in Action</h2>
-                <p class="section-subtitle">See how real people are achieving financial milestones</p>
-            </div>
-            
-            <div class="image-gallery">
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1554224154-26032ffc0d07?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
-                         alt="Early Retirement">
-                    <div class="gallery-overlay">
-                        <h4>Early Retirement</h4>
-                        <p>Mark achieved financial independence 10 years ahead of schedule</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
-                         alt="Investment Growth">
-                    <div class="gallery-overlay">
-                        <h4>Portfolio Growth</h4>
-                        <p>Sarah's investments grew by 45% in just 18 months</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
-                         alt="Debt Freedom">
-                    <div class="gallery-overlay">
-                        <h4>Debt Freedom</h4>
-                        <p>John paid off $75,000 in debt using smart budgeting tools</p>
-                    </div>
-                </div>
-            </div>
+  <!-- ==================== LOGO STRIP ==================== -->
+  <section class="logo-strip">
+    <div class="container">
+      <p>Trusted by leading organizations</p>
+      <div class="logo-row">
+        <div class="brand"><i class="bi bi-building"></i> Northwind</div>
+        <div class="brand"><i class="bi bi-globe2"></i> GlobalPay</div>
+        <div class="brand"><i class="bi bi-hexagon-fill"></i> HexaCorp</div>
+        <div class="brand"><i class="bi bi-lightning-fill"></i> Voltaic</div>
+        <div class="brand"><i class="bi bi-cpu"></i> NeuralOne</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FEATURES ==================== -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">Why Choose Us</div>
+        <h2 class="section-title">Everything You Need for <span class="highlight">Financial Success</span></h2>
+        <p class="section-sub">Powerful tools, intelligent automation, and bank-grade security — designed to help you build lasting wealth.</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+          <div class="feature-card">
+            <div class="feature-icon blue"><i class="bi bi-robot"></i></div>
+            <h4>AI-Powered Insights</h4>
+            <p>Advanced algorithms analyze your spending and deliver personalized financial recommendations.</p>
+          </div>
         </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section class="stats-section">
-        <div class="container">
-            <div class="row text-center">
-                <div class="col-md-3 col-6 stat-item">
-                    <div class="stat-number">750K+</div>
-                    <div class="stat-label">Successful Investors</div>
-                </div>
-                <div class="col-md-3 col-6 stat-item">
-                    <div class="stat-number">$4.2B</div>
-                    <div class="stat-label">Assets Managed</div>
-                </div>
-                <div class="col-md-3 col-6 stat-item">
-                    <div class="stat-number">99.2%</div>
-                    <div class="stat-label">Client Satisfaction</div>
-                </div>
-                <div class="col-md-3 col-6 stat-item">
-                    <div class="stat-number">24/7</div>
-                    <div class="stat-label">Expert Support</div>
-                </div>
-            </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="feature-card">
+            <div class="feature-icon orange"><i class="bi bi-pie-chart-fill"></i></div>
+            <h4>Smart Investments</h4>
+            <p>Diversify your portfolio with curated investment options that adapt to market changes.</p>
+          </div>
         </div>
-    </section>
-
-    <!-- Testimonials -->
-    <section class="testimonial-section" id="testimonials">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="section-title">Voices of Success</h2>
-                <p class="section-subtitle">Hear from our community of thriving investors</p>
-            </div>
-            
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="testimonial-card">
-                        <p class="testimonial-text">"WealthGuard transformed my approach to money. I went from living paycheck to paycheck to building a six-figure investment portfolio in just 3 years!"</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">
-                                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
-                                     alt="Sarah Johnson">
-                            </div>
-                            <div>
-                                <h5>Sarah Johnson</h5>
-                                <p>Marketing Director</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="testimonial-card">
-                        <p class="testimonial-text">"The AI-powered insights helped me identify investment opportunities I would have never found on my own. My portfolio is up 65% this year alone!"</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">
-                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
-                                     alt="Michael Chen">
-                            </div>
-                            <div>
-                                <h5>Michael Chen</h5>
-                                <p>Tech Entrepreneur</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="testimonial-card">
-                        <p class="testimonial-text">"As a small business owner, WealthGuard's cash flow management tools have been game-changing. I've increased my business savings by 300%!"</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">
-                                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
-                                     alt="Jessica Williams">
-                            </div>
-                            <div>
-                                <h5>Jessica Williams</h5>
-                                <p>Business Owner</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="feature-card">
+            <div class="feature-icon green"><i class="bi bi-shield-lock-fill"></i></div>
+            <h4>Bank-Level Security</h4>
+            <p>Your data is protected with military-grade encryption and multi-factor authentication.</p>
+          </div>
         </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <div class="container">
-            <h2 class="cta-title">Begin Your Wealth Journey Today</h2>
-            <p class="cta-subtitle">Join over 750,000 investors who are building generational wealth with WealthGuard</p>
-            <a href="#" class="btn btn-cta">Start Your Free Trial</a>
+        <div class="col-md-6 col-lg-3">
+          <div class="feature-card">
+            <div class="feature-icon purple"><i class="bi bi-piggy-bank-fill"></i></div>
+            <h4>Automated Savings</h4>
+            <p>Set it and forget it. Our tools automatically optimize your savings strategy.</p>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- Footer -->
-    <footer class="footer" id="contact">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mb-4">
-                    <h5>WealthGuard</h5>
-                    <p>Your trusted partner in financial growth and security. We provide cutting-edge tools to help you achieve your financial goals.</p>
-                    <div class="mt-4">
-                        <a href="#" class="me-3"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="me-3"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="me-3"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-6 mb-4">
-                    <h5>Company</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Press</a></li>
-                        <li><a href="#">Blog</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-2 col-md-6 mb-4">
-                    <h5>Products</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Investing</a></li>
-                        <li><a href="#">Savings</a></li>
-                        <li><a href="#">Retirement</a></li>
-                        <li><a href="#">Security</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-2 col-md-6 mb-4">
-                    <h5>Resources</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Help Center</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-2 col-md-6 mb-4">
-                    <h5>Contact</h5>
-                    <ul class="list-unstyled">
-                        <li>support@wealthguard.com</li>
-                        <li>+1 (555) 123-4567</li>
-                        <li>123 Finance Street</li>
-                        <li>New York, NY 10001</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2023 WealthGuard. All rights reserved.</p>
-            </div>
+  <!-- ==================== STATS ==================== -->
+  <section class="stats">
+    <div class="container">
+      <div class="row">
+        <div class="col-6 col-md-3 stat-item">
+          <div class="stat-number">750K+</div>
+          <div class="stat-label">Active Investors</div>
         </div>
-    </footer>
+        <div class="col-6 col-md-3 stat-item">
+          <div class="stat-number">₹4.2B</div>
+          <div class="stat-label">Assets Managed</div>
+        </div>
+        <div class="col-6 col-md-3 stat-item">
+          <div class="stat-number">99.2%</div>
+          <div class="stat-label">Client Satisfaction</div>
+        </div>
+        <div class="col-6 col-md-3 stat-item">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">Expert Support</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- ==================== INVESTMENTS ==================== -->
+  <section class="section" id="investments">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">Grow Your Wealth</div>
+        <h2 class="section-title">Investment <span class="highlight">Opportunities</span></h2>
+        <p class="section-sub">Explore diverse investment options tailored to your goals and risk appetite.</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="investment-card card-blue">
+            <div class="investment-icon"><i class="bi bi-gem"></i></div>
+            <h4>Premium Stocks</h4>
+            <p>Access exclusive stock opportunities with high growth potential and expert analysis.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="investment-card card-green">
+            <div class="investment-icon"><i class="bi bi-house-fill"></i></div>
+            <h4>Real Estate</h4>
+            <p>Diversify with curated real estate investments — no traditional barriers to entry.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="investment-card card-orange">
+            <div class="investment-icon"><i class="bi bi-currency-bitcoin"></i></div>
+            <h4>Crypto Assets</h4>
+            <p>Explore the future of finance with carefully selected cryptocurrency opportunities.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TESTIMONIALS ==================== -->
+  <section class="section testimonials" id="testimonials">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">Testimonials</div>
+        <h2 class="section-title">Voices of <span class="highlight">Success</span></h2>
+        <p class="section-sub">Hear from our community of thriving investors building real wealth.</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="testimonial-card">
+            <div class="star-rating">
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+            </div>
+            <div class="quote-icon"><i class="bi bi-quote"></i></div>
+            <p class="testimonial-text">
+              "MyBank transformed my approach to money. I went from living paycheck to paycheck to building a six-figure portfolio in just 3 years."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar a1">SJ</div>
+              <div>
+                <p class="author-name">Sarah Johnson</p>
+                <p class="author-role">Marketing Director</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="testimonial-card">
+            <div class="star-rating">
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+            </div>
+            <div class="quote-icon"><i class="bi bi-quote"></i></div>
+            <p class="testimonial-text">
+              "The AI-powered insights helped me spot opportunities I'd have never found alone. My portfolio is up 65% this year."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar a2">MC</div>
+              <div>
+                <p class="author-name">Michael Chen</p>
+                <p class="author-role">Tech Entrepreneur</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="testimonial-card">
+            <div class="star-rating">
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+            </div>
+            <div class="quote-icon"><i class="bi bi-quote"></i></div>
+            <p class="testimonial-text">
+              "As a small business owner, MyBank's cash flow tools have been a game-changer. I've tripled my business savings."
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar a3">JW</div>
+              <div>
+                <p class="author-name">Jessica Williams</p>
+                <p class="author-role">Business Owner</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CTA ==================== -->
+  <section class="cta-section">
+    <div class="container text-center">
+      <h2 class="cta-title">Begin Your Wealth Journey Today</h2>
+      <p class="cta-sub">Join over 750,000 investors building generational wealth with MyBank. No fees. No commitments. Just growth.</p>
+      <a href="{{ url_for('register') }}" class="btn-cta">
+        Open Your Free Account <i class="bi bi-arrow-right"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer" id="contact">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="footer-brand"><i class="bi bi-bank2"></i>My<span>Bank</span></div>
+          <p>Your trusted partner in financial growth and security. We provide cutting-edge tools to help you reach your goals.</p>
+          <div class="social-links mt-4">
+            <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+            <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+            <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+          </div>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Press</a></li>
+            <li><a href="#">Blog</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h5>Products</h5>
+          <ul>
+            <li><a href="#investments">Investing</a></li>
+            <li><a href="#features">Savings</a></li>
+            <li><a href="#">Retirement</a></li>
+            <li><a href="#features">Security</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h5>Resources</h5>
+          <ul>
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h5>Contact</h5>
+          <ul>
+            <li><i class="bi bi-envelope me-1"></i> support@mybank.com</li>
+            <li><i class="bi bi-telephone me-1"></i> +1 (555) 123-4567</li>
+            <li><i class="bi bi-geo-alt me-1"></i> New York, NY</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; 2026 MyBank. All rights reserved.</div>
+        <div>
+          <a href="#" class="me-3" style="color:inherit;text-decoration:none;">Privacy</a>
+          <a href="#" style="color:inherit;text-decoration:none;">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Navbar background on scroll
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 40) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    });
+  </script>
 </body>
 </html>
-=======
-{% extends "layout.html" %}
-
-{% block title %}Dashboard{% endblock %}
-
-{% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-6">
-            <div class="card shadow-lg p-4">
-                <h3 class="card-title text-center mb-4">Welcome, {{ current_user.username }}!</h3>
-
-                <p class="lead text-center mb-4">Manage your finances with ease.</p>
-
-                <hr class="mb-4">
-
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <div class="card bg-light p-3 h-100">
-                            <h5 class="card-title text-success mb-3">Make a Deposit</h5>
-                            <form action="/deposit" method="POST">
-                                <div class="mb-3">
-                                    <label for="depositAmount" class="form-label visually-hidden">Amount to Deposit</label>
-                                    <input type="number" name="amount" id="depositAmount" placeholder="Enter amount" required class="form-control form-control-lg">
-                                </div>
-                                <button type="submit" class="btn btn-success w-100 btn-lg">Deposit Funds</button>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="card bg-light p-3 h-100">
-                            <h5 class="card-title text-danger mb-3">Make a Withdrawal</h5>
-                            <form action="/withdraw" method="POST">
-                                <div class="mb-3">
-                                    <label for="withdrawAmount" class="form-label visually-hidden">Amount to Withdraw</label>
-                                    <input type="number" name="amount" id="withdrawAmount" placeholder="Enter amount" required class="form-control form-control-lg">
-                                </div>
-                                <button type="submit" class="btn btn-danger w-100 btn-lg">Withdraw Funds</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                <hr class="my-4">
-
-                <div class="text-center">
-                    <a href="{{ url_for('transactions_history') }}" class="btn btn-primary btn-lg px-5">View Transaction History</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-{% endblock %}
-
