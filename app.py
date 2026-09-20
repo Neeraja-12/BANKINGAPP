@@ -34,15 +34,19 @@ app = Flask(__name__)
 
 # Configuration
 class Config:
-    # FIX #1: stable fallback key. Override with SECRET_KEY env var on Render.
+    # FIX #1: stable fallback key. Override with SECRET_KEY env var in production.
     SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret-key-change-me-in-production')
 
-    # NOTE: SQLite is ephemeral on Render's free tier — the DB file is wiped on each deploy.
-    # For persistence, switch to Render PostgreSQL and set DATABASE_URL.
+    # NOTE: SQLite is ephemeral on serverless/free-tier hosts (Vercel, Render free
+    # tier) -- the DB file is wiped on every cold start / deploy. For persistence,
+    # set DATABASE_URL to a hosted Postgres instance (Vercel Postgres, Neon, etc).
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'sqlite:///bank_complete.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # File upload settings
+    # NOTE: on Vercel this folder is NOT writable/persistent at request time.
+    # Profile-picture upload will not work as-is unless you switch to Vercel
+    # Blob / S3 / Cloudinary. Left as local disk here for non-serverless hosts.
     UPLOAD_FOLDER = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static', 'images', 'profile_pics')
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -70,8 +74,13 @@ class Config:
 
 app.config.from_object(Config)
 
-# Ensure directories exist (safe on Render)
-os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+# FIX #4 (new): guard upload-folder creation like the logs folder below --
+# this line used to run unguarded and would crash the entire app at import
+# time on any host with a read-only filesystem (e.g. Vercel serverless).
+try:
+    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+except OSError as _e:
+    app.logger.warning(f'Could not create upload folder (read-only filesystem?): {_e}')
 
 # FIX #3: don't crash the app if the log directory can't be created / written
 try:
@@ -83,7 +92,7 @@ try:
     file_handler.setLevel(logging.INFO)
     app.logger.addHandler(file_handler)
 except Exception as _e:
-    # Fall through — console logging still works
+    # Fall through -- console logging still works
     app.logger.warning(f'Could not set up file logging: {_e}')
 
 app.logger.setLevel(logging.INFO)
@@ -170,12 +179,12 @@ class CreditCardForm(FlaskForm):
         Length(min=10, max=10),
         Regexp('^[A-Z]{5}[0-9]{4}[A-Z]{1}$', message='Invalid PAN number format')
     ])
-    income = FloatField('Annual Income (₹)', validators=[DataRequired(), NumberRange(min=50000)])
+    income = FloatField('Annual Income (\u20b9)', validators=[DataRequired(), NumberRange(min=50000)])
     submit = SubmitField('Apply for Credit Card')
 
 
 class LoanApplicationForm(FlaskForm):
-    loan_amount = FloatField('Loan Amount (₹)', validators=[DataRequired(), NumberRange(min=1000, max=1000000)])
+    loan_amount = FloatField('Loan Amount (\u20b9)', validators=[DataRequired(), NumberRange(min=1000, max=1000000)])
     tenure = SelectField('Tenure (Months)', choices=[
         (6, '6 Months'), (12, '1 Year'), (24, '2 Years'),
         (36, '3 Years'), (48, '4 Years'), (60, '5 Years')
@@ -202,8 +211,8 @@ class BudgetForm(FlaskForm):
         ('Education', 'Education'),
         ('Other', 'Other')
     ], validators=[DataRequired()])
-    amount = FloatField('Budget Amount (₹)', validators=[DataRequired(), NumberRange(min=1)])
-    month = StringField('Month (YYYY-MM)', validators=[DataRequired(), Regexp('^\\d{4}-\\d{2}$')])
+    amount = FloatField('Budget Amount (\u20b9)', validators=[DataRequired(), NumberRange(min=1)])
+    month = StringField('Month (YYYY-MM)', validators=[DataRequired(), Regexp(r'^\d{4}-\d{2}$')])
     submit = SubmitField('Set Budget')
 
 
@@ -233,7 +242,6 @@ class User(UserMixin, db.Model):
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     last_login = db.Column(db.DateTime)
     is_active = db.Column(db.Boolean, default=True)
-
     transactions = db.relationship('Transaction', backref='user', lazy=True, cascade='all, delete-orphan')
     loan_applications = db.relationship('LoanApplication', backref='user', lazy=True, cascade='all, delete-orphan')
     credit_card_applications = db.relationship('CreditCardApplication', backref='user', lazy=True, cascade='all, delete-orphan')
@@ -326,6 +334,20 @@ class Investment(db.Model):
         return 0
 
 
+# FIX #5 (new): self-healing table creation. On hosts with an ephemeral
+# filesystem/database (serverless cold starts, free-tier redeploys), a
+# fresh SQLite file has no tables until db.create_all() runs. This used to
+# only happen if you manually ran create_db.py against the exact database
+# the deployed app was using -- easy to forget, and impossible to do at all
+# on Vercel without a persistent shell. This block makes table creation
+# happen automatically and safely (CREATE TABLE IF NOT EXISTS is idempotent).
+with app.app_context():
+    try:
+        db.create_all()
+    except Exception as _e:
+        app.logger.error(f'db.create_all() failed at startup: {_e}')
+
+
 # Helper Functions
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
@@ -371,7 +393,7 @@ def categorize_transaction(description):
 # Context Processor
 @app.context_processor
 def utility_processor():
-    def format_currency(amount, currency='₹'):
+    def format_currency(amount, currency='\u20b9'):
         if amount is None:
             return f"{currency}0.00"
         return f"{currency}{amount:,.2f}"
@@ -438,7 +460,6 @@ def register():
 
             otp = str(random.randint(100000, 999999))
             expiry = datetime.now() + timedelta(minutes=5)
-
             session['otp'] = otp
             session['otp_expiry'] = expiry.strftime('%Y-%m-%d %H:%M:%S')
             session['reg_username'] = form.username.data
@@ -450,7 +471,6 @@ def register():
                           sender=app.config['MAIL_DEFAULT_SENDER'],
                           recipients=[form.email.data])
             msg.body = f"Hello {form.username.data},\n\nYour OTP is: {otp}\n\nThis code will expire in 5 minutes."
-
             try:
                 mail.send(msg)
                 flash('OTP sent to your email. Please verify.', 'info')
@@ -458,7 +478,6 @@ def register():
             except Exception as e:
                 app.logger.error(f'Failed to send OTP email: {e}')
                 flash('Failed to send verification email. Please try again.', 'danger')
-
         except IntegrityError:
             db.session.rollback()
             flash('Registration failed. Please try different values.', 'danger')
@@ -480,7 +499,6 @@ def verify_otp():
             return redirect(url_for('register'))
 
         expiry = datetime.strptime(expiry_str, '%Y-%m-%d %H:%M:%S')
-
         if datetime.now() > expiry:
             flash('OTP expired. Please register again.', 'danger')
             return redirect(url_for('register'))
@@ -501,7 +519,6 @@ def verify_otp():
             return redirect(url_for('login'))
         else:
             flash('Invalid OTP, please try again.', 'danger')
-
     return render_template('verify_otp.html')
 
 
@@ -513,7 +530,6 @@ def resend_otp():
 
     otp = str(random.randint(100000, 999999))
     expiry = datetime.now() + timedelta(minutes=5)
-
     session['otp'] = otp
     session['otp_expiry'] = expiry.strftime('%Y-%m-%d %H:%M:%S')
 
@@ -521,14 +537,12 @@ def resend_otp():
                   sender=app.config['MAIL_DEFAULT_SENDER'],
                   recipients=[session['reg_email']])
     msg.body = f"Hello {session['reg_username']},\n\nYour new OTP is: {otp}\n\nThis code will expire in 5 minutes."
-
     try:
         mail.send(msg)
         flash('A new OTP has been sent to your email.', 'info')
     except Exception as e:
         app.logger.error(f'Failed to resend OTP email: {e}')
         flash('Failed to send OTP email. Please try again.', 'danger')
-
     return redirect(url_for('verify_otp'))
 
 
@@ -569,6 +583,7 @@ def dashboard():
         transactions = Transaction.query.filter_by(
             user_id=current_user.id
         ).order_by(Transaction.date.desc()).limit(5).all()
+
         current_month = datetime.now().strftime('%Y-%m')
         exchange_rates = get_exchange_rates()
 
@@ -648,7 +663,7 @@ def deposit():
                           {'user_id': current_user.id, 'balance': current_user.balance},
                           room=f'user_{current_user.id}')
             app.logger.info(f'User {current_user.username} deposited {amount}')
-            flash(f'Successfully deposited ₹{amount:,.2f}', 'success')
+            flash(f'Successfully deposited \u20b9{amount:,.2f}', 'success')
     except ValueError:
         flash('Invalid amount entered.', 'danger')
     except Exception as e:
@@ -677,6 +692,7 @@ def withdraw():
                 reference_id=generate_reference_id()
             )
             db.session.add(transaction)
+
             current_month = datetime.now().strftime('%Y-%m')
             budget = Budget.query.filter_by(
                 user_id=current_user.id, category=category, month=current_month
@@ -685,12 +701,13 @@ def withdraw():
                 budget.spent += amount
                 if budget.spent > budget.amount:
                     flash(f'Warning: You have exceeded your {category} budget!', 'warning')
+
             db.session.commit()
             socketio.emit('balance_update',
                           {'user_id': current_user.id, 'balance': current_user.balance},
                           room=f'user_{current_user.id}')
             app.logger.info(f'User {current_user.username} withdrew {amount}')
-            flash(f'Successfully withdrew ₹{amount:,.2f}', 'success')
+            flash(f'Successfully withdrew \u20b9{amount:,.2f}', 'success')
     except ValueError:
         flash('Invalid amount entered.', 'danger')
     except Exception as e:
@@ -707,6 +724,7 @@ def transfer():
         amount = float(request.form.get('amount', 0))
         recipient_account = request.form.get('recipient_account')
         description = request.form.get('description', 'Fund Transfer')
+
         if amount <= 0:
             flash('Amount must be greater than zero.', 'danger')
         elif amount > current_user.balance:
@@ -721,6 +739,7 @@ def transfer():
                 current_user.balance -= amount
                 recipient.balance += amount
                 ref_id = generate_reference_id()
+
                 sender_tx = Transaction(
                     user_id=current_user.id, type='Transfer Out', amount=amount,
                     description=f'Transfer to A/C {recipient_account} - {description}',
@@ -734,6 +753,7 @@ def transfer():
                 db.session.add(sender_tx)
                 db.session.add(recipient_tx)
                 db.session.commit()
+
                 socketio.emit('balance_update',
                               {'user_id': current_user.id, 'balance': current_user.balance},
                               room=f'user_{current_user.id}')
@@ -741,7 +761,7 @@ def transfer():
                               {'user_id': recipient.id, 'balance': recipient.balance},
                               room=f'user_{recipient.id}')
                 app.logger.info(f'User {current_user.username} transferred {amount} to {recipient.username}')
-                flash(f'Successfully transferred ₹{amount:,.2f} to account {recipient_account}', 'success')
+                flash(f'Successfully transferred \u20b9{amount:,.2f} to account {recipient_account}', 'success')
     except ValueError:
         flash('Invalid amount entered.', 'danger')
     except Exception as e:
@@ -782,6 +802,7 @@ def apply_loan():
             else:
                 status = 'Pending'
                 flash_msg = 'Your loan application is under review.'
+
             application = LoanApplication(
                 user_id=current_user.id, loan_amount=form.loan_amount.data,
                 tenure=form.tenure.data, loan_type=form.loan_type.data,
@@ -795,6 +816,7 @@ def apply_loan():
             db.session.rollback()
             app.logger.error(f'Loan application error: {e}')
             flash('An error occurred during application.', 'danger')
+
     applications = LoanApplication.query.filter_by(user_id=current_user.id).all()
     return render_template('apply_loan.html', form=form, applications=applications)
 
@@ -813,6 +835,7 @@ def apply_credit_card():
                 status = 'Pending'
                 credit_limit = form.income.data * 0.2
                 flash_msg = 'Your credit card application is under review.'
+
             application = CreditCardApplication(
                 user_id=current_user.id, card_type=form.card_type.data,
                 pan_number=form.pan_number.data, income=form.income.data,
@@ -826,6 +849,7 @@ def apply_credit_card():
             db.session.rollback()
             app.logger.error(f'Credit card application error: {e}')
             flash('An error occurred during application.', 'danger')
+
     applications = CreditCardApplication.query.filter_by(user_id=current_user.id).all()
     return render_template('credit_card.html', form=form, applications=applications)
 
@@ -858,6 +882,7 @@ def budgets():
             db.session.rollback()
             app.logger.error(f'Budget error: {e}')
             flash('An error occurred.', 'danger')
+
     budgets = Budget.query.filter_by(user_id=current_user.id).order_by(Budget.month.desc()).all()
     return render_template('budgets.html', form=form, budgets=budgets, current_month=current_month)
 
@@ -875,20 +900,24 @@ def upload_profile_pic():
     if 'photo' not in request.files:
         flash('No file selected', 'danger')
         return redirect(url_for('profile'))
+
     file = request.files['photo']
     if file.filename == '':
         flash('No file selected', 'danger')
         return redirect(url_for('profile'))
+
     if file and allowed_file(file.filename):
         try:
             ext = file.filename.rsplit('.', 1)[1].lower()
             filename = f"{current_user.id}_{uuid.uuid4().hex}.{ext}"
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(filepath)
+
             if current_user.profile_pic and current_user.profile_pic != 'default.jpg':
                 old_path = os.path.join(app.config['UPLOAD_FOLDER'], current_user.profile_pic)
                 if os.path.exists(old_path):
                     os.remove(old_path)
+
             current_user.profile_pic = filename
             db.session.commit()
             flash('Profile picture updated successfully!', 'success')
@@ -907,6 +936,7 @@ def settings():
     if request.method == 'GET':
         form.email.data = current_user.email
         form.username.data = current_user.username
+
     if form.validate_on_submit():
         try:
             if form.email.data != current_user.email:
@@ -915,12 +945,14 @@ def settings():
                     flash('Email already registered by another user.', 'danger')
                     return render_template('settings.html', form=form)
                 current_user.email = form.email.data
+
             if form.username.data != current_user.username:
                 existing_user = User.query.filter_by(username=form.username.data).first()
                 if existing_user:
                     flash('Username already taken by another user.', 'danger')
                     return render_template('settings.html', form=form)
                 current_user.username = form.username.data
+
             if form.new_password.data:
                 if not form.current_password.data:
                     flash('Current password is required to change password.', 'danger')
@@ -930,6 +962,7 @@ def settings():
                     return render_template('settings.html', form=form)
                 current_user.password = generate_password_hash(form.new_password.data)
                 flash('Password updated successfully.', 'success')
+
             db.session.commit()
             flash('Settings updated successfully!', 'success')
             return redirect(url_for('settings'))
@@ -937,6 +970,7 @@ def settings():
             db.session.rollback()
             app.logger.error(f'Settings update error: {e}')
             flash('An error occurred while updating settings.', 'danger')
+
     return render_template('settings.html', form=form)
 
 
@@ -964,6 +998,7 @@ def bills():
             amount = float(request.form.get('amount'))
             due_date = datetime.strptime(request.form.get('due_date'), '%Y-%m-%d').date()
             category = request.form.get('category')
+
             new_bill = Bill(
                 user_id=current_user.id, name=name, amount=amount,
                 due_date=due_date, category=category
@@ -975,6 +1010,7 @@ def bills():
         except Exception as e:
             app.logger.error(f'Bill creation error: {e}')
             flash('An error occurred while adding the bill.', 'danger')
+
     upcoming_bills = Bill.query.filter_by(
         user_id=current_user.id, is_paid=False
     ).order_by(Bill.due_date).all()
@@ -987,57 +1023,63 @@ def bills():
 @app.route('/pay_bill/<int:bill_id>', methods=['POST'])
 @login_required
 def pay_bill(bill_id):
+    # NOTE: everything below "bill.paid_date = ..." is my reconstruction,
+    # following the exact commit/transaction/socketio/flash pattern used by
+    # every other route above (deposit, withdraw, transfer). I could not
+    # verify this against your actual source because GitHub truncated the
+    # file here in every fetch attempt -- please diff this against your
+    # original pay_bill if you still have it, and let me know if it doesn't
+    # match so I can correct it.
     try:
         bill = Bill.query.filter_by(id=bill_id, user_id=current_user.id, is_paid=False).first()
         if not bill:
             flash('Bill not found or already paid.', 'danger')
             return redirect(url_for('bills'))
+
         if current_user.balance < bill.amount:
             flash('Insufficient balance to pay this bill.', 'danger')
             return redirect(url_for('bills'))
+
         current_user.balance -= bill.amount
         bill.is_paid = True
         bill.paid_date = datetime.now(timezone.utc)
+
         transaction = Transaction(
             user_id=current_user.id, type='Bill Payment', amount=bill.amount,
-            description=f'Payment for {bill.name}', category=bill.category,
+            description=f'Bill Payment - {bill.name}', category=bill.category,
             reference_id=generate_reference_id()
         )
         db.session.add(transaction)
         db.session.commit()
+
         socketio.emit('balance_update',
                       {'user_id': current_user.id, 'balance': current_user.balance},
                       room=f'user_{current_user.id}')
-        flash(f'Successfully paid bill "{bill.name}" for ₹{bill.amount:,.2f}.', 'success')
+        app.logger.info(f'User {current_user.username} paid bill "{bill.name}" for {bill.amount}')
+        flash(f'Successfully paid "{bill.name}" (\u20b9{bill.amount:,.2f}).', 'success')
     except Exception as e:
         db.session.rollback()
         app.logger.error(f'Bill payment error: {e}')
-        flash('An error occurred during bill payment.', 'danger')
+        flash('An error occurred while paying the bill.', 'danger')
     return redirect(url_for('bills'))
 
 
-# Database initialization
-with app.app_context():
-    db.create_all()
-    if not User.query.first():
-        admin_user = User(
-            username='admin',
-            email='admin@bank.com',
-            account_number='1234567890',
-            password=generate_password_hash('Admin@123'),
-            balance=1000000.00,
-            profile_pic='default.jpg'
-        )
-        db.session.add(admin_user)
-        db.session.commit()
-        app.logger.info('Default admin user created')
-
-
-if __name__ == '__main__':
-    print("=" * 60)
-    print("🚀 Flask Banking Application Starting...")
-    print("=" * 60)
-    print("📊 Access your application at: http://localhost:5000")
-    print("🔑 Default admin login - Username: admin, Password: Admin@123")
-    print("=" * 60)
-    socketio.run(app, debug=True, host='127.0.0.1', port=5000, allow_unsafe_werkzeug=True)
+# =====================================================================
+# EVERYTHING BELOW THIS LINE IS MISSING FROM WHAT I COULD RETRIEVE.
+#
+# GitHub's page truncates app.py at the exact same spot on every fetch
+# attempt (raw view, plain=1, larger token limits -- all identical), and
+# I have no way to page past it with the tools available to me. Based on
+# your models and imports, the missing ~140 lines almost certainly include:
+#   - One or more /investments routes (buy/sell/list), since the
+#     Investment model with get_profit_loss()/get_profit_loss_percentage()
+#     is defined above but never used by any route I've seen
+#   - Possibly a JSON/API endpoint (jsonify is imported but I never saw
+#     it used)
+#   - The final `if __name__ == '__main__':` block, if one exists here
+#     separate from run.py
+#
+# Please paste that remaining section directly in chat (copy from your
+# GitHub file, starting right after the pay_bill route above) and I will
+# review and correct it properly rather than guess.
+# =====================================================================
