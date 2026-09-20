@@ -1,4 +1,4 @@
-{% extends 'layout.html' %}
+﻿{% extends 'layout.html' %}
 
 {% block content %}
 <style>
@@ -571,11 +571,11 @@
     color: var(--secondary-accent);
     line-height: 1; /* Align vertically */
   }
-  .icon-card-num::before { content: "💳"; }
-  .icon-card-type::before { content: "🏷️"; }
-  .icon-credit-limit::before { content: "💸"; }
-  .icon-available-credit::before { content: "✅"; }
-  .icon-payment-due::before { content: "⏰"; }
+  .icon-card-num::before { content: "ðŸ’³"; }
+  .icon-card-type::before { content: "ðŸ·ï¸"; }
+  .icon-credit-limit::before { content: "ðŸ’¸"; }
+  .icon-available-credit::before { content: "âœ…"; }
+  .icon-payment-due::before { content: "â°"; }
 >>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
 
   /* Flash Messages */
@@ -660,7 +660,7 @@
     <!-- Credit Card Preview -->
     <div class="credit-card-preview mb-5">
       <div class="card-chip"></div>
-      <div class="card-number">•••• •••• •••• 1234</div>
+      <div class="card-number">â€¢â€¢â€¢â€¢ â€¢â€¢â€¢â€¢ â€¢â€¢â€¢â€¢ 1234</div>
       <div class="card-details">
         <div>
           <div class="card-holder">JANE DOE</div>
@@ -713,7 +713,7 @@
         <div class="mb-5">
           {{ form.income.label(class="form-label-app") }}
           <div class="input-group">
-            {{ form.income(class="form-control form-control-app", placeholder="Annual income in ₹ (e.g., 750000)") }}
+            {{ form.income(class="form-control form-control-app", placeholder="Annual income in â‚¹ (e.g., 750000)") }}
             <div class="input-icon"><i class="fas fa-rupee-sign"></i></div>
           </div>
         </div>
@@ -736,7 +736,7 @@
         </div>
         <div class="mb-5">
           {{ form.income.label(class="form-label-app") }}
-          {{ form.income(class="form-control form-control-app", placeholder="Annual income in ₹ (e.g., 750000)") }}
+          {{ form.income(class="form-control form-control-app", placeholder="Annual income in â‚¹ (e.g., 750000)") }}
         </div>
         <div class="d-grid gap-3"> {{ form.submit(class="btn btn-primary-app btn-lg") }}
 >>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
@@ -767,14 +767,14 @@
             <span class="detail-icon icon-credit-limit"><i class="fas fa-chart-line"></i></span>
             Credit Limit:
           </span>
-          <span class="detail-value value-highlight">₹1,50,000</span>
+          <span class="detail-value value-highlight">â‚¹1,50,000</span>
         </li>
         <li class="list-group-item">
           <span class="detail-label">
             <span class="detail-icon icon-available-credit"><i class="fas fa-check-circle"></i></span>
             Available Credit:
           </span>
-          <span class="detail-value value-success">₹1,17,000</span>
+          <span class="detail-value value-success">â‚¹1,17,000</span>
         </li>
         <li class="list-group-item">
           <span class="detail-label">
@@ -856,11 +856,11 @@
         </li>
         <li class="list-group-item">
           <span class="detail-label"><span class="detail-icon icon-credit-limit"></span> Credit Limit:</span>
-          <span class="detail-value value-highlight">₹1,00,000</span>
+          <span class="detail-value value-highlight">â‚¹1,00,000</span>
         </li>
         <li class="list-group-item">
           <span class="detail-label"><span class="detail-icon icon-available-credit"></span> Available Credit:</span>
-          <span class="detail-value value-success">₹78,000</span>
+          <span class="detail-value value-success">â‚¹78,000</span>
         </li>
         <li class="list-group-item">
           <span class="detail-label"><span class="detail-icon icon-payment-due"></span> Next Payment Due:</span>

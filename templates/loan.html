@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -191,13 +191,13 @@
                             </div>
 
                             <div class="mb-4 animated-border">
-                                <label for="amount" class="form-label">Loan Amount (₹)</label>
+                                <label for="amount" class="form-label">Loan Amount (â‚¹)</label>
                                 <div class="input-group input-group-lg">
                                     <span class="input-group-text"><i class="bi bi-currency-rupee"></i></span>
                                     <input type="number" id="amount" name="amount" class="form-control"
                                            placeholder="e.g., 50,000" min="1000" required>
                                     <div class="invalid-feedback">
-                                        Please enter a valid loan amount (minimum ₹1,000).
+                                        Please enter a valid loan amount (minimum â‚¹1,000).
                                     </div>
                                 </div>
                             </div>
@@ -232,9 +232,9 @@
                                 <h5 class="mb-3"><i class="bi bi-calculator me-2"></i>EMI Calculator</h5>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <p class="mb-1">Monthly EMI: <span id="emi-value">₹0</span></p>
-                                        <p class="mb-1">Total Interest: <span id="interest-value">₹0</span></p>
-                                        <p>Total Payment: <span id="total-value">₹0</span></p>
+                                        <p class="mb-1">Monthly EMI: <span id="emi-value">â‚¹0</span></p>
+                                        <p class="mb-1">Total Interest: <span id="interest-value">â‚¹0</span></p>
+                                        <p>Total Payment: <span id="total-value">â‚¹0</span></p>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-check">
@@ -290,9 +290,9 @@
             const totalPayment = emi * term;
             const totalInterest = totalPayment - amount;
             
-            document.getElementById('emi-value').textContent = '₹' + emi.toFixed(2);
-            document.getElementById('interest-value').textContent = '₹' + totalInterest.toFixed(2);
-            document.getElementById('total-value').textContent = '₹' + totalPayment.toFixed(2);
+            document.getElementById('emi-value').textContent = 'â‚¹' + emi.toFixed(2);
+            document.getElementById('interest-value').textContent = 'â‚¹' + totalInterest.toFixed(2);
+            document.getElementById('total-value').textContent = 'â‚¹' + totalPayment.toFixed(2);
         }
         
         document.getElementById('amount').addEventListener('input', calculateEMI);

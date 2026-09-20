@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -55,7 +55,7 @@
                 <a class="nav-link" href="{{ url_for('dashboard') }}">
                     <i class="fas fa-home me-1"></i>Dashboard
                 </a>
-                <a class="nav-link" href="{{ url_for('profile_view') }}">
+                <a class="nav-link" href="{{ url_for('profile') }}">
                     <i class="fas fa-user me-1"></i>Profile
                 </a>
                 <a class="nav-link" href="{{ url_for('logout') }}">
@@ -87,7 +87,7 @@
                         <div class="d-flex justify-content-between">
                             <div>
                                 <h6 class="card-title">Total Invested</h6>
-                                <h3>₹{{ "%.2f"|format(total_invested) }}</h3>
+                                <h3>â‚¹{{ "%.2f"|format(total_invested) }}</h3>
                             </div>
                             <div class="align-self-center">
                                 <i class="fas fa-wallet fa-2x opacity-50"></i>
@@ -102,7 +102,7 @@
                         <div class="d-flex justify-content-between">
                             <div>
                                 <h6 class="card-title">Current Value</h6>
-                                <h3>₹{{ "%.2f"|format(current_value) }}</h3>
+                                <h3>â‚¹{{ "%.2f"|format(current_value) }}</h3>
                             </div>
                             <div class="align-self-center">
                                 <i class="fas fa-chart-bar fa-2x opacity-50"></i>
@@ -117,7 +117,7 @@
                         <div class="d-flex justify-content-between">
                             <div>
                                 <h6 class="card-title">Total P&L</h6>
-                                <h3>₹{{ "%.2f"|format(total_profit) }}</h3>
+                                <h3>â‚¹{{ "%.2f"|format(total_profit) }}</h3>
                             </div>
                             <div class="align-self-center">
                                 <i class="fas fa-trending-up fa-2x opacity-50"></i>
@@ -197,10 +197,10 @@
                                                         {{ investment.type }}
                                                     </span>
                                                 </td>
-                                                <td>₹{{ "%.2f"|format(investment.amount_invested) }}</td>
-                                                <td>₹{{ "%.2f"|format(investment.current_value) }}</td>
+                                                <td>â‚¹{{ "%.2f"|format(investment.amount_invested) }}</td>
+                                                <td>â‚¹{{ "%.2f"|format(investment.current_value) }}</td>
                                                 <td class="{% if investment.get_profit_loss() >= 0 %}profit{% else %}loss{% endif %}">
-                                                    ₹{{ "%.2f"|format(investment.get_profit_loss()) }}
+                                                    â‚¹{{ "%.2f"|format(investment.get_profit_loss()) }}
                                                 </td>
                                                 <td class="{% if investment.get_profit_loss_percentage() >= 0 %}profit{% else %}loss{% endif %}">
                                                     {{ "%.2f"|format(investment.get_profit_loss_percentage()) }}%
@@ -389,11 +389,11 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="amount_invested" class="form-label">Invested Amount (₹)</label>
+                            <label for="amount_invested" class="form-label">Invested Amount (â‚¹)</label>
                             <input type="number" class="form-control" id="amount_invested" name="amount_invested" step="0.01" min="0" required>
                         </div>
                         <div class="mb-3">
-                            <label for="current_value" class="form-label">Current Value (₹)</label>
+                            <label for="current_value" class="form-label">Current Value (â‚¹)</label>
                             <input type="number" class="form-control" id="current_value" name="current_value" step="0.01" min="0" required>
                         </div>
                         <div class="mb-3">
@@ -443,11 +443,11 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="edit_amount_invested" class="form-label">Invested Amount (₹)</label>
+                            <label for="edit_amount_invested" class="form-label">Invested Amount (â‚¹)</label>
                             <input type="number" class="form-control" id="edit_amount_invested" name="amount_invested" step="0.01" min="0" required>
                         </div>
                         <div class="mb-3">
-                            <label for="edit_current_value" class="form-label">Current Value (₹)</label>
+                            <label for="edit_current_value" class="form-label">Current Value (â‚¹)</label>
                             <input type="number" class="form-control" id="edit_current_value" name="current_value" step="0.01" min="0" required>
                         </div>
                         <div class="mb-3">

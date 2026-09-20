@@ -1,4 +1,4 @@
-{% extends 'layout.html' %}
+﻿{% extends 'layout.html' %}
 
 {% block content %}
 <style>
@@ -182,7 +182,7 @@
 
 <div class="container mt-5">
   <div class="app-card" style="max-width: 800px; margin: 0 auto;">
-    <h2 class="main-heading">Transaction History <span class="badge bg-secondary-subtle text-dark-emphasis ms-2">Live 🟢</span></h2>
+    <h2 class="main-heading">Transaction History <span class="badge bg-secondary-subtle text-dark-emphasis ms-2">Live ðŸŸ¢</span></h2>
 
     {% if transactions %}
     <div class="table-responsive-custom">
@@ -191,7 +191,7 @@
           <tr>
             <th>ID</th>
             <th>Type</th>
-            <th>Amount (₹)</th>
+            <th>Amount (â‚¹)</th>
             <th>Date</th>
           </tr>
         </thead>
@@ -210,7 +210,7 @@
             </td>
             <td>
               <span class="amount-display {% if t.type == 'deposit' %}amount-deposit{% elif t.type == 'withdraw' %}amount-withdraw{% endif %}">
-                ₹{{ t.amount }}
+                â‚¹{{ t.amount }}
               </span>
             </td>
             <td>{{ t.date }}</td>
@@ -220,11 +220,11 @@
       </table>
     </div>
     {% else %}
-    <p class="no-transactions-message">🤔 No transactions found for your account yet. Start by making a deposit or withdrawal!</p>
+    <p class="no-transactions-message">ðŸ¤” No transactions found for your account yet. Start by making a deposit or withdrawal!</p>
     {% endif %}
 
     <div class="text-center mt-4">
-      <a href="{{ url_for('dashboard') }}" class="btn btn-back-dashboard">← Back to Dashboard</a>
+      <a href="{{ url_for('dashboard') }}" class="btn btn-back-dashboard">â† Back to Dashboard</a>
     </div>
   </div>
 </div>

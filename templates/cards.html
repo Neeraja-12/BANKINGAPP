@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -100,7 +100,7 @@
                 <a class="nav-link" href="{{ url_for('dashboard') }}">
                     <i class="fas fa-home me-1"></i>Dashboard
                 </a>
-                <a class="nav-link" href="{{ url_for('profile_view') }}">
+                <a class="nav-link" href="{{ url_for('profile') }}">
                     <i class="fas fa-user me-1"></i>Profile
                 </a>
                 <a class="nav-link" href="{{ url_for('logout') }}">
@@ -152,7 +152,7 @@
                         <div class="d-flex justify-content-between">
                             <div>
                                 <h6 class="card-title">Available Limit</h6>
-                                <h3>₹{{ "%.2f"|format(available_limit) }}</h3>
+                                <h3>â‚¹{{ "%.2f"|format(available_limit) }}</h3>
                             </div>
                             <div class="align-self-center">
                                 <i class="fas fa-wallet fa-2x opacity-50"></i>
@@ -167,7 +167,7 @@
                         <div class="d-flex justify-content-between">
                             <div>
                                 <h6 class="card-title">Total Spent</h6>
-                                <h3>₹{{ "%.2f"|format(total_spent) }}</h3>
+                                <h3>â‚¹{{ "%.2f"|format(total_spent) }}</h3>
                             </div>
                             <div class="align-self-center">
                                 <i class="fas fa-shopping-cart fa-2x opacity-50"></i>
@@ -232,13 +232,13 @@
                                             </div>
                                         </div>
                                         <div class="mt-3">
-                                            <small>Credit Limit: ₹{{ "%.2f"|format(card.credit_limit) }}</small>
+                                            <small>Credit Limit: â‚¹{{ "%.2f"|format(card.credit_limit) }}</small>
                                             <div class="progress limit-progress mt-1">
                                                 <div class="progress-bar {% if card.utilization_percentage > 80 %}bg-danger{% elif card.utilization_percentage > 50 %}bg-warning{% else %}bg-success{% endif %}" 
                                                      style="width: {{ card.utilization_percentage }}%">
                                                 </div>
                                             </div>
-                                            <small>Used: ₹{{ "%.2f"|format(card.used_amount) }} ({{ "%.1f"|format(card.utilization_percentage) }}%)</small>
+                                            <small>Used: â‚¹{{ "%.2f"|format(card.used_amount) }} ({{ "%.1f"|format(card.utilization_percentage) }}%)</small>
                                         </div>
                                     </div>
                                 </div>
@@ -293,12 +293,12 @@
                                         </div>
                                         <div>
                                             <h6 class="mb-1">{{ transaction.merchant }}</h6>
-                                            <small class="text-muted">{{ transaction.date }} • {{ transaction.category }}</small>
+                                            <small class="text-muted">{{ transaction.date }} â€¢ {{ transaction.category }}</small>
                                         </div>
                                     </div>
                                     <div class="text-end">
                                         <strong class="{% if transaction.amount < 0 %}text-danger{% else %}text-success{% endif %}">
-                                            ₹{{ "%.2f"|format(transaction.amount|abs) }}
+                                            â‚¹{{ "%.2f"|format(transaction.amount|abs) }}
                                         </strong>
                                         <br>
                                         <small class="text-muted">{{ transaction.card_name }}</small>
@@ -463,7 +463,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="credit_limit" class="form-label">Credit Limit (₹)</label>
+                            <label for="credit_limit" class="form-label">Credit Limit (â‚¹)</label>
                             <input type="number" class="form-control" id="credit_limit" name="credit_limit" 
                                    step="0.01" min="0" value="0">
                         </div>
@@ -534,9 +534,9 @@
                         </div>
                         <div class="col-md-6">
                             <h6>Usage Information</h6>
-                            <p><strong>Credit Limit:</strong> ₹${card.credit_limit.toFixed(2)}</p>
-                            <p><strong>Used Amount:</strong> ₹${card.used_amount.toFixed(2)}</p>
-                            <p><strong>Available:</strong> ₹${(card.credit_limit - card.used_amount).toFixed(2)}</p>
+                            <p><strong>Credit Limit:</strong> â‚¹${card.credit_limit.toFixed(2)}</p>
+                            <p><strong>Used Amount:</strong> â‚¹${card.used_amount.toFixed(2)}</p>
+                            <p><strong>Available:</strong> â‚¹${(card.credit_limit - card.used_amount).toFixed(2)}</p>
                             <div class="progress mb-2">
                                 <div class="progress-bar ${card.utilization_percentage > 80 ? 'bg-danger' : card.utilization_percentage > 50 ? 'bg-warning' : 'bg-success'}" 
                                      style="width: ${card.utilization_percentage}%">

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -1528,7 +1528,7 @@
                 <a href="{{ url_for('apply_loan') }}" class="list-group-item list-group-item-action bg-dark text-white">
                     <i class="fas fa-university me-2"></i> <span>Loans</span>
                 </a>
-                <a href="{{ url_for('profile_view') }}" class="list-group-item list-group-item-action bg-dark text-white">
+                <a href="{{ url_for('profile') }}" class="list-group-item list-group-item-action bg-dark text-white">
                     <i class="fas fa-user me-2"></i> <span>Profile</span>
                 </a>
                 <a href="{{ url_for('settings') }}" class="list-group-item list-group-item-action bg-dark text-white">
@@ -1574,7 +1574,7 @@
                                 <i class="fas fa-user-circle fa-lg"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="{{ url_for('profile_view') }}"><i class="fas fa-user me-2"></i> Profile</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('profile') }}"><i class="fas fa-user me-2"></i> Profile</a></li>
                                 <li><a class="dropdown-item" href="{{url_for('settings')}}"><i class="fas fa-cog me-2"></i> Settings</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
@@ -1610,7 +1610,7 @@
                                     <div class="balance-sparkle" style="top: 30%; left: 50%; animation-delay: 2s;"></div>
                                     
                                     <h5 class="card-title">Available Balance</h5>
-                                    <h2 class="card-text fw-bold my-3" id="availableBalance">₹45,678.90</h2>
+                                    <h2 class="card-text fw-bold my-3" id="availableBalance">â‚¹45,678.90</h2>
                                     <p class="small mb-0">Last updated: <span id="balanceUpdateTime">Today</span></p>
                                     <div class="mt-3">
                                         <div class="progress">
@@ -1629,8 +1629,8 @@
                                     <i class="fas fa-arrow-down"></i>
                                 </div>
                                 <h5 class="card-title">Total Deposits</h5>
-                                <h4 class="stat-value text-success" id="totalDeposits">₹12,345.67</h4>
-                                <p class="stat-label">This month: <span id="monthlyDeposits">+₹5,432.10</span></p>
+                                <h4 class="stat-value text-success" id="totalDeposits">â‚¹12,345.67</h4>
+                                <p class="stat-label">This month: <span id="monthlyDeposits">+â‚¹5,432.10</span></p>
                             </div>
                         </div>
                         
@@ -1641,8 +1641,8 @@
                                     <i class="fas fa-arrow-up"></i>
                                 </div>
                                 <h5 class="card-title">Total Withdrawals</h5>
-                                <h4 class="stat-value text-danger" id="totalWithdrawals">₹8,901.23</h4>
-                                <p class="stat-label">This month: <span id="monthlyWithdrawals">-₹3,210.98</span></p>
+                                <h4 class="stat-value text-danger" id="totalWithdrawals">â‚¹8,901.23</h4>
+                                <p class="stat-label">This month: <span id="monthlyWithdrawals">-â‚¹3,210.98</span></p>
 =======
             <div class="container-fluid px-4 py-4">
                 <!-- Welcome Banner -->
@@ -1657,7 +1657,7 @@
                         <div class="card balance-card text-center p-3">
                             <div class="card-body">
                                 <h5 class="card-title">Available Balance</h5>
-                                <h2 class="card-text fw-bold my-3" id="availableBalance">₹85,432.10</h2>
+                                <h2 class="card-text fw-bold my-3" id="availableBalance">â‚¹85,432.10</h2>
                                 <p class="small mb-0">Last updated: <span id="balanceUpdateTime">Today</span></p>
                             </div>
                         </div>
@@ -1668,8 +1668,8 @@
                         <div class="card h-100 text-center p-3">
                             <div class="card-body">
                                 <h5 class="card-title">Total Deposits</h5>
-                                <h4 class="card-text text-success fw-bold my-3" id="totalDeposits">₹125,780.50</h4>
-                                <p class="small mb-0">This month: <span id="monthlyDeposits">+₹25,500.00</span></p>
+                                <h4 class="card-text text-success fw-bold my-3" id="totalDeposits">â‚¹125,780.50</h4>
+                                <p class="small mb-0">This month: <span id="monthlyDeposits">+â‚¹25,500.00</span></p>
 >>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
                             </div>
                         </div>
@@ -1712,7 +1712,7 @@
                                 <div class="mb-4">
                                     <div class="d-flex justify-content-between mb-1">
                                         <span>Food & Dining</span>
-                                        <span>₹6,245</span>
+                                        <span>â‚¹6,245</span>
                                     </div>
                                     <div class="chart-bar" style="width: 65%"></div>
                                 </div>
@@ -1720,7 +1720,7 @@
                                 <div class="mb-4">
                                     <div class="d-flex justify-content-between mb-1">
                                         <span>Shopping</span>
-                                        <span>₹4,870</span>
+                                        <span>â‚¹4,870</span>
                                     </div>
                                     <div class="chart-bar" style="width: 50%"></div>
                                 </div>
@@ -1728,7 +1728,7 @@
                                 <div class="mb-4">
                                     <div class="d-flex justify-content-between mb-1">
                                         <span>Transportation</span>
-                                        <span>₹3,125</span>
+                                        <span>â‚¹3,125</span>
                                     </div>
                                     <div class="chart-bar" style="width: 32%"></div>
                                 </div>
@@ -1736,7 +1736,7 @@
                                 <div class="mb-4">
                                     <div class="d-flex justify-content-between mb-1">
                                         <span>Utilities</span>
-                                        <span>₹2,845</span>
+                                        <span>â‚¹2,845</span>
                                     </div>
                                     <div class="chart-bar" style="width: 29%"></div>
                                 </div>
@@ -1744,7 +1744,7 @@
                                 <div class="mb-4">
                                     <div class="d-flex justify-content-between mb-1">
                                         <span>Entertainment</span>
-                                        <span>₹1,975</span>
+                                        <span>â‚¹1,975</span>
                                     </div>
                                     <div class="chart-bar" style="width: 20%"></div>
 =======
@@ -1753,8 +1753,8 @@
                         <div class="card h-100 text-center p-3">
                             <div class="card-body">
                                 <h5 class="card-title">Total Withdrawals</h5>
-                                <h4 class="card-text text-danger fw-bold my-3" id="totalWithdrawals">₹40,348.40</h4>
-                                <p class="small mb-0">This month: <span id="monthlyWithdrawals">-₹12,340.20</span></p>
+                                <h4 class="card-text text-danger fw-bold my-3" id="totalWithdrawals">â‚¹40,348.40</h4>
+                                <p class="small mb-0">This month: <span id="monthlyWithdrawals">-â‚¹12,340.20</span></p>
                             </div>
                         </div>
                     </div>
@@ -1818,41 +1818,41 @@
                                 <div class="transaction-item">
                                     <div class="transaction-info">
                                         <div class="fw-bold">Amazon India</div>
-                                        <div class="text-muted small">15 Oct 2023 • Shopping</div>
+                                        <div class="text-muted small">15 Oct 2023 â€¢ Shopping</div>
                                     </div>
-                                    <div class="transaction-amount transaction-expense">-₹1,499.00</div>
+                                    <div class="transaction-amount transaction-expense">-â‚¹1,499.00</div>
                                 </div>
                                 
                                 <div class="transaction-item">
                                     <div class="transaction-info">
                                         <div class="fw-bold">Salary Deposit</div>
-                                        <div class="text-muted small">12 Oct 2023 • Income</div>
+                                        <div class="text-muted small">12 Oct 2023 â€¢ Income</div>
                                     </div>
-                                    <div class="transaction-amount transaction-income">+₹45,000.00</div>
+                                    <div class="transaction-amount transaction-income">+â‚¹45,000.00</div>
                                 </div>
                                 
                                 <div class="transaction-item">
                                     <div class="transaction-info">
                                         <div class="fw-bold">Uber Ride</div>
-                                        <div class="text-muted small">10 Oct 2023 • Transportation</div>
+                                        <div class="text-muted small">10 Oct 2023 â€¢ Transportation</div>
                                     </div>
-                                    <div class="transaction-amount transaction-expense">-₹345.50</div>
+                                    <div class="transaction-amount transaction-expense">-â‚¹345.50</div>
                                 </div>
                                 
                                 <div class="transaction-item">
                                     <div class="transaction-info">
                                         <div class="fw-bold">Electricity Bill</div>
-                                        <div class="text-muted small">8 Oct 2023 • Utilities</div>
+                                        <div class="text-muted small">8 Oct 2023 â€¢ Utilities</div>
                                     </div>
-                                    <div class="transaction-amount transaction-expense">-₹1,234.00</div>
+                                    <div class="transaction-amount transaction-expense">-â‚¹1,234.00</div>
                                 </div>
                                 
                                 <div class="transaction-item">
                                     <div class="transaction-info">
                                         <div class="fw-bold">Starbucks</div>
-                                        <div class="text-muted small">5 Oct 2023 • Food & Drink</div>
+                                        <div class="text-muted small">5 Oct 2023 â€¢ Food & Drink</div>
                                     </div>
-                                    <div class="transaction-amount transaction-expense">-₹385.00</div>
+                                    <div class="transaction-amount transaction-expense">-â‚¹385.00</div>
 >>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
                                 </div>
                             </div>
@@ -1869,7 +1869,7 @@
                                         <div class="fw-bold">Electricity Bill</div>
                                         <div class="bill-due">Due in 3 days</div>
                                     </div>
-                                    <div class="bill-amount">₹1,234.00</div>
+                                    <div class="bill-amount">â‚¹1,234.00</div>
                                 </div>
                                 
                                 <div class="bill-item">
@@ -1877,7 +1877,7 @@
                                         <div class="fw-bold">Internet Bill</div>
                                         <div class="bill-due">Due in 5 days</div>
                                     </div>
-                                    <div class="bill-amount">₹899.00</div>
+                                    <div class="bill-amount">â‚¹899.00</div>
                                 </div>
                                 
                                 <div class="bill-item">
@@ -1885,7 +1885,7 @@
                                         <div class="fw-bold">Mobile Recharge</div>
                                         <div class="bill-due">Due in 8 days</div>
                                     </div>
-                                    <div class="bill-amount">₹299.00</div>
+                                    <div class="bill-amount">â‚¹299.00</div>
                                 </div>
                                 
                                 <div class="bill-item">
@@ -1893,7 +1893,7 @@
                                         <div class="fw-bold">Insurance Premium</div>
                                         <div class="bill-due">Due in 12 days</div>
                                     </div>
-                                    <div class="bill-amount">₹3,456.00</div>
+                                    <div class="bill-amount">â‚¹3,456.00</div>
                                 </div>
                                 
                                 <div class="text-center mt-3">
@@ -1951,7 +1951,7 @@
                                         <div class="mb-3">
                                             <label class="form-label text-white">Amount</label>
                                             <div class="input-group">
-                                                <span class="input-group-text bg-white">₹</span>
+                                                <span class="input-group-text bg-white">â‚¹</span>
                                                 <input type="number" class="form-control" id="depositAmount" name="amount" placeholder="Enter amount" min="1" step="0.01" required>
                                             </div>
                                         </div>
@@ -1987,7 +1987,7 @@
                                         <div class="mb-3">
                                             <label class="form-label text-white">Amount</label>
                                             <div class="input-group">
-                                                <span class="input-group-text bg-white">₹</span>
+                                                <span class="input-group-text bg-white">â‚¹</span>
                                                 <input type="number" class="form-control" id="withdrawAmount" name="amount" placeholder="Enter amount" min="1" step="0.01" required>
                                             </div>
                                         </div>
@@ -2024,16 +2024,16 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="mb-3">
-                                        <label for="baseAmount" class="form-label">Amount in INR (₹)</label>
+                                        <label for="baseAmount" class="form-label">Amount in INR (â‚¹)</label>
                                         <input type="number" class="form-control" id="baseAmount" value="100" min="1" step="any">
                                     </div>
                                     <div class="mb-3">
                                         <label for="targetCurrency" class="form-label">Convert To</label>
                                         <select class="form-select" id="targetCurrency">
                                             <option value="0.012">USD ($)</option>
-                                            <option value="0.011">EUR (€)</option>
-                                            <option value="0.0095">GBP (£)</option>
-                                            <option value="1.79">JPY (¥)</option>
+                                            <option value="0.011">EUR (â‚¬)</option>
+                                            <option value="0.0095">GBP (Â£)</option>
+                                            <option value="1.79">JPY (Â¥)</option>
                                             <option value="0.016">CAD (C$)</option>
                                             <option value="0.018">AUD (A$)</option>
                                         </select>
@@ -2114,7 +2114,7 @@
                             <div class="mb-4">
                                 <div class="d-flex justify-content-between mb-1">
                                     <span>Food & Dining</span>
-                                    <span>₹6,245</span>
+                                    <span>â‚¹6,245</span>
                                 </div>
                                 <div class="chart-bar" style="width: 65%"></div>
                             </div>
@@ -2122,7 +2122,7 @@
                             <div class="mb-4">
                                 <div class="d-flex justify-content-between mb-1">
                                     <span>Shopping</span>
-                                    <span>₹4,870</span>
+                                    <span>â‚¹4,870</span>
                                 </div>
                                 <div class="chart-bar" style="width: 50%"></div>
                             </div>
@@ -2130,7 +2130,7 @@
                             <div class="mb-4">
                                 <div class="d-flex justify-content-between mb-1">
                                     <span>Transportation</span>
-                                    <span>₹3,125</span>
+                                    <span>â‚¹3,125</span>
                                 </div>
                                 <div class="chart-bar" style="width: 32%"></div>
                             </div>
@@ -2138,7 +2138,7 @@
                             <div class="mb-4">
                                 <div class="d-flex justify-content-between mb-1">
                                     <span>Utilities</span>
-                                    <span>₹2,845</span>
+                                    <span>â‚¹2,845</span>
                                 </div>
                                 <div class="chart-bar" style="width: 29%"></div>
                             </div>
@@ -2146,7 +2146,7 @@
                             <div class="mb-4">
                                 <div class="d-flex justify-content-between mb-1">
                                     <span>Entertainment</span>
-                                    <span>₹1,975</span>
+                                    <span>â‚¹1,975</span>
                                 </div>
                                 <div class="chart-bar" style="width: 20%"></div>
                             </div>
@@ -2163,7 +2163,7 @@
                                     <div class="fw-bold">Electricity Bill</div>
                                     <div class="bill-due">Due in 3 days</div>
                                 </div>
-                                <div class="bill-amount">₹1,234.00</div>
+                                <div class="bill-amount">â‚¹1,234.00</div>
                             </div>
                             
                             <div class="bill-item">
@@ -2171,7 +2171,7 @@
                                     <div class="fw-bold">Internet Bill</div>
                                     <div class="bill-due">Due in 5 days</div>
                                 </div>
-                                <div class="bill-amount">₹899.00</div>
+                                <div class="bill-amount">â‚¹899.00</div>
                             </div>
                             
                             <div class="bill-item">
@@ -2179,7 +2179,7 @@
                                     <div class="fw-bold">Mobile Recharge</div>
                                     <div class="bill-due">Due in 8 days</div>
                                 </div>
-                                <div class="bill-amount">₹299.00</div>
+                                <div class="bill-amount">â‚¹299.00</div>
                             </div>
                             
                             <div class="bill-item">
@@ -2187,7 +2187,7 @@
                                     <div class="fw-bold">Insurance Premium</div>
                                     <div class="bill-due">Due in 12 days</div>
                                 </div>
-                                <div class="bill-amount">₹3,456.00</div>
+                                <div class="bill-amount">â‚¹3,456.00</div>
                             </div>
                             
                             <div class="text-center mt-3">
@@ -2207,7 +2207,7 @@
                                     <div class="mb-3">
                                         <label class="form-label">Amount</label>
                                         <div class="input-group">
-                                            <span class="input-group-text">₹</span>
+                                            <span class="input-group-text">â‚¹</span>
                                             <input type="number" class="form-control" name="amount" placeholder="Enter amount" min="1" required>
                                         </div>
                                     </div>
@@ -2239,7 +2239,7 @@
                                     <div class="mb-3">
                                         <label class="form-label">Amount</label>
                                         <div class="input-group">
-                                            <span class="input-group-text">₹</span>
+                                            <span class="input-group-text">â‚¹</span>
                                             <input type="number" class="form-control" name="amount" placeholder="Enter amount" min="1" required>
                                         </div>
                                     </div>
@@ -2272,16 +2272,16 @@
                             </div>
                             <div class="card-body">
                                 <div class="mb-3">
-                                    <label for="baseAmount" class="form-label">Amount in INR (₹)</label>
+                                    <label for="baseAmount" class="form-label">Amount in INR (â‚¹)</label>
                                     <input type="number" class="form-control" id="baseAmount" value="100" min="1" step="any">
                                 </div>
                                 <div class="mb-3">
                                     <label for="targetCurrency" class="form-label">Convert To</label>
                                     <select class="form-select" id="targetCurrency">
                                         <option value="0.012">USD ($)</option>
-                                        <option value="0.011">EUR (€)</option>
-                                        <option value="0.0095">GBP (£)</option>
-                                        <option value="1.79">JPY (¥)</option>
+                                        <option value="0.011">EUR (â‚¬)</option>
+                                        <option value="0.0095">GBP (Â£)</option>
+                                        <option value="1.79">JPY (Â¥)</option>
                                         <option value="0.016">CAD (C$)</option>
                                         <option value="0.018">AUD (A$)</option>
                                     </select>
@@ -2413,7 +2413,7 @@
 >>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
         // Format currency in Indian Rupees
         function formatCurrency(amount) {
-            return '₹' + amount.toLocaleString('en-IN', { 
+            return 'â‚¹' + amount.toLocaleString('en-IN', { 
                 minimumFractionDigits: 2, 
                 maximumFractionDigits: 2 
             });
@@ -2454,7 +2454,7 @@
                 transactionItem.innerHTML = `
                     <div class="transaction-info">
                         <div class="fw-bold">${transaction.description} ${transactionTypeBadge}</div>
-                        <div class="text-muted small">${transaction.date} • ${transaction.category}</div>
+                        <div class="text-muted small">${transaction.date} â€¢ ${transaction.category}</div>
                     </div>
                     <div class="transaction-amount ${transaction.type === 'income' ? 'transaction-income' : 'transaction-expense'}">
                         ${transaction.type === 'income' ? '+' : '-'}${formatCurrency(transaction.amount)}
@@ -3004,3 +3004,4 @@
     </script>
 </body>
 </html>
+

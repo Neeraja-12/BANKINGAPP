@@ -1,4 +1,4 @@
-{% extends 'layout.html' %}
+﻿{% extends 'layout.html' %}
 {% block content %}
 <h2>Withdraw Money</h2>
 <<<<<<< HEAD
@@ -16,7 +16,7 @@
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     
     <div>
-        <label>Amount (₹):</label>
+        <label>Amount (â‚¹):</label>
         <input type="number" name="amount" placeholder="Enter amount" required min="0.01" step="0.01">
     </div>
     
@@ -39,3 +39,4 @@
 <p><a href="{{ url_for('dashboard') }}">Back to Dashboard</a></p>
 {% endblock %}
 >>>>>>> fcec41f6627daa58d3280163b7117936610d30a0
+

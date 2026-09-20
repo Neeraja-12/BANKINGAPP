@@ -1,4 +1,4 @@
-{% extends 'layout.html' %}
+﻿{% extends 'layout.html' %}
 
 {% block content %}
 <div class="container-fluid">
@@ -47,7 +47,7 @@
                                 {% for category, amount in category_spending.items() %}
                                 <tr>
                                     <td>{{ category }}</td>
-                                    <td>₹{{ "%.2f"|format(amount) }}</td>
+                                    <td>â‚¹{{ "%.2f"|format(amount) }}</td>
                                     <td>
                                         <div class="progress" style="height: 20px;">
                                             <div class="progress-bar" style="width: {{ (amount / (category_spending.values()|sum)) * 100 if category_spending.values()|sum > 0 else 0 }}%">
@@ -83,7 +83,7 @@
                 data: {
                     labels: data.labels,
                     datasets: [{
-                        label: 'Monthly Spending (₹)',
+                        label: 'Monthly Spending (â‚¹)',
                         data: data.values,
                         borderColor: '#007bff',
                         backgroundColor: 'rgba(0, 123, 255, 0.1)',
