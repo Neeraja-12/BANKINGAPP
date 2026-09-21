@@ -32,23 +32,22 @@ sys.setrecursionlimit(2000)
 
 # ------------------------------------------------------------------
 # CRITICAL: Initialize Flask with a WRITABLE instance_path.
-# Serverless hosts (Vercel, Lambda) make /var/task read-only, and
-# Flask-SQLAlchemy 3.x tries to mkdir <instance_path> at init.
-# We TRY to create the default path, and fall back to /tmp if it fails.
-# No env-var detection needed — just try/except.
+# Serverless hosts (Vercel) make /var/task read-only. Flask-SQLAlchemy
+# 3.x tries to mkdir <instance_path> at init and crashes.
+# We TRY the default path, and fall back to /tmp if it fails.
 # ------------------------------------------------------------------
 _default_instance = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'instance')
 try:
     os.makedirs(_default_instance, exist_ok=True)
     _instance_path = _default_instance
-    _is_serverless = False
+    IS_VERCEL = False
 except OSError:
     _instance_path = os.path.join(tempfile.gettempdir(), 'instance')
     try:
         os.makedirs(_instance_path, exist_ok=True)
     except OSError:
         _instance_path = None
-    _is_serverless = True
+    IS_VERCEL = True
 
 if _instance_path:
     app = Flask(__name__, instance_path=_instance_path)
@@ -56,9 +55,7 @@ else:
     app = Flask(__name__)
 
 print(f"[startup] instance_path = {app.instance_path}", flush=True)
-print(f"[startup] serverless    = {_is_serverless}", flush=True)
-
-IS_VERCEL = _is_serverless
+print(f"[startup] IS_VERCEL     = {IS_VERCEL}", flush=True)
 
 
 # ------------------------------------------------------------------
