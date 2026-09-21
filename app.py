@@ -27,26 +27,38 @@ _db_url = os.environ.get('DATABASE_URL', '')
 if _db_url.startswith('postgres://'):
     os.environ['DATABASE_URL'] = _db_url.replace('postgres://', 'postgresql://', 1)
 
-# Detect serverless (Vercel) environment
-IS_VERCEL = bool(os.environ.get('VERCEL'))
-
 # Fix recursion limit
 sys.setrecursionlimit(2000)
 
 # ------------------------------------------------------------------
-# CRITICAL: Initialize the Flask application with a writable instance_path
+# CRITICAL: Initialize Flask with a WRITABLE instance_path.
+# Serverless hosts (Vercel, Lambda) make /var/task read-only, and
+# Flask-SQLAlchemy 3.x tries to mkdir <instance_path> at init.
+# We TRY to create the default path, and fall back to /tmp if it fails.
+# No env-var detection needed — just try/except.
 # ------------------------------------------------------------------
-# Flask-SQLAlchemy 3.x tries to create <app.instance_path> when you call
-# SQLAlchemy(app). On Vercel, /var/task is read-only → this crashes with
-# "OSError: [Errno 30] Read-only file system: '/var/task/instance'".
-#
-# Fix: point instance_path to /tmp (the only writable location on Vercel).
-# Locally, use the default instance path.
-# ------------------------------------------------------------------
-if IS_VERCEL:
-    app = Flask(__name__, instance_path='/tmp/instance')
+_default_instance = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'instance')
+try:
+    os.makedirs(_default_instance, exist_ok=True)
+    _instance_path = _default_instance
+    _is_serverless = False
+except OSError:
+    _instance_path = os.path.join(tempfile.gettempdir(), 'instance')
+    try:
+        os.makedirs(_instance_path, exist_ok=True)
+    except OSError:
+        _instance_path = None
+    _is_serverless = True
+
+if _instance_path:
+    app = Flask(__name__, instance_path=_instance_path)
 else:
     app = Flask(__name__)
+
+print(f"[startup] instance_path = {app.instance_path}", flush=True)
+print(f"[startup] serverless    = {_is_serverless}", flush=True)
+
+IS_VERCEL = _is_serverless
 
 
 # ------------------------------------------------------------------
@@ -61,7 +73,6 @@ class Config:
         'pool_recycle': 300,
     }
 
-    # On Vercel, only /tmp is writable
     if IS_VERCEL:
         UPLOAD_FOLDER = os.path.join(tempfile.gettempdir(), 'uploads')
     else:
@@ -94,7 +105,7 @@ app.config.from_object(Config)
 
 
 # ------------------------------------------------------------------
-# Upload folder — safe on read-only filesystems
+# Upload folder
 # ------------------------------------------------------------------
 try:
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
@@ -103,7 +114,7 @@ except OSError as e:
 
 
 # ------------------------------------------------------------------
-# Logging — safe on read-only filesystems
+# Logging
 # ------------------------------------------------------------------
 def setup_logging(app):
     app.logger.setLevel(logging.INFO)
@@ -1181,7 +1192,6 @@ def exchange_rates():
 # Database initialization
 # ------------------------------------------------------------------
 def _init_database():
-    """Create tables and seed admin. Safe to call from module import."""
     try:
         db.create_all()
         if not User.query.first():
@@ -1201,7 +1211,6 @@ def _init_database():
         app.logger.exception('DB init failed')
 
 
-# Run at import so Vercel's cold start creates tables + seeds admin
 with app.app_context():
     _init_database()
 
