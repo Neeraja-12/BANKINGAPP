@@ -40,6 +40,7 @@
            ================================================== */
         html {
             height: 100%;
+            scroll-behavior: smooth;
         }
 
         body {
@@ -53,32 +54,30 @@
         }
 
         .app-container {
-            flex: 1 0 auto;          /* grow to fill height, never shrink */
+            flex: 1 0 auto;
             display: flex;
             flex-direction: column;
             width: 100%;
         }
 
         .main-content {
-            flex: 1 0 auto;          /* pushes footer down on short pages */
+            flex: 1 0 auto;
             padding-top: calc(var(--navbar-h) + 24px);
             padding-bottom: 40px;
         }
 
         .footer {
-            flex-shrink: 0;          /* footer keeps its height */
-            margin-top: auto;        /* extra safety: pulls footer to bottom */
+            flex-shrink: 0;
+            margin-top: auto;
         }
         /* ============== END STICKY FOOTER SETUP ============== */
-
-        html { scroll-behavior: smooth; }
 
         /* ---------- Navbar ---------- */
         .navbar {
             background: rgba(255, 255, 255, 0.95) !important;
             backdrop-filter: blur(12px);
             box-shadow: var(--shadow-soft);
-            padding: 0.65rem 0;
+            padding: 0.55rem 0;
             min-height: var(--navbar-h);
             transition: box-shadow 0.3s ease;
         }
@@ -94,13 +93,14 @@
 
         .nav-link {
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--dark-text) !important;
             border-radius: 8px;
-            padding: 8px 14px !important;
-            margin: 0 2px;
+            padding: 8px 12px !important;
+            margin: 0 1px;
             transition: all 0.25s ease;
             position: relative;
+            white-space: nowrap;
         }
 
         .nav-link:hover {
@@ -141,6 +141,15 @@
         .dropdown-item:hover {
             background: rgba(26, 79, 139, 0.08);
             color: var(--primary);
+        }
+
+        /* Tighten navbar on medium screens (less room for 7+ links) */
+        @media (max-width: 1300px) {
+            .nav-link {
+                font-size: 0.85rem;
+                padding: 8px 9px !important;
+            }
+            .nav-link i { display: none; }   /* hide icons to save space */
         }
 
         /* ---------- Footer ---------- */
@@ -268,7 +277,8 @@
                 margin-top: 12px;
                 box-shadow: var(--shadow-medium);
             }
-            .nav-link { padding: 10px 14px !important; }
+            .nav-link { padding: 10px 14px !important; font-size: 0.95rem; }
+            .nav-link i { display: inline; }   /* restore icons in mobile menu */
             .nav-link.active::before { display: none; }
         }
 
@@ -310,12 +320,27 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link {% if request.endpoint == 'apply_credit_card' %}active{% endif %}" href="{{ url_for('apply_credit_card') }}">
-                                    <i class="bi bi-credit-card me-1"></i>Credit Cards
+                                    <i class="bi bi-credit-card me-1"></i>Cards
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link {% if request.endpoint == 'transactions_history' %}active{% endif %}" href="{{ url_for('transactions_history') }}">
                                     <i class="bi bi-clock-history me-1"></i>Transactions
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.endpoint == 'spending' %}active{% endif %}" href="{{ url_for('spending') }}">
+                                    <i class="bi bi-pie-chart me-1"></i>Spending
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.endpoint == 'exchange_rates' %}active{% endif %}" href="{{ url_for('exchange_rates') }}">
+                                    <i class="bi bi-currency-exchange me-1"></i>Rates
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.endpoint == 'bills' %}active{% endif %}" href="{{ url_for('bills') }}">
+                                    <i class="bi bi-receipt-cutoff me-1"></i>Bills
                                 </a>
                             </li>
                             <li class="nav-item dropdown">

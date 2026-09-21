@@ -1,0 +1,149 @@
+{% extends "layout.html" %}
+{% block title %}Spending - MyBank{% endblock %}
+
+{% block head_extra_css %}
+<style>
+  .page-hero {
+    background: linear-gradient(135deg, #1a4f8b 0%, #0d3c6d 60%, #082a4d 100%);
+    color: #fff; border-radius: 18px; padding: 30px 34px;
+    margin-bottom: 28px; position: relative; overflow: hidden;
+    box-shadow: 0 12px 32px rgba(13, 60, 109, 0.25);
+  }
+  .page-hero::after {
+    content: ""; position: absolute; top: -40%; right: -10%;
+    width: 380px; height: 380px;
+    background: radial-gradient(circle, rgba(255,107,0,0.22) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .page-hero h2 { font-weight: 800; font-size: 1.8rem; margin-bottom: 4px; position: relative; z-index: 1; }
+  .page-hero p { opacity: 0.85; margin-bottom: 0; position: relative; z-index: 1; }
+  .page-hero .hero-icon {
+    position: absolute; right: 34px; top: 50%; transform: translateY(-50%);
+    font-size: 4.5rem; opacity: 0.12; z-index: 1;
+  }
+
+  .total-card {
+    background: linear-gradient(135deg, #ff6b00 0%, #e55a00 100%);
+    color: #fff; border-radius: 16px; padding: 24px 28px;
+    box-shadow: 0 12px 32px rgba(229, 90, 0, 0.28);
+    margin-bottom: 24px;
+  }
+  .total-card .label { font-size: 0.9rem; opacity: 0.85; text-transform: uppercase; letter-spacing: 0.05em; }
+  .total-card .amount { font-size: 2.2rem; font-weight: 800; margin-top: 4px; }
+
+  .content-card {
+    background: #fff; border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    border: 1px solid rgba(0,0,0,0.04);
+    padding: 24px;
+  }
+  .content-card h5 {
+    font-weight: 700; font-size: 1.05rem; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px; color: #1f2937;
+  }
+  .content-card h5 i { color: #1a4f8b; }
+
+  .spend-row { margin-bottom: 18px; }
+  .spend-header {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.92rem; margin-bottom: 8px; color: #374151; font-weight: 600;
+  }
+  .spend-bar {
+    height: 10px; background: #f1f3f5; border-radius: 5px; overflow: hidden;
+  }
+  .spend-bar > div {
+    height: 100%; border-radius: 5px;
+    background: linear-gradient(90deg, #1a4f8b, #42a5f5);
+    transition: width 0.8s ease;
+  }
+
+  .empty-state { text-align: center; padding: 40px 12px; color: #9ca3af; font-size: 0.92rem; }
+  .empty-state i { font-size: 2.5rem; display: block; margin-bottom: 12px; opacity: 0.4; }
+
+  /* Bar chart */
+  .bar-chart {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 12px; height: 160px; padding: 12px 0;
+  }
+  .bar-item {
+    flex: 1; display: flex; flex-direction: column; align-items: center;
+    justify-content: flex-end; gap: 8px; height: 100%;
+  }
+  .bar-col {
+    width: 100%; max-width: 42px;
+    background: linear-gradient(180deg, #42a5f5, #1a4f8b);
+    border-radius: 8px 8px 0 0;
+    transition: height 0.8s ease;
+    min-height: 4px;
+  }
+  .bar-label {
+    font-size: 0.75rem; color: #6b7280; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <div class="page-hero">
+    <i class="bi bi-pie-chart hero-icon"></i>
+    <h2>Spending Overview</h2>
+    <p>Where your money went in {{ current_month }}</p>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-5">
+      <div class="total-card">
+        <div class="label">Total Spent This Month</div>
+        <div class="amount">{{ format_currency(total_spent) }}</div>
+      </div>
+
+      <div class="content-card">
+        <h5><i class="bi bi-bar-chart-line"></i> Last 6 Months</h5>
+        {% if monthly_totals %}
+          {% set max_val = monthly_totals|map(attribute=1)|max %}
+          <div class="bar-chart">
+            {% for label, total in monthly_totals %}
+              <div class="bar-item">
+                <div class="bar-col" style="height: {{ (total / max_val * 100) if max_val else 4 }}%;"></div>
+                <div class="bar-label">{{ label }}</div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="empty-state">
+            <i class="bi bi-bar-chart"></i>
+            No monthly data yet
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="col-lg-7">
+      <div class="content-card">
+        <h5><i class="bi bi-list-ul"></i> By Category</h5>
+        {% if spending_by_category %}
+          {% set max_spend = spending_by_category|map(attribute=1)|max %}
+          {% for cat, total in spending_by_category %}
+            <div class="spend-row">
+              <div class="spend-header">
+                <span>{{ cat or 'Uncategorized' }}</span>
+                <span>{{ format_currency(total) }}</span>
+              </div>
+              <div class="spend-bar">
+                <div style="width: {{ (total / max_spend * 100) if max_spend else 0 }}%"></div>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="empty-state">
+            <i class="bi bi-inbox"></i>
+            No spending recorded this month
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

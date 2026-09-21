@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+{% block title %}Exchange Rates - MyBank{% endblock %}
+
+{% block head_extra_css %}
+<style>
+  .page-hero {
+    background: linear-gradient(135deg, #1a4f8b 0%, #0d3c6d 60%, #082a4d 100%);
+    color: #fff; border-radius: 18px; padding: 30px 34px;
+    margin-bottom: 28px; position: relative; overflow: hidden;
+    box-shadow: 0 12px 32px rgba(13, 60, 109, 0.25);
+  }
+  .page-hero::after {
+    content: ""; position: absolute; top: -40%; right: -10%;
+    width: 380px; height: 380px;
+    background: radial-gradient(circle, rgba(255,107,0,0.22) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .page-hero h2 { font-weight: 800; font-size: 1.8rem; margin-bottom: 4px; position: relative; z-index: 1; }
+  .page-hero p { opacity: 0.85; margin-bottom: 0; position: relative; z-index: 1; }
+  .page-hero .hero-icon {
+    position: absolute; right: 34px; top: 50%; transform: translateY(-50%);
+    font-size: 4.5rem; opacity: 0.12; z-index: 1;
+  }
+
+  .rate-card {
+    background: #fff; border-radius: 14px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    border: 1px solid rgba(0,0,0,0.04);
+    padding: 22px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    height: 100%;
+  }
+  .rate-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+  }
+  .rate-flag {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #1a4f8b, #0d3c6d);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 0.9rem;
+    margin-bottom: 14px;
+  }
+  .rate-code { font-size: 1.1rem; font-weight: 800; color: #1f2937; }
+  .rate-name { font-size: 0.82rem; color: #6b7280; margin-bottom: 12px; }
+  .rate-value { font-size: 1.5rem; font-weight: 800; color: #1a4f8b; }
+  .rate-sub { font-size: 0.78rem; color: #9ca3af; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <div class="page-hero">
+    <i class="bi bi-currency-exchange hero-icon"></i>
+    <h2>Exchange Rates</h2>
+    <p>Live rates — {{ current_month }} · Base: 1 USD</p>
+  </div>
+
+  <div class="row g-4">
+    {% set names = {
+      'INR': 'Indian Rupee',
+      'EUR': 'Euro',
+      'GBP': 'British Pound',
+      'JPY': 'Japanese Yen',
+      'CAD': 'Canadian Dollar',
+      'AUD': 'Australian Dollar',
+      'CHF': 'Swiss Franc',
+      'CNY': 'Chinese Yuan'
+    } %}
+    {% for code, name in names.items() %}
+      {% if rates.get(code) %}
+        <div class="col-md-3 col-sm-6">
+          <div class="rate-card">
+            <div class="rate-flag">{{ code }}</div>
+            <div class="rate-code">{{ code }}</div>
+            <div class="rate-name">{{ name }}</div>
+            <div class="rate-value">{{ '%.4f'|format(rates[code]) }}</div>
+            <div class="rate-sub">1 USD → {{ code }}</div>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  {% if not rates %}
+    <div class="text-center text-muted mt-5">
+      <i class="bi bi-wifi-off" style="font-size:2rem;opacity:0.4;"></i>
+      <p class="mt-2">Could not load exchange rates. Please try again later.</p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

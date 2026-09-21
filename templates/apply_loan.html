@@ -142,7 +142,6 @@
     box-shadow: 0 6px 20px rgba(0,0,0,0.06);
     border: 1px solid rgba(0,0,0,0.04);
     padding: 24px;
-    height: 100%;
   }
   .content-card h5 {
     font-weight: 700; font-size: 1.05rem; margin-bottom: 18px;
@@ -164,16 +163,6 @@
     font-size: 0.9rem;
   }
   .empty-state i { font-size: 2rem; display: block; margin-bottom: 8px; opacity: 0.4; }
-
-  .rate-chip {
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: 50px;
-    background: rgba(76, 175, 80, 0.12);
-    color: #2e7d32;
-    font-size: 0.8rem;
-    font-weight: 700;
-  }
 
   .btn-primary {
     background: linear-gradient(135deg, #1a4f8b, #0d3c6d);
@@ -295,7 +284,7 @@
 
     <!-- Sidebar -->
     <div class="col-lg-5">
-      <div class="content-card mb-4">
+      <div class="content-card">
         <h5><i class="bi bi-list-check"></i> Your Applications</h5>
         {% if applications %}
           {% for app in applications %}
@@ -319,30 +308,6 @@
             No applications yet. Submit your first one →
           </div>
         {% endif %}
-      </div>
-
-      <div class="content-card">
-        <h5><i class="bi bi-info-circle"></i> Our Rates</h5>
-        <div class="d-flex justify-content-between py-2 border-bottom">
-          <span>Personal Loan</span>
-          <span class="rate-chip">10.5% APR</span>
-        </div>
-        <div class="d-flex justify-content-between py-2 border-bottom">
-          <span>Home Loan</span>
-          <span class="rate-chip">8.5% APR</span>
-        </div>
-        <div class="d-flex justify-content-between py-2 border-bottom">
-          <span>Car Loan</span>
-          <span class="rate-chip">9.2% APR</span>
-        </div>
-        <div class="d-flex justify-content-between py-2 border-bottom">
-          <span>Education Loan</span>
-          <span class="rate-chip">7.8% APR</span>
-        </div>
-        <div class="d-flex justify-content-between py-2">
-          <span>Business Loan</span>
-          <span class="rate-chip">11.0% APR</span>
-        </div>
       </div>
     </div>
   </div>

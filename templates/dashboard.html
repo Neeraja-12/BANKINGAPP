@@ -76,8 +76,6 @@
     color: #6b7280; margin-bottom: 4px;
   }
   .stat-tile .stat-value { font-size: 1.5rem; font-weight: 700; color: #1f2937; }
-
-  /* Net-flow tile gets a subtle highlight */
   .stat-tile.net-flow { border: 1.5px solid rgba(38, 166, 154, 0.2); }
 
   /* Quick actions */
@@ -106,6 +104,7 @@
   .qa-icon.red    { background: linear-gradient(135deg, #ef5350, #c62828); }
   .qa-icon.orange { background: linear-gradient(135deg, #ffa726, #ef6c00); }
   .qa-icon.purple { background: linear-gradient(135deg, #ab47bc, #6a1b9a); }
+  .qa-icon.teal   { background: linear-gradient(135deg, #26a69a, #00695c); }
 
   /* Content cards */
   .content-card {
@@ -119,65 +118,6 @@
     display: flex; align-items: center; gap: 10px; color: #1f2937;
   }
   .content-card h5 i { color: var(--primary); }
-
-  /* Transaction list */
-  .txn-list { list-style: none; padding: 0; margin: 0; }
-  .txn-item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f3f5; }
-  .txn-item:last-child { border-bottom: none; }
-  .txn-icon {
-    width: 42px; height: 42px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem; color: #fff; flex-shrink: 0; margin-right: 14px;
-  }
-  .txn-icon.in  { background: linear-gradient(135deg, #66bb6a, #2e7d32); }
-  .txn-icon.out { background: linear-gradient(135deg, #ef5350, #c62828); }
-  .txn-body { flex: 1; min-width: 0; }
-  .txn-title {
-    font-weight: 600; font-size: 0.95rem; color: #1f2937; margin: 0;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
-  .txn-sub { font-size: 0.8rem; color: #6b7280; margin: 0; }
-  .txn-amount { font-weight: 700; font-size: 0.98rem; white-space: nowrap; margin-left: 12px; }
-  .txn-amount.in  { color: #2e7d32; }
-  .txn-amount.out { color: #c62828; }
-
-  /* Exchange rates */
-  .rate-row {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 10px 0; border-bottom: 1px solid #f1f3f5; font-size: 0.92rem;
-  }
-  .rate-row:last-child { border-bottom: none; }
-  .rate-currency { font-weight: 600; color: #1f2937; }
-  .rate-value { color: #4b5563; }
-
-  /* Spending progress */
-  .spend-row { margin-bottom: 14px; }
-  .spend-header {
-    display: flex; justify-content: space-between; font-size: 0.88rem;
-    margin-bottom: 6px; color: #374151; font-weight: 500;
-  }
-  .spend-bar { height: 8px; background: #f1f3f5; border-radius: 4px; overflow: hidden; }
-  .spend-bar > div {
-    height: 100%; border-radius: 4px;
-    background: linear-gradient(90deg, #1a4f8b, #42a5f5);
-    transition: width 0.6s ease;
-  }
-
-  /* Bill item */
-  .bill-item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f3f5; }
-  .bill-item:last-child { border-bottom: none; }
-  .bill-dot {
-    width: 10px; height: 10px; border-radius: 50%;
-    background: #ff6b00; margin-right: 12px; flex-shrink: 0;
-  }
-  .bill-body { flex: 1; }
-  .bill-name { font-weight: 600; font-size: 0.95rem; margin: 0; color: #1f2937; }
-  .bill-due { font-size: 0.78rem; color: #6b7280; margin: 0; }
-  .bill-amount { font-weight: 700; color: #c62828; font-size: 0.95rem; }
-
-  /* Empty state */
-  .empty-state { text-align: center; padding: 24px 12px; color: #9ca3af; font-size: 0.9rem; }
-  .empty-state i { font-size: 2rem; display: block; margin-bottom: 8px; opacity: 0.4; }
 </style>
 {% endblock %}
 
@@ -202,7 +142,7 @@
     </div>
   </div>
 
-  <!-- Stats row — 4 tiles now -->
+  <!-- Stats row — 4 tiles -->
   <div class="row g-3 mb-4">
     <div class="col-md-3 col-6">
       <div class="stat-tile">
@@ -251,20 +191,28 @@
     </a>
     <a href="{{ url_for('transactions_history') }}" class="quick-action">
       <span class="qa-icon orange"><i class="bi bi-clock-history"></i></span>
-      History
+      Transactions
     </a>
-    <a href="{{ url_for('budgets') }}" class="quick-action">
+    <a href="{{ url_for('spending') }}" class="quick-action">
       <span class="qa-icon purple"><i class="bi bi-pie-chart"></i></span>
-      Budgets
+      Spending
+    </a>
+    <a href="{{ url_for('exchange_rates') }}" class="quick-action">
+      <span class="qa-icon teal"><i class="bi bi-currency-exchange"></i></span>
+      Rates
     </a>
     <a href="{{ url_for('bills') }}" class="quick-action">
       <span class="qa-icon blue"><i class="bi bi-receipt-cutoff"></i></span>
       Bills
     </a>
+    <a href="{{ url_for('budgets') }}" class="quick-action">
+      <span class="qa-icon purple"><i class="bi bi-piggy-bank"></i></span>
+      Budgets
+    </a>
   </div>
 
   <!-- Money operations: Deposit / Withdraw / Transfer -->
-  <div class="row g-4 mb-4">
+  <div class="row g-4">
     <div class="col-lg-4" id="deposit">
       <div class="content-card">
         <h5><i class="bi bi-arrow-down-circle"></i> Deposit Funds</h5>
@@ -332,116 +280,6 @@
             <i class="bi bi-send me-1"></i> Send Money
           </button>
         </form>
-      </div>
-    </div>
-  </div>
-
-  <!-- Transactions + side panels -->
-  <div class="row g-4">
-    <div class="col-lg-7">
-      <div class="content-card">
-        <h5><i class="bi bi-clock-history"></i> Recent Transactions</h5>
-        {% if transactions %}
-          <ul class="txn-list">
-            {% for txn in transactions %}
-              {% set is_in = txn.type in ['Deposit', 'Transfer In', 'Income', 'Loan Disbursement'] %}
-              <li class="txn-item">
-                <div class="txn-icon {{ 'in' if is_in else 'out' }}">
-                  <i class="bi {{ 'bi-arrow-down' if is_in else 'bi-arrow-up' }}"></i>
-                </div>
-                <div class="txn-body">
-                  <p class="txn-title">{{ txn.description or txn.type }}</p>
-                  <p class="txn-sub">
-                    {{ txn.category or txn.type }}{% if txn.date %} ·
-                    {{ txn.date.strftime('%d %b %Y, %H:%M') }}{% endif %}
-                  </p>
-                </div>
-                <div class="txn-amount {{ 'in' if is_in else 'out' }}">
-                  {{ '+' if is_in else '-' }}{{ format_currency(txn.amount) }}
-                </div>
-              </li>
-            {% endfor %}
-          </ul>
-          <div class="text-center mt-3">
-            <a href="{{ url_for('transactions_history') }}" class="btn btn-sm btn-outline-primary">
-              View All Transactions <i class="bi bi-arrow-right ms-1"></i>
-            </a>
-          </div>
-        {% else %}
-          <div class="empty-state">
-            <i class="bi bi-inbox"></i>
-            No transactions yet. Start by making a deposit!
-          </div>
-        {% endif %}
-      </div>
-    </div>
-
-    <div class="col-lg-5">
-      <!-- Spending by category -->
-      <div class="content-card mb-4">
-        <h5><i class="bi bi-pie-chart"></i> Spending This Month</h5>
-        {% if spending_by_category %}
-          {% set max_spend = spending_by_category|map(attribute=1)|max %}
-          {% for cat, total in spending_by_category %}
-            <div class="spend-row">
-              <div class="spend-header">
-                <span>{{ cat or 'Uncategorized' }}</span>
-                <span>{{ format_currency(total) }}</span>
-              </div>
-              <div class="spend-bar">
-                <div style="width: {{ (total / max_spend * 100) if max_spend else 0 }}%"></div>
-              </div>
-            </div>
-          {% endfor %}
-        {% else %}
-          <div class="empty-state">
-            <i class="bi bi-bar-chart"></i>
-            No spending recorded this month
-          </div>
-        {% endif %}
-      </div>
-
-      <!-- Exchange rates -->
-      <div class="content-card mb-4">
-        <h5><i class="bi bi-currency-exchange"></i> Exchange Rates (USD)</h5>
-        {% set wanted = ['INR', 'EUR', 'GBP', 'JPY'] %}
-        {% for code in wanted %}
-          {% if exchange_rates.get(code) %}
-            <div class="rate-row">
-              <span class="rate-currency">1 USD → {{ code }}</span>
-              <span class="rate-value">{{ '%.4f'|format(exchange_rates[code]) }}</span>
-            </div>
-          {% endif %}
-        {% endfor %}
-      </div>
-
-      <!-- Upcoming bills -->
-      <div class="content-card">
-        <h5><i class="bi bi-calendar-event"></i> Upcoming Bills</h5>
-        {% if upcoming_bills %}
-          {% for bill in upcoming_bills %}
-            <div class="bill-item">
-              <div class="bill-dot"></div>
-              <div class="bill-body">
-                <p class="bill-name">{{ bill.name }}</p>
-                <p class="bill-due">
-                  Due {{ bill.due_date.strftime('%d %b %Y') }} · {{ bill.category }}
-                </p>
-              </div>
-              <div class="bill-amount">{{ format_currency(bill.amount) }}</div>
-            </div>
-          {% endfor %}
-          <div class="text-center mt-3">
-            <a href="{{ url_for('bills') }}" class="btn btn-sm btn-outline-primary">
-              Manage Bills <i class="bi bi-arrow-right ms-1"></i>
-            </a>
-          </div>
-        {% else %}
-          <div class="empty-state">
-            <i class="bi bi-check2-circle"></i>
-            No bills due in the next 30 days 🎉
-          </div>
-        {% endif %}
       </div>
     </div>
   </div>
