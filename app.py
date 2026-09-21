@@ -17,13 +17,18 @@ import random
 import uuid
 import logging
 import sys
+import tempfile
 
 # Load environment variables
 load_dotenv()
-# Fix for Vercel's postgres:// URL format
+
+# --- Fix for Vercel's postgres:// URL format ---
 _db_url = os.environ.get('DATABASE_URL', '')
 if _db_url.startswith('postgres://'):
     os.environ['DATABASE_URL'] = _db_url.replace('postgres://', 'postgresql://', 1)
+
+# Detect serverless (Vercel) environment
+IS_VERCEL = bool(os.environ.get('VERCEL'))
 
 # Fix recursion limit
 sys.setrecursionlimit(2000)
@@ -39,11 +44,20 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret-key-change-me-in-production')
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'sqlite:///bank_complete.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        'pool_pre_ping': True,
+        'pool_recycle': 300,
+    }
 
-    UPLOAD_FOLDER = os.path.join(
-        os.path.abspath(os.path.dirname(__file__)),
-        'static', 'images', 'profile_pics'
-    )
+    # On Vercel, only /tmp is writable
+    if IS_VERCEL:
+        UPLOAD_FOLDER = os.path.join(tempfile.gettempdir(), 'uploads')
+    else:
+        UPLOAD_FOLDER = os.path.join(
+            os.path.abspath(os.path.dirname(__file__)),
+            'static', 'images', 'profile_pics'
+        )
+
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
@@ -55,7 +69,7 @@ class Config:
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER', 'noreply@flaskbank.com')
 
-    SESSION_COOKIE_SECURE = os.environ.get('SESSION_COOKIE_SECURE', 'false').lower() == 'true'
+    SESSION_COOKIE_SECURE = os.environ.get('SESSION_COOKIE_SECURE', 'true' if IS_VERCEL else 'false').lower() == 'true'
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = 'Lax'
     PERMANENT_SESSION_LIFETIME = timedelta(hours=1)
@@ -66,11 +80,19 @@ class Config:
 
 app.config.from_object(Config)
 
-os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
+# ------------------------------------------------------------------
+# Upload folder — safe on read-only filesystems
+# ------------------------------------------------------------------
+try:
+    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+except OSError as e:
+    # Read-only filesystem — this is fine, uploads will just fail gracefully
+    print(f"[startup] Upload folder not writable: {e}", flush=True)
 
 
 # ------------------------------------------------------------------
-# Logging
+# Logging — safe on read-only filesystems
 # ------------------------------------------------------------------
 def setup_logging(app):
     app.logger.setLevel(logging.INFO)
@@ -78,16 +100,25 @@ def setup_logging(app):
         '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
     )
 
-    console = logging.StreamHandler(sys.stdout)
-    console.setFormatter(formatter)
-    console.setLevel(logging.INFO)
-    app.logger.addHandler(console)
-
+    # Console handler — always works, including on Vercel
     try:
-        os.makedirs('logs', exist_ok=True)
+        console = logging.StreamHandler(sys.stdout)
+        console.setFormatter(formatter)
+        console.setLevel(logging.INFO)
+        app.logger.addHandler(console)
+    except Exception:
+        pass
+
+    # File handler — only if writable
+    try:
+        log_dir = os.path.join(tempfile.gettempdir(), 'logs') if IS_VERCEL else 'logs'
+        os.makedirs(log_dir, exist_ok=True)
         from logging.handlers import RotatingFileHandler
         file_handler = RotatingFileHandler(
-            'logs/bank.log', maxBytes=1_000_000, backupCount=5, delay=True
+            os.path.join(log_dir, 'bank.log'),
+            maxBytes=1_000_000,
+            backupCount=5,
+            delay=True,
         )
         file_handler.setFormatter(formatter)
         file_handler.setLevel(logging.INFO)
@@ -105,13 +136,23 @@ app.logger.info('Bank application startup')
 # ------------------------------------------------------------------
 db = SQLAlchemy(app)
 mail = Mail(app)
-socketio = SocketIO(app, cors_allowed_origins="*", manage_session=False)
+
+# Vercel is serverless → no WebSocket support → force threading mode.
+# Locally we can still use gevent if you run via `python app.py`.
+_socketio_kwargs = {
+    'cors_allowed_origins': '*',
+    'manage_session': False,
+}
+if IS_VERCEL:
+    _socketio_kwargs['async_mode'] = 'threading'
+
+socketio = SocketIO(app, **_socketio_kwargs)
 csrf = CSRFProtect(app)
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
-login_manager.session_protection = "strong"
+login_manager.session_protection = 'strong'
 
 
 @login_manager.user_loader
@@ -336,7 +377,7 @@ def allowed_file(filename):
 def get_exchange_rates():
     try:
         import requests
-        url = "https://api.exchangerate-api.com/v4/latest/USD"
+        url = 'https://api.exchangerate-api.com/v4/latest/USD'
         response = requests.get(url, timeout=3)
         if response.status_code == 200:
             return response.json().get('rates', {})
@@ -384,10 +425,6 @@ def send_email(subject, recipient, body):
 
 
 def compute_balance_from_transactions(user_id):
-    """
-    Recompute the balance by summing all transactions.
-    Used to verify the User.balance column hasn't drifted.
-    """
     inflow = db.session.query(func.coalesce(func.sum(Transaction.amount), 0.0)).filter(
         Transaction.user_id == user_id,
         Transaction.type.in_(['Deposit', 'Transfer In', 'Income', 'Loan Disbursement'])
@@ -409,7 +446,10 @@ def utility_processor():
     def format_currency(amount, currency='₹'):
         if amount is None:
             return f"{currency}0.00"
-        return f"{currency}{amount:,.2f}"
+        try:
+            return f"{currency}{float(amount):,.2f}"
+        except (TypeError, ValueError):
+            return f"{currency}0.00"
     return {'format_currency': format_currency, 'now': datetime.now}
 
 
@@ -637,7 +677,6 @@ def dashboard():
         now = datetime.now()
         exchange_rates = get_exchange_rates()
 
-        # Gross totals
         total_deposits = db.session.query(func.sum(Transaction.amount)).filter(
             Transaction.user_id == current_user.id,
             Transaction.type.in_(['Deposit', 'Transfer In', 'Income', 'Loan Disbursement'])
@@ -648,8 +687,6 @@ def dashboard():
             Transaction.type.in_(['Withdraw', 'Transfer Out', 'Bill Payment'])
         ).scalar() or 0.0
 
-        # NET FLOW — this is what you asked for
-        # Every withdrawal reduces this number automatically.
         net_flow = total_deposits - total_withdrawals
 
         spending_by_category = db.session.query(
@@ -668,14 +705,6 @@ def dashboard():
             Bill.due_date >= now.date(),
             Bill.due_date <= now.date() + timedelta(days=30)
         ).order_by(Bill.due_date).limit(5).all()
-
-        # Reconciliation: warn if User.balance has drifted from transactions
-        computed = compute_balance_from_transactions(current_user.id)
-        if abs(computed - current_user.balance) > 0.01:
-            app.logger.warning(
-                f'Balance drift for {current_user.username}: '
-                f'stored={current_user.balance:.2f}, computed={computed:.2f}'
-            )
 
         return render_template(
             'dashboard.html',
@@ -954,11 +983,21 @@ def upload_profile_pic():
             ext = file.filename.rsplit('.', 1)[1].lower()
             filename = f"{current_user.id}_{uuid.uuid4().hex}.{ext}"
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+
+            # Ensure folder exists (safe on read-only)
+            try:
+                os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+            except OSError:
+                pass
+
             file.save(filepath)
             if current_user.profile_pic and current_user.profile_pic != 'default.jpg':
                 old_path = os.path.join(app.config['UPLOAD_FOLDER'], current_user.profile_pic)
-                if os.path.exists(old_path):
-                    os.remove(old_path)
+                try:
+                    if os.path.exists(old_path):
+                        os.remove(old_path)
+                except OSError:
+                    pass
             current_user.profile_pic = filename
             db.session.commit()
             flash('Profile picture updated successfully!', 'success')
@@ -1097,7 +1136,6 @@ def spending():
 
         total_spent = sum((t or 0) for _, t in spending_by_category)
 
-        # Month-over-month: last 6 months
         monthly_totals = []
         for i in range(5, -1, -1):
             m = now - timedelta(days=30 * i)
@@ -1130,13 +1168,15 @@ def spending():
 @login_required
 def exchange_rates():
     rates = get_exchange_rates()
-    return render_template('exchange_rates.html', rates=rates, current_month=datetime.now().strftime('%B %Y'))
+    return render_template('exchange_rates.html', rates=rates,
+                           current_month=datetime.now().strftime('%B %Y'))
 
 
 # ------------------------------------------------------------------
 # Database initialization
 # ------------------------------------------------------------------
-with app.app_context():
+def _init_database():
+    """Create tables and seed admin. Safe to call from module import."""
     try:
         db.create_all()
         if not User.query.first():
@@ -1150,12 +1190,19 @@ with app.app_context():
             ))
             db.session.commit()
             app.logger.info('Default admin user created')
-    except Exception as e:
+        else:
+            app.logger.info('Database already initialized')
+    except Exception:
         app.logger.exception('DB init failed')
 
 
+# Run at import so Vercel's cold start creates tables + seeds admin
+with app.app_context():
+    _init_database()
+
+
 # ------------------------------------------------------------------
-# Entry point
+# Local development entry point
 # ------------------------------------------------------------------
 if __name__ == '__main__':
     print("=" * 60)
