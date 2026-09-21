@@ -1,4 +1,4 @@
-alembic==1.20.0
+﻿alembic==1.20.0
 bidict==0.23.1
 blinker==1.9.0
 click==8.3.1
@@ -23,6 +23,7 @@ Jinja2==3.1.6
 Mako==1.4.1
 MarkupSafe==3.0.3
 packaging==26.3
+psycopg2-binary==2.9.10
 python-dotenv==1.2.1
 python-engineio==4.13.1
 python-socketio==5.16.1

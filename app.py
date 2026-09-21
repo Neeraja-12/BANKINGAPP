@@ -20,6 +20,10 @@ import sys
 
 # Load environment variables
 load_dotenv()
+# Fix for Vercel's postgres:// URL format
+_db_url = os.environ.get('DATABASE_URL', '')
+if _db_url.startswith('postgres://'):
+    os.environ['DATABASE_URL'] = _db_url.replace('postgres://', 'postgresql://', 1)
 
 # Fix recursion limit
 sys.setrecursionlimit(2000)
@@ -1073,6 +1077,60 @@ def pay_bill(bill_id):
         app.logger.exception('Bill payment error')
         flash('An error occurred during bill payment.', 'danger')
     return redirect(url_for('bills'))
+
+
+@app.route('/spending')
+@login_required
+def spending():
+    now = datetime.now()
+    current_month = now.strftime('%Y-%m')
+    try:
+        spending_by_category = db.session.query(
+            Transaction.category,
+            func.sum(Transaction.amount).label('total')
+        ).filter(
+            Transaction.user_id == current_user.id,
+            extract('year', Transaction.date) == now.year,
+            extract('month', Transaction.date) == now.month,
+            Transaction.type.in_(['Withdraw', 'Transfer Out', 'Bill Payment'])
+        ).group_by(Transaction.category).all()
+
+        total_spent = sum((t or 0) for _, t in spending_by_category)
+
+        # Month-over-month: last 6 months
+        monthly_totals = []
+        for i in range(5, -1, -1):
+            m = now - timedelta(days=30 * i)
+            total = db.session.query(func.coalesce(func.sum(Transaction.amount), 0.0)).filter(
+                Transaction.user_id == current_user.id,
+                extract('year', Transaction.date) == m.year,
+                extract('month', Transaction.date) == m.month,
+                Transaction.type.in_(['Withdraw', 'Transfer Out', 'Bill Payment'])
+            ).scalar() or 0.0
+            monthly_totals.append((m.strftime('%b'), total))
+
+        return render_template(
+            'spending.html',
+            spending_by_category=spending_by_category,
+            total_spent=total_spent,
+            current_month=current_month,
+            monthly_totals=monthly_totals,
+        )
+    except Exception as e:
+        app.logger.exception('Spending page error')
+        flash('Error loading spending data', 'danger')
+        return render_template(
+            'spending.html',
+            spending_by_category=[], total_spent=0,
+            current_month=current_month, monthly_totals=[]
+        )
+
+
+@app.route('/exchange-rates')
+@login_required
+def exchange_rates():
+    rates = get_exchange_rates()
+    return render_template('exchange_rates.html', rates=rates, current_month=datetime.now().strftime('%B %Y'))
 
 
 # ------------------------------------------------------------------
