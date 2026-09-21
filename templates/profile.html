@@ -169,6 +169,7 @@
     transition: all 0.25s ease;
     margin-bottom: 10px;
     font-size: 0.95rem;
+    cursor: pointer;
   }
   .action-btn:hover {
     transform: translateX(4px);
@@ -234,17 +235,20 @@
         <img src="{{ url_for('static', filename='images/profile_pics/' + current_user.profile_pic) }}"
              alt="{{ current_user.username }}" class="profile-avatar">
       {% else %}
-        <img src="{{ url_for('static', filename='favicon.ico.png') }}"
-             alt="{{ current_user.username }}" class="profile-avatar">
+        <img src="{{ url_for('static', filename='images/default.png') }}"
+             alt="{{ current_user.username }}" class="profile-avatar"
+             onerror="this.src='{{ url_for('static', filename='favicon.ico.png') }}'">
       {% endif %}
-      <label for="quick-upload" class="edit-badge" title="Change picture">
+      <label for="quick-photo" class="edit-badge" title="Change profile picture">
         <i class="bi bi-camera-fill"></i>
       </label>
+      <input type="file" id="quick-photo" accept="image/*" style="display:none;"
+             onchange="document.getElementById('photo').files = this.files; document.getElementById('uploadForm').submit();">
     </div>
     <h2>{{ current_user.username }}</h2>
     <p><i class="bi bi-envelope me-1"></i>{{ current_user.email }}</p>
     <p class="mt-2" style="font-size:0.85rem;">
-      <span class="badge bg-success">Active Account</span>
+      <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Active Account</span>
     </p>
   </div>
 
@@ -256,9 +260,9 @@
       <!-- Profile picture upload -->
       <div class="content-card mb-4">
         <h5><i class="bi bi-person-badge"></i> Profile Picture</h5>
-        <form method="POST" action="{{ url_for('upload_profile_pic') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ url_for('upload_profile_pic') }}"
+              enctype="multipart/form-data" id="uploadForm">
           {{ form.hidden_tag() }}
-          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
           <div class="mb-3">
             <label class="info-label" for="photo">Choose a new photo</label>
             {{ form.photo(class="form-control", id="photo", accept="image/*") }}
@@ -344,7 +348,11 @@
           <div>
             <div class="info-label">Last Login</div>
             <div class="info-value">
-              {{ current_user.last_login.strftime('%d %b %Y, %H:%M') if current_user.last_login else 'This is your first login' }}
+              {% if current_user.last_login %}
+                {{ current_user.last_login.strftime('%d %b %Y, %H:%M') }}
+              {% else %}
+                This is your first login
+              {% endif %}
             </div>
           </div>
         </div>
