@@ -33,8 +33,20 @@ IS_VERCEL = bool(os.environ.get('VERCEL'))
 # Fix recursion limit
 sys.setrecursionlimit(2000)
 
-# Initialize the Flask application
-app = Flask(__name__)
+# ------------------------------------------------------------------
+# CRITICAL: Initialize the Flask application with a writable instance_path
+# ------------------------------------------------------------------
+# Flask-SQLAlchemy 3.x tries to create <app.instance_path> when you call
+# SQLAlchemy(app). On Vercel, /var/task is read-only → this crashes with
+# "OSError: [Errno 30] Read-only file system: '/var/task/instance'".
+#
+# Fix: point instance_path to /tmp (the only writable location on Vercel).
+# Locally, use the default instance path.
+# ------------------------------------------------------------------
+if IS_VERCEL:
+    app = Flask(__name__, instance_path='/tmp/instance')
+else:
+    app = Flask(__name__)
 
 
 # ------------------------------------------------------------------
@@ -87,7 +99,6 @@ app.config.from_object(Config)
 try:
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 except OSError as e:
-    # Read-only filesystem — this is fine, uploads will just fail gracefully
     print(f"[startup] Upload folder not writable: {e}", flush=True)
 
 
@@ -100,7 +111,6 @@ def setup_logging(app):
         '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
     )
 
-    # Console handler — always works, including on Vercel
     try:
         console = logging.StreamHandler(sys.stdout)
         console.setFormatter(formatter)
@@ -109,7 +119,6 @@ def setup_logging(app):
     except Exception:
         pass
 
-    # File handler — only if writable
     try:
         log_dir = os.path.join(tempfile.gettempdir(), 'logs') if IS_VERCEL else 'logs'
         os.makedirs(log_dir, exist_ok=True)
@@ -137,8 +146,6 @@ app.logger.info('Bank application startup')
 db = SQLAlchemy(app)
 mail = Mail(app)
 
-# Vercel is serverless → no WebSocket support → force threading mode.
-# Locally we can still use gevent if you run via `python app.py`.
 _socketio_kwargs = {
     'cors_allowed_origins': '*',
     'manage_session': False,
@@ -411,7 +418,6 @@ def categorize_transaction(description):
 
 
 def send_email(subject, recipient, body):
-    """Send an email, or log it if mail isn't configured."""
     if not app.config.get('MAIL_USERNAME') or not app.config.get('MAIL_PASSWORD'):
         app.logger.warning(
             f"Mail not configured. Would have sent to {recipient}:\n"
@@ -984,7 +990,6 @@ def upload_profile_pic():
             filename = f"{current_user.id}_{uuid.uuid4().hex}.{ext}"
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
 
-            # Ensure folder exists (safe on read-only)
             try:
                 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
             except OSError:
