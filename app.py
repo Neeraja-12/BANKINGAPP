@@ -19,6 +19,8 @@ import logging
 import sys
 import tempfile
 
+print("[VERSION 3] app.py loaded — starting up", flush=True)
+
 # Load environment variables
 load_dotenv()
 
@@ -32,30 +34,31 @@ sys.setrecursionlimit(2000)
 
 # ------------------------------------------------------------------
 # CRITICAL: Initialize Flask with a WRITABLE instance_path.
-# Serverless hosts (Vercel) make /var/task read-only. Flask-SQLAlchemy
-# 3.x tries to mkdir <instance_path> at init and crashes.
-# We TRY the default path, and fall back to /tmp if it fails.
+# Serverless (Vercel) makes /var/task read-only. Flask-SQLAlchemy 3.x
+# tries to mkdir <instance_path> at init and crashes.
+# We TRY the default path; on failure fall back to /tmp.
 # ------------------------------------------------------------------
-_default_instance = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'instance')
+_cwd = os.path.dirname(os.path.abspath(__file__))
+_default_instance = os.path.join(_cwd, 'instance')
+
 try:
     os.makedirs(_default_instance, exist_ok=True)
+    # Confirm writability — some read-only FS still let makedirs succeed
+    _testfile = os.path.join(_default_instance, '.write_test')
+    with open(_testfile, 'w') as f:
+        f.write('ok')
+    os.remove(_testfile)
     _instance_path = _default_instance
     IS_VERCEL = False
-except OSError:
+except (OSError, IOError):
     _instance_path = os.path.join(tempfile.gettempdir(), 'instance')
-    try:
-        os.makedirs(_instance_path, exist_ok=True)
-    except OSError:
-        _instance_path = None
+    os.makedirs(_instance_path, exist_ok=True)
     IS_VERCEL = True
 
-if _instance_path:
-    app = Flask(__name__, instance_path=_instance_path)
-else:
-    app = Flask(__name__)
+print(f"[VERSION 3] instance_path = {_instance_path}", flush=True)
+print(f"[VERSION 3] IS_VERCEL     = {IS_VERCEL}", flush=True)
 
-print(f"[startup] instance_path = {app.instance_path}", flush=True)
-print(f"[startup] IS_VERCEL     = {IS_VERCEL}", flush=True)
+app = Flask(__name__, instance_path=_instance_path)
 
 
 # ------------------------------------------------------------------
@@ -107,7 +110,7 @@ app.config.from_object(Config)
 try:
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 except OSError as e:
-    print(f"[startup] Upload folder not writable: {e}", flush=True)
+    print(f"[VERSION 3] Upload folder not writable: {e}", flush=True)
 
 
 # ------------------------------------------------------------------
@@ -1210,6 +1213,9 @@ def _init_database():
 
 with app.app_context():
     _init_database()
+
+
+print("[VERSION 3] app.py fully loaded — ready", flush=True)
 
 
 # ------------------------------------------------------------------
